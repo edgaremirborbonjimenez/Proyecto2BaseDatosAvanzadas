@@ -3,6 +3,9 @@
   <persistence-unit name="Proyecto2BDA" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.mycompany.dominio.Persona</class>
+    <class>com.mycompany.dominio.Tramite</class>
+    <class>com.mycompany.dominio.Placa</class>
+    <class>com.mycompany.dominio.Licencia</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/proyecto2bda?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
