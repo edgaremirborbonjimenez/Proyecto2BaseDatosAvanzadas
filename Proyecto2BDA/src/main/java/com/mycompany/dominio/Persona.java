@@ -44,16 +44,13 @@ public class Persona implements Serializable {
     @Column(name = "telefono", length = 10, nullable = false)
     private String telefono;
 
-    @Column(name = "curp", length = 18, nullable = false)
-    private String curp;
-
     @Column(name = "sexo", nullable = false)
     private Sexo sexo;
 
     public Persona() {
     }
 
-    public Persona(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, String curp, Sexo sexo) {
+    public Persona(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo) {
         this.id = id;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
@@ -61,18 +58,16 @@ public class Persona implements Serializable {
         this.rfc = rfc;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
-        this.curp = curp;
         this.sexo = sexo;
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, String curp, Sexo sexo) {
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo) {
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.rfc = rfc;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
-        this.curp = curp;
         this.sexo = sexo;
     }
     
@@ -132,14 +127,6 @@ public class Persona implements Serializable {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
-    }
-
-    public String getCurp() {
-        return curp;
-    }
-
-    public void setCurp(String curp) {
-        this.curp = curp;
     }
 
     public Sexo getSexo() {
