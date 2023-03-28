@@ -39,6 +39,19 @@ public abstract class Pago implements Serializable {
     
     public Pago() {
     }
+
+    public Pago(Long id, Float cantidadPagar, Tramite tramite) {
+        this.id = id;
+        this.cantidadPagar = cantidadPagar;
+        this.tramite = tramite;
+    }
+
+    public Pago(Float cantidadPagar, Tramite tramite) {
+        this.cantidadPagar = cantidadPagar;
+        this.tramite = tramite;
+    }
+    
+    
     
     public Long getId() {
         return id;

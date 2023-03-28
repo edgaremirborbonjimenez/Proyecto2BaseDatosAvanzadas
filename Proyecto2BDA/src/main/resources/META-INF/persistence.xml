@@ -9,6 +9,8 @@
     <class>com.mycompany.dominio.Vehiculo</class>
     <class>com.mycompany.dominio.Automovil</class>
     <class>com.mycompany.dominio.Pago</class>
+    <class>com.mycompany.dominio.Tarjeta</class>
+    <class>com.mycompany.dominio.Efectivo</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/proyecto2bda?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
