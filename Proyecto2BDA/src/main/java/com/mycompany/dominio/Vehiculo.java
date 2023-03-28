@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 @Entity
 @Inheritance (strategy = InheritanceType.JOINED)
 @Table (name = "vehiculos")
-public class Vehiculo implements Serializable {
+public abstract class Vehiculo implements Serializable {
 
     @Id
     @Column(name = "id")
@@ -42,6 +43,10 @@ public class Vehiculo implements Serializable {
     
     @Column(name = "modelo", nullable = false, length = 30)
     private String modelo;
+    
+    @OneToMany
+    @Column(name = "placa",nullable = true)
+    private Placa placa;
 
     public Vehiculo() {
     }

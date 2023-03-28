@@ -26,10 +26,10 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="184" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jButton5" min="-2" pref="382" max="-2" attributes="0"/>
-                  <Component id="jButton3" min="-2" pref="382" max="-2" attributes="0"/>
-                  <Component id="jButton1" min="-2" pref="382" max="-2" attributes="0"/>
-                  <Component id="jButton2" min="-2" pref="382" max="-2" attributes="0"/>
+                  <Component id="btnGenerarLicencia" min="-2" pref="382" max="-2" attributes="0"/>
+                  <Component id="btnGenerarPlaca" min="-2" pref="382" max="-2" attributes="0"/>
+                  <Component id="btnHistorial" min="-2" pref="382" max="-2" attributes="0"/>
+                  <Component id="btnGenerarReporte" min="-2" pref="382" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="198" max="32767" attributes="0"/>
           </Group>
@@ -39,20 +39,20 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="163" max="-2" attributes="0"/>
-              <Component id="jButton5" min="-2" pref="63" max="-2" attributes="0"/>
+              <Component id="btnGenerarLicencia" min="-2" pref="63" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jButton3" min="-2" pref="63" max="-2" attributes="0"/>
+              <Component id="btnGenerarPlaca" min="-2" pref="63" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jButton1" min="-2" pref="63" max="-2" attributes="0"/>
+              <Component id="btnHistorial" min="-2" pref="63" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jButton2" min="-2" pref="63" max="-2" attributes="0"/>
+              <Component id="btnGenerarReporte" min="-2" pref="63" max="-2" attributes="0"/>
               <EmptySpace pref="64" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnHistorial">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
@@ -60,7 +60,7 @@
         <Property name="text" type="java.lang.String" value="Hisotrial de Placas y Licencias"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="btnGenerarReporte">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
@@ -68,7 +68,7 @@
         <Property name="text" type="java.lang.String" value="Generar Reporte de Tramites Realizados"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="btnGenerarPlaca">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
@@ -76,7 +76,7 @@
         <Property name="text" type="java.lang.String" value="Generar Placa"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton5">
+    <Component class="javax.swing.JButton" name="btnGenerarLicencia">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
