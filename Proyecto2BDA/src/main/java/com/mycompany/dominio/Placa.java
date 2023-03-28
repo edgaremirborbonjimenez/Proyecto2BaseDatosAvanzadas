@@ -6,6 +6,7 @@ package com.mycompany.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,20 +34,19 @@ public class Placa extends Tramite implements Serializable {
     public Placa() {
     }
 
-    public Placa(Long id, Persona persona, String numero, Calendar fechaRecepcion, Calendar fechaEmision) {
-        super(id, persona);
+    public Placa(Long id, Float costo, Persona persona, List<Pago> pagos,String numero, Calendar fechaRecepcion, Calendar fechaEmision) {
+        super(id, costo, persona, pagos);
         this.numero = numero;
         this.fechaRecepcion = fechaRecepcion;
         this.fechaEmision = fechaEmision;
     }
 
-    public Placa(Persona persona, String numero, Calendar fechaRecepcion, Calendar fechaEmision) {
-        super(persona);
+    public Placa(Float costo, Persona persona, List<Pago> pagos,String numero, Calendar fechaRecepcion, Calendar fechaEmision) {
+        super(costo, persona, pagos);
         this.numero = numero;
         this.fechaRecepcion = fechaRecepcion;
         this.fechaEmision = fechaEmision;
     }
-        
 
     public String getNumero() {
         return numero;

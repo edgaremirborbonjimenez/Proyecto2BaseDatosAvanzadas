@@ -6,6 +6,7 @@ package com.mycompany.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,13 +28,13 @@ public class Licencia extends Tramite implements Serializable {
     public Licencia() {
     }
 
-    public Licencia(Long id, Persona persona, Calendar fechaVigencia) {
-        super(id, persona);
+    public Licencia(Long id, Float costo, Persona persona, List<Pago> pagos, Calendar fechaVigencia) {
+        super(id, costo, persona, pagos);
         this.fechaVigencia = fechaVigencia;
     }
 
-    public Licencia(Persona persona, Calendar fechaVigencia) {
-        super(persona);
+    public Licencia(Float costo, Persona persona, List<Pago> pagos, Calendar fechaVigencia) {
+        super(costo, persona, pagos);
         this.fechaVigencia = fechaVigencia;
     }
 

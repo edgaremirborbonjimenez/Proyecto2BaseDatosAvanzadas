@@ -33,10 +33,14 @@ public abstract class Tramite implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Column(name = "costo")
+    private Float costo;
 
     @ManyToOne()
     @JoinColumn(name = "idPersona",nullable = false)
     private Persona persona;
+    
     
     @OneToMany(mappedBy = "tramite", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List <Pago> pagos;
@@ -44,14 +48,20 @@ public abstract class Tramite implements Serializable {
     public Tramite() {
     }
 
-    public Tramite(Long id, Persona persona) {
+    public Tramite(Long id, Float costo, Persona persona, List<Pago> pagos) {
         this.id = id;
+        this.costo = costo;
         this.persona = persona;
+        this.pagos = pagos;
     }
 
-    public Tramite(Persona persona) {
+    public Tramite(Float costo, Persona persona, List<Pago> pagos) {
+        this.costo = costo;
         this.persona = persona;
+        this.pagos = pagos;
     }
+
+
 
     public Long getId() {
         return id;
@@ -76,6 +86,15 @@ public abstract class Tramite implements Serializable {
     public void setPagos(List<Pago> pagos) {
         this.pagos = pagos;
     }
+
+    public Float getCosto() {
+        return costo;
+    }
+
+    public void setCosto(Float costo) {
+        this.costo = costo;
+    }
+    
     
     @Override
     public int hashCode() {
