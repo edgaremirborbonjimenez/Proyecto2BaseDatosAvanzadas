@@ -5,8 +5,6 @@
 package com.mycompany.dominio;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,43 +14,32 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
  *
- * @author edemb
+ * @author Usuario
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "tramites")
-public abstract class Tramite implements Serializable {
+@Inheritance (strategy = InheritanceType.JOINED)
+@Table (name = "pagos")
+public abstract class Pago implements Serializable {
 
     @Id
-    @Column(name = "id")
+    @Column (name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column (name = "cantidadPagar", nullable = false)
+    private Float cantidadPagar;
+
     @ManyToOne()
-    @JoinColumn(name = "idPersona",nullable = false)
-    private Persona persona;
+    @JoinColumn(name = "idTramite",nullable = false)
+    private Tramite tramite;
     
-    @OneToMany(mappedBy = "tramite", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private List <Pago> pagos;
-
-    public Tramite() {
+    public Pago() {
     }
-
-    public Tramite(Long id, Persona persona) {
-        this.id = id;
-        this.persona = persona;
-    }
-
-    public Tramite(Persona persona) {
-        this.persona = persona;
-    }
-
+    
     public Long getId() {
         return id;
     }
@@ -61,22 +48,14 @@ public abstract class Tramite implements Serializable {
         this.id = id;
     }
 
-    public Persona getPersona() {
-        return persona;
+    public Float getCantidadPagar() {
+        return cantidadPagar;
     }
 
-    public void setPersona(Persona persona) {
-        this.persona = persona;
+    public void setCantidadPagar(Float cantidadPagar) {
+        this.cantidadPagar = cantidadPagar;
     }
 
-    public List<Pago> getPagos() {
-        return pagos;
-    }
-
-    public void setPagos(List<Pago> pagos) {
-        this.pagos = pagos;
-    }
-    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -84,13 +63,21 @@ public abstract class Tramite implements Serializable {
         return hash;
     }
 
+    public Tramite getTramite() {
+        return tramite;
+    }
+
+    public void setTramite(Tramite tramite) {
+        this.tramite = tramite;
+    }
+
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tramite)) {
+        if (!(object instanceof Pago)) {
             return false;
         }
-        Tramite other = (Tramite) object;
+        Pago other = (Pago) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -99,7 +86,7 @@ public abstract class Tramite implements Serializable {
 
     @Override
     public String toString() {
-        return "com.mycompany.dominio.Tramite[ id=" + id + " ]";
+        return "com.mycompany.dominio.Pago[ id=" + id + " ]";
     }
     
 }

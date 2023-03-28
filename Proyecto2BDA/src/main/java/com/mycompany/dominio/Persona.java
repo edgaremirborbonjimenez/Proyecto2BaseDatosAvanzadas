@@ -6,11 +6,14 @@ package com.mycompany.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -46,7 +49,10 @@ public class Persona implements Serializable {
 
     @Column(name = "sexo", nullable = false)
     private Sexo sexo;
-
+    
+    @OneToMany(mappedBy = "persona", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    private List <Tramite> tramites;
+            
     public Persona() {
     }
 
@@ -137,7 +143,14 @@ public class Persona implements Serializable {
         this.sexo = sexo;
     }
 
-    
+    public List<Tramite> getTramites() {
+        return tramites;
+    }
+
+    public void setTramites(List<Tramite> tramites) {
+        this.tramites = tramites;
+    }
+  
     @Override
     public int hashCode() {
         int hash = 0;

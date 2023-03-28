@@ -9,5 +9,5 @@ package com.mycompany.dominio;
  * @author edemb
  */
 public enum Sexo {
-    Masculino,Femenino
+    MASCULINO,FEMENINO
 }
