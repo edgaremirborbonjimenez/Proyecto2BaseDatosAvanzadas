@@ -50,6 +50,9 @@ public class Persona implements Serializable {
     @Column(name = "sexo", nullable = false)
     private Sexo sexo;
     
+    @Column(name = "¿es discapacitado?")
+    private Discapacitado discapasitado;
+    
 //    @OneToMany
 //    @Column(name = "vehiuclos")
 //    private List <Vehiculo> vehiculo;
