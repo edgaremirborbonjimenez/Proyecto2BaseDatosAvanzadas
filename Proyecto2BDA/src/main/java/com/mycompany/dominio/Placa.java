@@ -23,7 +23,7 @@ import javax.persistence.Table;
  * @author edemb
  */
 @Entity
-@Table(name = "tramites")
+@Table(name = "placas")
 public class Placa extends Tramite implements Serializable {
 
     @Column(name = "numero", length = 7, nullable = false)

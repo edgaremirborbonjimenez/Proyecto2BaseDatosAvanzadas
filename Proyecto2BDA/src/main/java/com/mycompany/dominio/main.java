@@ -29,9 +29,9 @@ public class main {
         entityManager.getTransaction().begin();
 
         Persona persona = new Persona("Emir", "Borbon", "Jimenez", "2345678", new GregorianCalendar(2003, 10, 2), "6421068907", Sexo.MASCULINO);
-        //Tramite licencia = new Licencia(1000F, persona, new GregorianCalendar(28, 3, 2026));
-        //Pago pago = new Efectivo(1000F, licencia);
-        //licencia.setPagos(Arrays.asList(pago));
+        Tramite licencia = new Licencia(1000F, persona, new GregorianCalendar(28, 3, 2026));
+        Pago pago = new Efectivo(1000F, licencia);
+        licencia.setPagos(Arrays.asList(pago));
 
         Vehiculo vehiculo = new Automovil("ABCDEFG", "Toyota", "Rojo", "Ssdas", "sdasa");
         Tramite placa = new Placa(500F, persona, "-------", new GregorianCalendar(28, 3, 2023), null, vehiculo);
@@ -41,11 +41,11 @@ public class main {
         entityManager.getTransaction().commit();
         
         
-//        entityManager.getTransaction().begin();
-//
-//        entityManager.persist(licencia);
-//        entityManager.persist(pago);
-//        entityManager.getTransaction().commit();
+        entityManager.getTransaction().begin();
+
+        entityManager.persist(licencia);
+        entityManager.persist(pago);
+        entityManager.getTransaction().commit();
         
         
         entityManager.getTransaction().begin();
