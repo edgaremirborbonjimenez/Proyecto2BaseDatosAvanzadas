@@ -74,8 +74,8 @@ public class main {
         Menu menu = new Menu();
         menu.setVisible(true);
         
-        ModuloLicencia m = new ModuloLicencia();
-        m.setVisible(true);
+//        ModuloLicencia m = new ModuloLicencia();
+//        m.setVisible(true);
     }
 
 }

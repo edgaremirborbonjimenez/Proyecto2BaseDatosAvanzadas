@@ -16,6 +16,12 @@ public class Menu extends javax.swing.JFrame {
     public Menu() {
         initComponents();
     }
+    
+    public void irModuloLicencia(){
+        ModuloLicencia licencias = new ModuloLicencia();
+        licencias.setVisible(true);
+        this.setVisible(false);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -51,6 +57,11 @@ public class Menu extends javax.swing.JFrame {
 
         btnGenerarLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarLicencia.setText("Generar Licencia");
+        btnGenerarLicencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarLicenciaActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
         jLabel1.setText("Agencia Fiscal De Sonora");
@@ -95,6 +106,11 @@ public class Menu extends javax.swing.JFrame {
     private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnGenerarPlacaActionPerformed
+
+    private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
+        // TODO add your handling code here:
+        this.irModuloLicencia();
+    }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
 
     /**
      * @param args the command line arguments
