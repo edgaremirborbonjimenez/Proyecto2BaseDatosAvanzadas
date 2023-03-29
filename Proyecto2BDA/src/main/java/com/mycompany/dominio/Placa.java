@@ -35,6 +35,9 @@ public class Placa extends Tramite implements Serializable {
     @Column(name = "fechaEmision", nullable = true)
     private Calendar fechaEmision;
     
+    @Column(name = "estado",nullable = false)
+    private Estado estado;
+    
     @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "idVehiculo",nullable = false)
     private Vehiculo vehiculo;

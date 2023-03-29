@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Entity
 @Inheritance (strategy = InheritanceType.JOINED)
 @Table (name = "pagos")
-public abstract class Pago implements Serializable {
+public class Pago implements Serializable {
 
     @Id
     @Column (name = "id")
