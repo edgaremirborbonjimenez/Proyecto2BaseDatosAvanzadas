@@ -50,11 +50,42 @@ public class Persona implements Serializable {
     @Column(name = "sexo", nullable = false)
     private Sexo sexo;
     
-    @OneToMany(mappedBy = "persona", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+//    @OneToMany
+//    @Column(name = "vehiuclos")
+//    private List <Vehiculo> vehiculo;
+    
+    @OneToMany(mappedBy = "persona", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List <Tramite> tramites;
             
     public Persona() {
     }
+
+    public Persona(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo,List<Tramite> tramites) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.rfc = rfc;
+        this.fechaNacimiento = fechaNacimiento;
+        this.telefono = telefono;
+        this.sexo = sexo;
+       // this.vehiculo = vehiculo;
+        this.tramites = tramites;
+    }
+
+    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo, List<Tramite> tramites) {
+        this.nombre = nombre;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.rfc = rfc;
+        this.fechaNacimiento = fechaNacimiento;
+        this.telefono = telefono;
+        this.sexo = sexo;
+        //this.vehiculo = vehiculo;
+        this.tramites = tramites;
+    }
+    
+    
 
     public Persona(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo) {
         this.id = id;
@@ -150,6 +181,16 @@ public class Persona implements Serializable {
     public void setTramites(List<Tramite> tramites) {
         this.tramites = tramites;
     }
+
+//    public List<Vehiculo> getVehiculo() {
+//        return vehiculo;
+//    }
+//
+//    public void setVehiculo(List<Vehiculo> vehiculo) {
+//        this.vehiculo = vehiculo;
+//    }
+    
+    
   
     @Override
     public int hashCode() {

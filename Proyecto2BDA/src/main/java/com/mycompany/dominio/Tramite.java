@@ -37,28 +37,26 @@ public abstract class Tramite implements Serializable {
     @Column(name = "costo")
     private Float costo;
 
-    @ManyToOne()
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "idPersona",nullable = false)
     private Persona persona;
     
     
-    @OneToMany(mappedBy = "tramite", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "tramite", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List <Pago> pagos;
 
     public Tramite() {
     }
 
-    public Tramite(Long id, Float costo, Persona persona, List<Pago> pagos) {
+    public Tramite(Long id, Float costo, Persona persona) {
         this.id = id;
         this.costo = costo;
         this.persona = persona;
-        this.pagos = pagos;
     }
 
-    public Tramite(Float costo, Persona persona, List<Pago> pagos) {
+    public Tramite(Float costo, Persona persona) {
         this.costo = costo;
         this.persona = persona;
-        this.pagos = pagos;
     }
 
 

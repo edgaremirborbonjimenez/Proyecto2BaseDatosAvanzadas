@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @Table(name = "tarjetas")
 public class Tarjeta extends Pago implements Serializable {
 
-    @Column(name = "numTarjeta",length = 10,nullable = false)
+    @Column(name = "numTarjeta",length = 16,nullable = false)
     private String numTarjeta;
 
     public Tarjeta() {

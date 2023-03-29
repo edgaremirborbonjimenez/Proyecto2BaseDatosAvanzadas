@@ -7,11 +7,14 @@ package com.mycompany.dominio;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,29 +32,40 @@ public class Placa extends Tramite implements Serializable {
     @Column(name = "fechaRecepcion", nullable = false)
     private Calendar fechaRecepcion;
 
-    @Column(name = "fechaEmision", nullable = false)
+    @Column(name = "fechaEmision", nullable = true)
     private Calendar fechaEmision;
     
-    @OneToOne
-    @Column(name = "vehiculo", nullable = false)
+    @ManyToOne(cascade = {CascadeType.REMOVE})
+    @JoinColumn(name = "idVehiculo",nullable = false)
     private Vehiculo vehiculo;
 
     public Placa() {
     }
 
-    public Placa(Long id, Float costo, Persona persona, List<Pago> pagos,String numero, Calendar fechaRecepcion, Calendar fechaEmision) {
-        super(id, costo, persona, pagos);
+    public Placa(Long id, Float costo, Persona persona,String numero, Calendar fechaRecepcion, Calendar fechaEmision,Vehiculo vehiculo) {
+        super(id, costo, persona);
         this.numero = numero;
         this.fechaRecepcion = fechaRecepcion;
         this.fechaEmision = fechaEmision;
+        this.vehiculo=vehiculo;
     }
 
-    public Placa(Float costo, Persona persona, List<Pago> pagos,String numero, Calendar fechaRecepcion, Calendar fechaEmision) {
-        super(costo, persona, pagos);
+    public Placa(Float costo, Persona persona,String numero, Calendar fechaRecepcion, Calendar fechaEmision,Vehiculo vehiculo) {
+        super(costo, persona);
         this.numero = numero;
         this.fechaRecepcion = fechaRecepcion;
         this.fechaEmision = fechaEmision;
+        this.vehiculo=vehiculo;
     }
+
+    public Placa(Float costo, Persona persona,String numero, Calendar fechaRecepcion, Vehiculo vehiculo) {
+        super(costo, persona);
+        this.numero = numero;
+        this.fechaRecepcion = fechaRecepcion;
+        this.vehiculo = vehiculo;
+    }
+    
+    
 
     public String getNumero() {
         return numero;
@@ -76,6 +90,16 @@ public class Placa extends Tramite implements Serializable {
     public void setFechaEmision(Calendar fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+    
+    
 
     @Override
     public String toString() {

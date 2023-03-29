@@ -5,6 +5,8 @@
 package com.mycompany.dominio;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -44,12 +47,39 @@ public abstract class Vehiculo implements Serializable {
     @Column(name = "modelo", nullable = false, length = 30)
     private String modelo;
     
-    @OneToMany
-    @Column(name = "placa",nullable = true)
-    private Placa placa;
+//    @OneToOne
+//    @Column(name = "persona",nullable = false)
+//    private Persona persona;
+    
+    @OneToMany(mappedBy = "vehiculo",cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+ //   @Column(name = "placa",nullable = true)
+    private List <Placa> placa;
 
     public Vehiculo() {
     }
+
+    public Vehiculo(Long id, String serie, String marca, String color, String linea, String modelo, List<Placa> placa) {
+        this.id = id;
+        this.serie = serie;
+        this.marca = marca;
+        this.color = color;
+        this.linea = linea;
+        this.modelo = modelo;
+       // this.persona = persona;
+        this.placa = placa;
+    }
+
+    public Vehiculo(String serie, String marca, String color, String linea, String modelo, List<Placa> placa) {
+        this.serie = serie;
+        this.marca = marca;
+        this.color = color;
+        this.linea = linea;
+        this.modelo = modelo;
+        //this.persona = persona;
+        this.placa = placa;
+    }
+    
+    
 
     public Vehiculo(Long id, String serie, String marca, String color, String linea, String modelo) {
         this.id = id;
@@ -115,6 +145,24 @@ public abstract class Vehiculo implements Serializable {
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
+
+//    public Persona getPersona() {
+//        return persona;
+//    }
+//
+//    public void setPersona(Persona persona) {
+//        this.persona = persona;
+//    }
+
+    public List<Placa> getPlaca() {
+        return placa;
+    }
+
+    public void setPlaca(List<Placa> placa) {
+        this.placa = placa;
+    }
+    
+    
     
     @Override
     public int hashCode() {

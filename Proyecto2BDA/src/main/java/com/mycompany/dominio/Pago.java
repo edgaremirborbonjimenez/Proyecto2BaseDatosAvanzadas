@@ -5,6 +5,7 @@
 package com.mycompany.dominio;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public abstract class Pago implements Serializable {
     @Column (name = "cantidadPagar", nullable = false)
     private Float cantidadPagar;
 
-    @ManyToOne()
+    @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "idTramite",nullable = false)
     private Tramite tramite;
     
