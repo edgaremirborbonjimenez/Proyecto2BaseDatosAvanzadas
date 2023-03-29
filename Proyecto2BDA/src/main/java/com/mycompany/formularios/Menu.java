@@ -33,15 +33,21 @@ public class Menu extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menu Principal");
 
         btnHistorial.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnHistorial.setText("Hisotrial de Placas y Licencias");
+        btnHistorial.setText("Historial de Placas y Licencias");
 
         btnGenerarReporte.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarReporte.setText("Generar Reporte de Tramites Realizados");
 
         btnGenerarPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarPlaca.setText("Generar Placa");
+        btnGenerarPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPlacaActionPerformed(evt);
+            }
+        });
 
         btnGenerarLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarLicencia.setText("Generar Licencia");
@@ -60,7 +66,7 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(198, Short.MAX_VALUE))
+                .addContainerGap(200, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -83,7 +89,12 @@ public class Menu extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGenerarPlacaActionPerformed
 
     /**
      * @param args the command line arguments
