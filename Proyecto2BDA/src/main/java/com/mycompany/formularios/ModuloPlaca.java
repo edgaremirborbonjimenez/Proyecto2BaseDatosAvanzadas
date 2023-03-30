@@ -30,6 +30,11 @@ public class ModuloPlaca extends javax.swing.JFrame {
         ModuloPlacaAutoNuevo autoNuevo = new ModuloPlacaAutoNuevo();
         autoNuevo.setVisible(true);
     }
+    
+    public void irAutoUsado() {
+        ModuloPlacaAutoUsado autoUsado = new ModuloPlacaAutoUsado();
+        autoUsado.setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,7 +75,7 @@ public class ModuloPlaca extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Modulo de Placas");
+        setTitle("Menu de Placas");
 
         jButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton1.setText("Auto Nuevo");
@@ -87,6 +92,16 @@ public class ModuloPlaca extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton2.setText("Auto Usado");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Selecciona Tipo de Placa");
@@ -160,6 +175,16 @@ public class ModuloPlaca extends javax.swing.JFrame {
         // TODO add your handling code here:
         cerrarVentanaActual();
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        irAutoUsado();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        // TODO add your handling code here:
+        cerrarVentanaActual();
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * // * @param args the command line arguments //

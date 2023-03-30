@@ -68,6 +68,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Seleccion de Cliente");
 
         btnHistorialLicencia.setText("Historial de Licencias");
         btnHistorialLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N

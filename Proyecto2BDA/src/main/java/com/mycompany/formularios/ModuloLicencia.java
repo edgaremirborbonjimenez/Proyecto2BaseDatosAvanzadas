@@ -57,7 +57,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
         lblrfc = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Modulo de Licencia");
+        setTitle("Solicitar Cliente de Licencia");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Ingresa RFC para buscar al usuario");
