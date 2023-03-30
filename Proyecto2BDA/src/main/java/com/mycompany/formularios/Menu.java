@@ -17,10 +17,25 @@ public class Menu extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void irModuloLicencia(){
+    private void cerrarVentanaActual(){
+    this.dispose();
+    }
+    
+    private void irModuloLicencia(){
         ModuloLicencia licencias = new ModuloLicencia();
         licencias.setVisible(true);
-        this.setVisible(false);
+    }
+    
+    private  void irModuloPlaca(){
+        ModuloPlaca placa = new ModuloPlaca();
+        placa.setVisible(true);
+    }
+    private  void irHistorialPlacasLicencia(){
+        ModuloHistoriales historiales = new ModuloHistoriales();
+        historiales.setVisible(true);
+    }
+    
+    private void irGenerarReporte(){
     }
 
     /**
@@ -43,12 +58,37 @@ public class Menu extends javax.swing.JFrame {
 
         btnHistorial.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnHistorial.setText("Historial de Placas y Licencias");
+        btnHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHistorialMouseClicked(evt);
+            }
+        });
+        btnHistorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistorialActionPerformed(evt);
+            }
+        });
 
         btnGenerarReporte.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarReporte.setText("Generar Reporte de Tramites Realizados");
+        btnGenerarReporte.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGenerarReporteMouseClicked(evt);
+            }
+        });
+        btnGenerarReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarReporteActionPerformed(evt);
+            }
+        });
 
         btnGenerarPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarPlaca.setText("Generar Placa");
+        btnGenerarPlaca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGenerarPlacaMouseClicked(evt);
+            }
+        });
         btnGenerarPlaca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarPlacaActionPerformed(evt);
@@ -57,6 +97,11 @@ public class Menu extends javax.swing.JFrame {
 
         btnGenerarLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarLicencia.setText("Generar Licencia");
+        btnGenerarLicencia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGenerarLicenciaMouseClicked(evt);
+            }
+        });
         btnGenerarLicencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarLicenciaActionPerformed(evt);
@@ -105,12 +150,42 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
         // TODO add your handling code here:
+        irModuloPlaca();
     }//GEN-LAST:event_btnGenerarPlacaActionPerformed
 
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
         this.irModuloLicencia();
     }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
+
+    private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
+        // TODO add your handling code here:
+        irHistorialPlacasLicencia();
+    }//GEN-LAST:event_btnHistorialActionPerformed
+
+    private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGenerarReporteActionPerformed
+
+    private void btnGenerarLicenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaMouseClicked
+        // TODO add your handling code here:
+        cerrarVentanaActual();
+    }//GEN-LAST:event_btnGenerarLicenciaMouseClicked
+
+    private void btnGenerarPlacaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarPlacaMouseClicked
+        // TODO add your handling code here:
+        cerrarVentanaActual();
+    }//GEN-LAST:event_btnGenerarPlacaMouseClicked
+
+    private void btnHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistorialMouseClicked
+        // TODO add your handling code here:
+        cerrarVentanaActual();
+    }//GEN-LAST:event_btnHistorialMouseClicked
+
+    private void btnGenerarReporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarReporteMouseClicked
+        // TODO add your handling code here:
+        cerrarVentanaActual();
+    }//GEN-LAST:event_btnGenerarReporteMouseClicked
 
     /**
      * @param args the command line arguments

@@ -5,6 +5,7 @@
 package com.mycompany.dominio;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,33 +34,45 @@ public abstract class Tramite implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
+    @Column(name = "fechaEmision", nullable = true)
+    private Calendar fechaEmision;
+
     @Column(name = "costo")
     private Float costo;
 
     @ManyToOne(cascade = {CascadeType.REMOVE})
-    @JoinColumn(name = "idPersona",nullable = false)
+    @JoinColumn(name = "idPersona", nullable = false)
     private Persona persona;
-    
-    
+
     @OneToMany(mappedBy = "tramite", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List <Pago> pagos;
+    private List<Pago> pagos;
 
     public Tramite() {
     }
 
-    public Tramite(Long id, Float costo, Persona persona) {
+    public Tramite(Long id, Calendar fechaEmision, Float costo, Persona persona, List<Pago> pagos) {
         this.id = id;
+        this.fechaEmision = fechaEmision;
+        this.costo = costo;
+        this.persona = persona;
+        this.pagos = pagos;
+    }
+
+    public Tramite(Calendar fechaEmision, Float costo, Persona persona, List<Pago> pagos) {
+        this.fechaEmision = fechaEmision;
+        this.costo = costo;
+        this.persona = persona;
+        this.pagos = pagos;
+    }
+
+    public Tramite(Calendar fechaEmision, Float costo, Persona persona) {
+        this.fechaEmision = fechaEmision;
         this.costo = costo;
         this.persona = persona;
     }
-
-    public Tramite(Float costo, Persona persona) {
-        this.costo = costo;
-        this.persona = persona;
-    }
-
-
+    
+    
 
     public Long getId() {
         return id;
@@ -92,7 +105,15 @@ public abstract class Tramite implements Serializable {
     public void setCosto(Float costo) {
         this.costo = costo;
     }
-    
+
+    public Calendar getFechaEmision() {
+        return fechaEmision;
+    }
+
+    public void setFechaEmision(Calendar fechaEmision) {
+        this.fechaEmision = fechaEmision;
+    }
+
     
     @Override
     public int hashCode() {
@@ -118,5 +139,5 @@ public abstract class Tramite implements Serializable {
     public String toString() {
         return "com.mycompany.dominio.Tramite[ id=" + id + " ]";
     }
-    
+
 }
