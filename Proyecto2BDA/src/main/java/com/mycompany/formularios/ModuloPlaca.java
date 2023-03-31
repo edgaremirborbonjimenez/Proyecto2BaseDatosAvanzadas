@@ -21,9 +21,9 @@ public class ModuloPlaca extends javax.swing.JFrame {
         this.dispose();
     }
 
-    public void regresarMenu() {
-        Menu menu = new Menu();
-        menu.setVisible(true);
+    public void irModuloTramite() {
+        ModuloGenerarTramite tra = new ModuloGenerarTramite();
+        tra.setVisible(true);
     }
 
     public void irAutoNuevo() {
@@ -158,7 +158,7 @@ public class ModuloPlaca extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        regresarMenu();
+        irModuloTramite();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

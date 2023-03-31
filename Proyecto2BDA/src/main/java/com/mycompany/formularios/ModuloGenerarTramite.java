@@ -25,6 +25,16 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         Menu menu = new Menu();
         menu.setVisible(true);
     }
+    
+    public void irGenerarPlaca(){
+    ModuloPlaca placa = new ModuloPlaca();
+    placa.setVisible(true);
+    }
+    
+    private void irGenerarLicencia(){
+    ModuloLicencia lic = new ModuloLicencia();
+    lic.setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -58,7 +68,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         btnGenerarPlaca = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setTitle("Solicitar Cliente de Licencia");
+        setTitle("Solicitar Persona");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Ingresa RFC para buscar al usuario");
@@ -141,6 +151,16 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
         btnGenerarLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarLicencia.setText("Generar Licencia");
+        btnGenerarLicencia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGenerarLicenciaMouseClicked(evt);
+            }
+        });
+        btnGenerarLicencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarLicenciaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setText("Nombre:");
@@ -174,6 +194,16 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
         btnGenerarPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarPlaca.setText("GenerarPlaca");
+        btnGenerarPlaca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGenerarPlacaMouseClicked(evt);
+            }
+        });
+        btnGenerarPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPlacaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -275,6 +305,26 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         // TODO add your handling code here:
         cerrarVentanaActual();
     }//GEN-LAST:event_btnRegresarMouseClicked
+
+    private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
+        // TODO add your handling code here:
+        irGenerarPlaca();
+    }//GEN-LAST:event_btnGenerarPlacaActionPerformed
+
+    private void btnGenerarPlacaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarPlacaMouseClicked
+        // TODO add your handling code here:
+        cerrarVentanaActual();
+    }//GEN-LAST:event_btnGenerarPlacaMouseClicked
+
+    private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
+        // TODO add your handling code here:
+        irGenerarLicencia();
+    }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
+
+    private void btnGenerarLicenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaMouseClicked
+        // TODO add your handling code here:
+        cerrarVentanaActual();
+    }//GEN-LAST:event_btnGenerarLicenciaMouseClicked
 
     /**
      * @param args the command line arguments
