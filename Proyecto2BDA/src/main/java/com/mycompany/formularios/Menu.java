@@ -21,8 +21,8 @@ public class Menu extends javax.swing.JFrame {
     this.dispose();
     }
     
-    private void irModuloLicencia(){
-        ModuloLicencia licencias = new ModuloLicencia();
+    private void irModuloTramite(){
+        ModuloGenerarTramite licencias = new ModuloGenerarTramite();
         licencias.setVisible(true);
     }
     
@@ -49,7 +49,6 @@ public class Menu extends javax.swing.JFrame {
 
         btnHistorial = new javax.swing.JButton();
         btnGenerarReporte = new javax.swing.JButton();
-        btnGenerarPlaca = new javax.swing.JButton();
         btnGenerarLicencia = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
@@ -82,21 +81,8 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        btnGenerarPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnGenerarPlaca.setText("Generar Placa");
-        btnGenerarPlaca.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnGenerarPlacaMouseClicked(evt);
-            }
-        });
-        btnGenerarPlaca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGenerarPlacaActionPerformed(evt);
-            }
-        });
-
         btnGenerarLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnGenerarLicencia.setText("Generar Licencia");
+        btnGenerarLicencia.setText("Generar Tramite");
         btnGenerarLicencia.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnGenerarLicenciaMouseClicked(evt);
@@ -119,7 +105,6 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(184, 184, 184)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnGenerarLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(200, Short.MAX_VALUE))
@@ -133,29 +118,22 @@ public class Menu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(51, 51, 51)
+                .addGap(77, 77, 77)
                 .addComponent(btnGenerarLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(39, 39, 39)
                 .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(42, 42, 42)
                 .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
-        // TODO add your handling code here:
-        irModuloPlaca();
-    }//GEN-LAST:event_btnGenerarPlacaActionPerformed
-
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
-        this.irModuloLicencia();
+        this.irModuloTramite();
     }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
@@ -171,11 +149,6 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
         cerrarVentanaActual();
     }//GEN-LAST:event_btnGenerarLicenciaMouseClicked
-
-    private void btnGenerarPlacaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarPlacaMouseClicked
-        // TODO add your handling code here:
-        cerrarVentanaActual();
-    }//GEN-LAST:event_btnGenerarPlacaMouseClicked
 
     private void btnHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistorialMouseClicked
         // TODO add your handling code here:
@@ -224,7 +197,6 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerarLicencia;
-    private javax.swing.JButton btnGenerarPlaca;
     private javax.swing.JButton btnGenerarReporte;
     private javax.swing.JButton btnHistorial;
     private javax.swing.JLabel jLabel1;

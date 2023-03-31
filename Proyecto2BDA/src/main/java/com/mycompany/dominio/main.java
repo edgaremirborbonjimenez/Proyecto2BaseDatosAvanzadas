@@ -5,7 +5,7 @@
 package com.mycompany.dominio;
 
 import com.mycompany.formularios.Menu;
-import com.mycompany.formularios.ModuloLicencia;
+import com.mycompany.formularios.ModuloGenerarTramite;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -74,7 +74,7 @@ public class main {
         Menu menu = new Menu();
         menu.setVisible(true);
         
-//        ModuloLicencia m = new ModuloLicencia();
+//        ModuloGenerarTramite m = new ModuloGenerarTramite();
 //        m.setVisible(true);
     }
 
