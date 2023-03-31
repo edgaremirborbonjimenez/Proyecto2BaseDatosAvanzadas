@@ -24,18 +24,23 @@ public class Licencia extends Tramite implements Serializable {
 
     @Column(name = "fechaVigencia", nullable = false)
     Calendar fechaVigencia;
+    
+    @Column(name = "serie", nullable = false)
+    private String serie;
 
     public Licencia() {
     }
 
-    public Licencia(Long id, Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona, List<Pago> pagos) {
+    public Licencia(Long id, Calendar fechaEmision, Calendar fechaVigencia, String serie, Float costo, Persona persona, List<Pago> pagos) {
         super(id, fechaEmision, costo, persona, pagos);
         this.fechaVigencia = fechaVigencia;
+        this.serie = serie;
     }
 
-    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona, List<Pago> pagos) {
+    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, String serie, Float costo, Persona persona, List<Pago> pagos) {
         super(fechaEmision, costo, persona, pagos);
         this.fechaVigencia = fechaVigencia;
+        this.serie = serie;
     }
 
     public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona) {
@@ -49,6 +54,14 @@ public class Licencia extends Tramite implements Serializable {
 
     public void setFechaVigencia(Calendar fechaVigencia) {
         this.fechaVigencia = fechaVigencia;
+    }
+
+    public String getSerie() {
+        return serie;
+    }
+
+    public void setSerie(String serie) {
+        this.serie = serie;
     }
 
     @Override
