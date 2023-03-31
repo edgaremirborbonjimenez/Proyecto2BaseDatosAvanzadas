@@ -18,17 +18,18 @@ import com.mycompany.interfaces.IPersonaDAO;
  *
  * @author edemb
  */
-public class PersonaDAO implements IPersonaDAO{
-       public void registrarPersonas(){      
+public class PersonaDAO implements IPersonaDAO {
+
+    public void registrarPersonas() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
 
         Persona p1 = new Persona("Juan", "García", "Pérez", "GAPJ920702", new GregorianCalendar(2017, Calendar.JANUARY, 22), "5512345678", Sexo.MASCULINO, Discapacitado.NO);
-        Persona p2 = new Persona("María", "López", "Hernández", "LOHM900529",new GregorianCalendar(1990,Calendar.MAY,29), "5534567890", Sexo.FEMENINO, Discapacitado.NO);
+        Persona p2 = new Persona("María", "López", "Hernández", "LOHM900529", new GregorianCalendar(1990, Calendar.MAY, 29), "5534567890", Sexo.FEMENINO, Discapacitado.NO);
         Persona p3 = new Persona("Pedro", "Sánchez", "Ramírez", "SARP970825", new GregorianCalendar(1997, Calendar.AUGUST, 25), "5252611989", Sexo.MASCULINO, Discapacitado.NO);
         Persona p4 = new Persona("Laura", "Martínez", "Gómez", "MAGL840704", new GregorianCalendar(1984, Calendar.JULY, 4), "5512345678", Sexo.FEMENINO, Discapacitado.SI);
-        Persona p5 = new Persona("Miguel", "Rodríguez", "Torres", "ROTM910627",new GregorianCalendar(1991, Calendar.JUNE, 27), "5534567890", Sexo.FEMENINO, Discapacitado.NO);
+        Persona p5 = new Persona("Miguel", "Rodríguez", "Torres", "ROTM910627", new GregorianCalendar(1991, Calendar.JUNE, 27), "5534567890", Sexo.FEMENINO, Discapacitado.NO);
         Persona p6 = new Persona("Ana", "González", "Vázquez", "GOVA810118", new GregorianCalendar(1981, Calendar.JANUARY, 18), "5523456789", Sexo.FEMENINO, Discapacitado.SI);
         Persona p7 = new Persona("José", "Díaz", "Castro", "DICJ750712", new GregorianCalendar(1975, Calendar.JULY, 12), "5512345678", Sexo.MASCULINO, Discapacitado.NO);
         Persona p8 = new Persona("Paula", "Reyes", "Flores", "REFP800522", new GregorianCalendar(1980, Calendar.MAY, 22), "5534567890", Sexo.MASCULINO, Discapacitado.SI);

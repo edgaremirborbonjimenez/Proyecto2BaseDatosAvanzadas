@@ -15,6 +15,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -42,7 +44,7 @@ public class Persona implements Serializable {
     private String rfc;
 
     @Column(name = "fechaNacimiento", nullable = false)
-    Calendar fechaNacimiento;
+    private Calendar fechaNacimiento;
 
     @Column(name = "telefono", length = 10, nullable = false)
     private String telefono;
@@ -57,7 +59,7 @@ public class Persona implements Serializable {
 //    @Column(name = "vehiuclos")
 //    private List <Vehiculo> vehiculo;
     
-    @OneToMany(mappedBy = "persona", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "persona", cascade = {CascadeType.REMOVE})
     private List <Tramite> tramites;
             
     public Persona() {
@@ -99,8 +101,6 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
     
-    
-
     public Persona(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo) {
         this.id = id;
         this.nombre = nombre;
@@ -121,8 +121,6 @@ public class Persona implements Serializable {
         this.telefono = telefono;
         this.sexo = sexo;
     }
-    
-    
 
     public Long getId() {
         return id;
@@ -203,9 +201,9 @@ public class Persona implements Serializable {
 //    public void setVehiculo(List<Vehiculo> vehiculo) {
 //        this.vehiculo = vehiculo;
 //    }
+
     
-    
-  
+
     @Override
     public int hashCode() {
         int hash = 0;

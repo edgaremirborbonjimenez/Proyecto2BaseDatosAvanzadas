@@ -24,18 +24,23 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="184" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="164" max="32767" attributes="0"/>
+              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="164" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="btnGenerarLicencia" min="-2" pref="382" max="-2" attributes="0"/>
                   <Component id="btnHistorial" min="-2" pref="382" max="-2" attributes="0"/>
                   <Component id="btnGenerarReporte" min="-2" pref="382" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="200" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="190" max="-2" attributes="0"/>
           </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+              <Component id="btnInsertarPersonas" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -45,13 +50,15 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" pref="74" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="77" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
               <Component id="btnGenerarLicencia" min="-2" pref="63" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
               <Component id="btnHistorial" min="-2" pref="63" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
               <Component id="btnGenerarReporte" min="-2" pref="63" max="-2" attributes="0"/>
-              <EmptySpace pref="74" max="32767" attributes="0"/>
+              <EmptySpace pref="65" max="32767" attributes="0"/>
+              <Component id="btnInsertarPersonas" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -100,6 +107,17 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Agencia Fiscal De Sonora"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnInsertarPersonas">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Insertar Personas"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInsertarPersonasActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
