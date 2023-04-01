@@ -8,6 +8,7 @@ import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Tramite;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -29,14 +30,11 @@ public class TramiteDAO {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-//   
-//   private List<Tramite> consultarTramitesDePersona(Persona persona){
-//       CriteriaBuilder critariaBuilder = this.entityManager.getCriteriaBuilder();
-//       CriteriaQuery criteriaQuery = critariaBuilder.createQuery();
-//       Root<Tramite> from = criteriaQuery.from(Tramite.class);
-//       CriteriaQuery select = criteriaQuery.select(from);
-//       select.where(critariaBuilder.)
-//       
-//       
-//   }
+    public List<Tramite> consultarTramitesPersona(Persona persona) {
+
+        Query query = this.entityManager.createQuery("Select l from Tramite l where p.persona = :per").setParameter("per", persona);
+
+        List<Tramite> list = query.getResultList();
+        return list;
+    }
 }

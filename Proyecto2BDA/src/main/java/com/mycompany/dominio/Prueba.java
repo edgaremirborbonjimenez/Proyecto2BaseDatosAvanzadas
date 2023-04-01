@@ -4,11 +4,14 @@
  */
 package com.mycompany.dominio;
 
+import com.mycompany.daos.LicenciaDAO;
 import com.mycompany.daos.PersonaDAO;
+import com.mycompany.daos.PlacaDAO;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Random;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -72,9 +75,71 @@ public class Prueba {
 //        em.persist(p18);
 //        em.persist(p19);
 //        em.persist(p20);
-        //       em.getTransaction().commit();
+//               em.getTransaction().commit();
 
-        Persona p = em.find(Persona.class, 15L);
+        Persona p = em.find(Persona.class, 2L);
+        Vehiculo carro = em.find(Automovil.class, 1L);
+//        
+        PlacaDAO placaDao = new PlacaDAO(em);
+       Placa placa = placaDao.generarPlacaVehiculoUsado(p, carro);
+       
+        System.out.println(placa.getNumero());
+        
+        Query query = em.createQuery("Select p from Placa p where p.persona = :per AND p.estado = :est ");
+
+        query.setParameter("per", p);
+        query.setParameter("est", Estado.ACTIVA);
+        List<Placa> list = query.getResultList();
+
+        for (Placa o : list) {
+            System.out.println(o.getId());
+        }
+//        placaDao.generarPlacaVehiculoNuevo(p, carro);
+//        for (int o = 0; o < 10; o++) {
+//            char[] arr = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B',
+//                'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+//                'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
+//                'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+//                's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+//            String placa = "";
+//            int i = 0;
+//            while (i < 7) {
+//                for (int j = 0; j < 3; j++) {
+//                    int num = (int) Math.floor(Math.random() * arr.length);
+//                    char caracter = arr[num];
+//                    placa += caracter;
+//                    i++;
+//                }
+//                if (i < 7) {
+//                    placa += "-";
+//                }
+//                i++;
+//            }
+//            System.out.println(placa);
+//        }
+
+//    Vehiculo carro = new Automovil("Masda", "Homda", "Royp", "Recta", "400");
+//    em.getTransaction().begin();
+//    em.persist(carro);
+//    em.getTransaction().commit();
+
+    
+
+
+
+//
+//               
+//               LicenciaDAO licenciaDAO = new LicenciaDAO(em);
+//               licenciaDAO.generarLicencia(Vigencia.Ano_1,p);
+//
+//        Query query = em.createQuery("Select l from Tramite l where l.persona = :per").setParameter("per", p);
+//
+//        List<Tramite> list = query.getResultList();
+//        
+//        for(Tramite o : list){
+//            System.out.println(o.getId());
+//        }
+//        Persona p = em.find(Persona.class, 15L);
 //        Licencia l = new Licencia(new GregorianCalendar(2023, 03, 31), new GregorianCalendar(2026, 03, 31), 600F, "234234234", p);
 //        Vehiculo v = new Automovil("swe", "wewerqw", "aeqwe", "weqw", "aweq");
 //        v= em.find(Vehiculo.class, 2L);
@@ -86,50 +151,46 @@ public class Prueba {
 //        em.persist(placs);
 //
 //        em.getTransaction().commit();
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Licencia> cq = cb.createQuery(Licencia.class);
-        Root<Licencia> from = cq.from(Licencia.class);
-        CriteriaQuery select = cq.select(from);
-
-        TypedQuery<Licencia> type = em.createQuery(select);
-        List<Licencia> list = type.getResultList();
-
-
-
+//
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//        CriteriaQuery<Licencia> cq = cb.createQuery(Licencia.class);
+//        Root<Licencia> from = cq.from(Licencia.class);
+//        CriteriaQuery select = cq.select(from);
+//
+//        TypedQuery<Licencia> type = em.createQuery(select);
+//        List<Licencia> list = type.getResultList();
 //        Query query = em.createQuery("Select l from Licencia l where p.persona = :per").setParameter("per", p);
 //
 //        List<Licencia> list = query.getResultList();
 //
-        for (Licencia o : list) {
-          SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-            System.out.println(o.getId()+","+formateador.format(o.getFechaEmision().getTime())+","+formateador.format(o.getFechaVigencia().getTime())+","+o.getCosto());
-        }
-
-        em.close();
-                  SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-
-        GregorianCalendar fecha = new GregorianCalendar();
-                System.out.println(formateador.format(fecha.getTime()));
-
-        fecha.add(0, 3);
-        
-        System.out.println(formateador.format(fecha.getTime()));
-
-        GregorianCalendar fecha2 = new GregorianCalendar();
-        fecha2.add(1, 3);
-        
-        System.out.println(formateador.format(fecha2.getTime()));
-                GregorianCalendar fecha3 = new GregorianCalendar();
-        fecha3.add(2, 3);
-        
-        System.out.println(formateador.format(fecha3.getTime()));
-    
-                       GregorianCalendar fecha4 = new GregorianCalendar();
-        fecha4.add(3, 3);
-        
-        System.out.println(formateador.format(fecha4.getTime()));
-        
+//        for (Licencia o : list) {
+//          SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+//            System.out.println(o.getId()+","+formateador.format(o.getFechaEmision().getTime())+","+formateador.format(o.getFechaVigencia().getTime())+","+o.getCosto());
+//        }
+//
+//        em.close();
+//                  SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+//
+//        GregorianCalendar fecha = new GregorianCalendar();
+//                System.out.println(formateador.format(fecha.getTime()));
+//
+//        fecha.add(0, 3);
+//        
+//        System.out.println(formateador.format(fecha.getTime()));
+//
+//        GregorianCalendar fecha2 = new GregorianCalendar();
+//        fecha2.add(1, 3);
+//        
+//        System.out.println(formateador.format(fecha2.getTime()));
+//                GregorianCalendar fecha3 = new GregorianCalendar();
+//        fecha3.add(2, 3);
+//        
+//        System.out.println(formateador.format(fecha3.getTime()));
+//    
+//                       GregorianCalendar fecha4 = new GregorianCalendar();
+//        fecha4.add(3, 3);
+//        
+//        System.out.println(formateador.format(fecha4.getTime()));
     }
 
 }

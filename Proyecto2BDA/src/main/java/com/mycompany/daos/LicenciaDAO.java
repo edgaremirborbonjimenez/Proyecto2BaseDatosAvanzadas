@@ -30,7 +30,7 @@ public class LicenciaDAO {
         this.entityManager = entityManager;
     }
 
-    private List<Licencia> consultarLicenciasPersona(Persona persona) {
+    public List<Licencia> consultarLicenciasPersona(Persona persona) {
 
         Query query = this.entityManager.createQuery("Select l from Licencia l where p.persona = :per").setParameter("per", persona);
 
@@ -38,7 +38,7 @@ public class LicenciaDAO {
         return list;
     }
 
-    private Licencia generarLicencia(Vigencia vigencia, Persona persona) {
+    public Licencia generarLicencia(Vigencia vigencia, Persona persona) {
         Float costo = 0F;
         GregorianCalendar fechaVigencia = new GregorianCalendar();
         if (vigencia == Vigencia.Ano_1) {
@@ -61,7 +61,7 @@ public class LicenciaDAO {
         Licencia licencia = new Licencia(new GregorianCalendar(), fechaVigencia, costo, persona);
 
         entityManager.getTransaction().begin();
-        
+
         entityManager.persist(licencia);
 
         entityManager.getTransaction().commit();
