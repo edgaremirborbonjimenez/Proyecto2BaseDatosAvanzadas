@@ -107,7 +107,29 @@ public class Prueba {
         }
 
         em.close();
+                  SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
 
+        GregorianCalendar fecha = new GregorianCalendar();
+                System.out.println(formateador.format(fecha.getTime()));
+
+        fecha.add(0, 3);
+        
+        System.out.println(formateador.format(fecha.getTime()));
+
+        GregorianCalendar fecha2 = new GregorianCalendar();
+        fecha2.add(1, 3);
+        
+        System.out.println(formateador.format(fecha2.getTime()));
+                GregorianCalendar fecha3 = new GregorianCalendar();
+        fecha3.add(2, 3);
+        
+        System.out.println(formateador.format(fecha3.getTime()));
+    
+                       GregorianCalendar fecha4 = new GregorianCalendar();
+        fecha4.add(3, 3);
+        
+        System.out.println(formateador.format(fecha4.getTime()));
+        
     }
 
 }
