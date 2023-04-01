@@ -17,6 +17,7 @@ import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
 import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -31,6 +32,10 @@ public class PersonaDAO implements IPersonaDAO {
     
     private EntityManager entityManager;
 
+    public PersonaDAO(EntityManager entityManager){
+        this.entityManager = entityManager;
+    }
+    
     public void registrarPersonas() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
         EntityManager em = emf.createEntityManager();
@@ -121,9 +126,9 @@ public class PersonaDAO implements IPersonaDAO {
 
     @Override
     public List<Persona> buscarPersonaRFC(FiltroHistorial parametros) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
-        entityManager = emf.createEntityManager();
-
+//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+//        entityManager = emf.createEntityManager();
+//
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
         CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
@@ -132,10 +137,11 @@ public class PersonaDAO implements IPersonaDAO {
         
         criteria.select(persona)
                 .where(
-                        builder.like(persona.get("rfc"), "%" + parametros.getRFC() + "%")
+                        builder.equal(persona.get("rfc"), parametros.getRFC())
                 );
 
         TypedQuery<Persona> query = entityManager.createQuery(criteria);
+//        Query query = entityManager.createQuery("SELECT p FROM Persona p");
 
         List<Persona> personas = query.getResultList();
         return personas;

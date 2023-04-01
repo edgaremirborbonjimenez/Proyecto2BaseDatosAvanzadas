@@ -8,6 +8,7 @@ import com.mycompany.dominio.FiltroHistorial;
 import com.mycompany.dominio.Persona;
 import com.mycompany.interfaces.IPersonaDAO;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -51,14 +52,26 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonasPorRFC.getModel();
             modeloTabla.setRowCount(0);
             List <Persona> personaRFC = personaDAO.buscarPersonaRFC(filtro);
-            for(Persona p : personaRFC){
-                Object[] fila = {
-                    p.getRfc(),
-                    p.getNombre(),
-                    p.getFechaNacimiento()
+//            for(Persona p : personaRFC){
+//                Object[] fila = {                    
+//                    p.getNombre(),
+//                    "134asd asd",
+//                    p.getTelefono(),
+//                    "MASCULINO",
+//                    p.getRfc()
+//                };
+//                modeloTabla.addRow(fila);
+//            }
+            personaRFC.forEach(persona ->{
+                Object[] fila ={
+                    persona.getNombre(),
+                    "134asd asd",
+                    persona.getTelefono(),
+                    "MASCULINO",
+                    persona.getRfc()             
                 };
                 modeloTabla.addRow(fila);
-            }
+            });
             
         } catch (Exception e) {
         }
@@ -372,6 +385,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private void lblRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblRFCKeyTyped
         // TODO add your handling code here:
         this.actualizarTabla();
+        System.out.println("si se hizo bro");
     }//GEN-LAST:event_lblRFCKeyTyped
 
     /**

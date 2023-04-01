@@ -4,12 +4,15 @@
  */
 package com.mycompany.dominio;
 
+import com.mycompany.daos.PersonaDAO;
 import com.mycompany.formularios.Menu;
 import com.mycompany.formularios.ModuloGenerarTramite;
+import com.mycompany.interfaces.IPersonaDAO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -74,6 +77,18 @@ public class main {
         Menu menu = new Menu();
         menu.setVisible(true);
         
+//    FiltroHistorial filtro = new FiltroHistorial();
+//    filtro.setRFC("DICJ750712");
+//    
+//    EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+//    EntityManager entity = emf.createEntityManager();
+//    
+//    IPersonaDAO personaDAO = new PersonaDAO(entity);
+//    List<Persona> listaPersona = personaDAO.buscarPersonaRFC(filtro);
+//    for(Persona v : listaPersona){
+//        System.out.println(v.getId());
+//    }
+
 //        ModuloGenerarTramite m = new ModuloGenerarTramite();
 //        m.setVisible(true);
     }

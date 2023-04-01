@@ -19,7 +19,7 @@ public class ConexionDAO {
     public ConexionDAO() {
     }
 
-    private void crearConexion(String persistenceUnitName) {
+    public void crearConexion(String persistenceUnitName) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
         this.entityManager = entityManagerFactory.createEntityManager();
     }

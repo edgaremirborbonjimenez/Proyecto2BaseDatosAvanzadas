@@ -4,8 +4,10 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.daos.ConexionDAO;
 import com.mycompany.daos.PersonaDAO;
 import com.mycompany.interfaces.IPersonaDAO;
+import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,11 +16,17 @@ import javax.swing.JOptionPane;
  */
 public class Menu extends javax.swing.JFrame {
 
+    private ConexionDAO conexion;
+    private EntityManager entity;
+    
     /**
      * Creates new form NewJFrame
      */
     public Menu() {
-        initComponents();
+        initComponents();      
+        conexion = new ConexionDAO();
+        conexion.crearConexion("Proyecto2BDA");
+        entity = conexion.getEntityManager();
     }
     
     private void cerrarVentanaActual(){
@@ -34,6 +42,7 @@ public class Menu extends javax.swing.JFrame {
         ModuloPlaca placa = new ModuloPlaca();
         placa.setVisible(true);
     }
+    
     private  void irHistorialPlacasLicencia(){
         ModuloHistoriales historiales = new ModuloHistoriales();
         historiales.setVisible(true);
@@ -44,7 +53,7 @@ public class Menu extends javax.swing.JFrame {
     
     private void personasAInsetar(){
         try {
-            PersonaDAO insertar = new PersonaDAO();
+            PersonaDAO insertar = new PersonaDAO(entity);
             insertar.registrarPersonas();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ocurrio un error al insertar las personas", "Error", JOptionPane.ERROR_MESSAGE);
