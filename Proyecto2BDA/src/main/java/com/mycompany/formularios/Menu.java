@@ -5,6 +5,7 @@
 package com.mycompany.formularios;
 
 import com.mycompany.daos.PersonaDAO;
+import com.mycompany.interfaces.IPersonaDAO;
 import javax.swing.JOptionPane;
 
 /**

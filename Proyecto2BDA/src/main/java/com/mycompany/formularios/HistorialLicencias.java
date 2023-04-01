@@ -4,6 +4,8 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.interfaces.IPersonaDAO;
+
 /**
  *
  * @author edemb

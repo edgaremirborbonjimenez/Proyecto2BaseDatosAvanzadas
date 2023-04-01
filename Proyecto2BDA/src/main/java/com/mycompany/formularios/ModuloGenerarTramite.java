@@ -4,12 +4,20 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.dominio.FiltroHistorial;
+import com.mycompany.dominio.Persona;
+import com.mycompany.interfaces.IPersonaDAO;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author edemb
  */
 public class ModuloGenerarTramite extends javax.swing.JFrame {
 
+    private IPersonaDAO personaDAO;
+    
     /**
      * Creates new form ModuloLicencia
      */
@@ -17,8 +25,8 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         initComponents();
     }
     
-      private void cerrarVentanaActual(){
-    this.dispose();
+    private void cerrarVentanaActual(){
+        this.dispose();
     }
     
     public void regresarMenu(){
@@ -36,6 +44,26 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     lic.setVisible(true);
     }
 
+    private void actualizarTabla(){
+        FiltroHistorial filtro = new FiltroHistorial();
+        filtro.setRFC(this.lblRFC.getText());
+        try {            
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonasPorRFC.getModel();
+            modeloTabla.setRowCount(0);
+            List <Persona> personaRFC = personaDAO.buscarPersonaRFC(filtro);
+            for(Persona p : personaRFC){
+                Object[] fila = {
+                    p.getRfc(),
+                    p.getNombre(),
+                    p.getFechaNacimiento()
+                };
+                modeloTabla.addRow(fila);
+            }
+            
+        } catch (Exception e) {
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,7 +81,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablePersonasPorRFC = new javax.swing.JTable();
         btnGenerarLicencia = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -89,6 +117,17 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setText("RFC :");
 
+        lblRFC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lblRFCActionPerformed(evt);
+            }
+        });
+        lblRFC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                lblRFCKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -100,9 +139,9 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablePersonasPorRFC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Edgar Emir Borbon Jimenez", "02/10/2003", "6421068907", "MASCULINO", "0000000000000"}
+
             },
             new String [] {
                 "Nombre", "FechaNacimiento", "Telefono", "Sexo", "RFC"
@@ -123,7 +162,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablePersonasPorRFC);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -326,6 +365,15 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         cerrarVentanaActual();
     }//GEN-LAST:event_btnGenerarLicenciaMouseClicked
 
+    private void lblRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRFCActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblRFCActionPerformed
+
+    private void lblRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblRFCKeyTyped
+        // TODO add your handling code here:
+        this.actualizarTabla();
+    }//GEN-LAST:event_lblRFCKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -376,12 +424,12 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblFechaNacimiento;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JTextField lblRFC;
     private javax.swing.JLabel lblSexo;
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblrfc;
+    private javax.swing.JTable tablePersonasPorRFC;
     // End of variables declaration//GEN-END:variables
 }

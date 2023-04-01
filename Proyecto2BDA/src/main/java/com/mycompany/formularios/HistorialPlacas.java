@@ -4,12 +4,15 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.interfaces.IPersonaDAO;
+import com.mycompany.utils.ConfiguracionDePaginado;
+
 /**
  *
  * @author edemb
  */
 public class HistorialPlacas extends javax.swing.JFrame {
-
+        
     /**
      * Creates new form HistorialPlacas
      */
@@ -18,13 +21,11 @@ public class HistorialPlacas extends javax.swing.JFrame {
     }
 
     private void cerrarVentana() {
-
         this.dispose();
-
     }
 
     private void irModuloHistorial() {
-        ModuloHistoriales historiales = new ModuloHistoriales();
+        ModuloHistoriales historiales = new ModuloHistoriales ();
         historiales.setVisible(true);
     }
 

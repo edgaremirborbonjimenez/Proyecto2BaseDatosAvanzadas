@@ -4,10 +4,18 @@
  */
 package com.mycompany.interfaces;
 
+import com.mycompany.dominio.FiltroHistorial;
+import com.mycompany.dominio.Persona;
+import com.mycompany.utils.ConfiguracionDePaginado;
+import java.util.List;
+
 /**
  *
  * @author Usuario
  */
 public interface IPersonaDAO {
+    
+    List<Persona> buscarPersonas(FiltroHistorial parametros, ConfiguracionDePaginado configPaginado);
+    List<Persona> buscarPersonaRFC(FiltroHistorial parametros);
     
 }

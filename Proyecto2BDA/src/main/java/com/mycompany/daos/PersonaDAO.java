@@ -5,6 +5,7 @@
 package com.mycompany.daos;
 
 import com.mycompany.dominio.Discapacitado;
+import com.mycompany.dominio.FiltroHistorial;
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Sexo;
 import java.util.Calendar;
@@ -13,12 +14,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import com.mycompany.interfaces.IPersonaDAO;
+import com.mycompany.utils.ConfiguracionDePaginado;
+import java.util.LinkedList;
+import java.util.List;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  *
  * @author edemb
  */
 public class PersonaDAO implements IPersonaDAO {
+    
+    private EntityManager entityManager;
 
     public void registrarPersonas() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
@@ -68,5 +79,65 @@ public class PersonaDAO implements IPersonaDAO {
         em.persist(p20);
 
         em.getTransaction().commit();
+    }
+
+    private List<Persona> buscarPersonas(FiltroHistorial parametros) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+        entityManager = emf.createEntityManager();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
+
+        Root<Persona> persona = criteria.from(Persona.class);
+
+        List<Predicate> filtros = new LinkedList<>();
+
+        if (parametros.getRFC() != null) {
+            filtros.add(builder.like(persona.get("rfc"), parametros.getRFC()));
+        }
+        if (parametros.getNombre() != null) {
+            filtros.add(builder.like(persona.get("nombre"), "%" + parametros.getNombre() + "%"));
+        }
+        if (parametros.getAñoNacimiento() != null) {
+            filtros.add(builder.like(persona.get("añoNacimiento"), parametros.getAñoNacimiento()));
+        }
+
+        criteria.select(persona)
+                .where(
+                        builder.or(filtros.toArray(new Predicate[0]))
+                );
+
+        TypedQuery<Persona> query = entityManager.createQuery(criteria);
+
+        List<Persona> personas = query.getResultList();
+        return personas;
+    }
+
+    @Override
+    public List<Persona> buscarPersonas(FiltroHistorial parametros, ConfiguracionDePaginado configPaginado) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Persona> buscarPersonaRFC(FiltroHistorial parametros) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+        entityManager = emf.createEntityManager();
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
+
+        Root<Persona> persona = criteria.from(Persona.class);
+        
+        criteria.select(persona)
+                .where(
+                        builder.like(persona.get("rfc"), "%" + parametros.getRFC() + "%")
+                );
+
+        TypedQuery<Persona> query = entityManager.createQuery(criteria);
+
+        List<Persona> personas = query.getResultList();
+        return personas;
     }
 }

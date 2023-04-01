@@ -162,6 +162,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="lblRFC">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="lblRFCActionPerformed"/>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="lblRFCKeyTyped"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
 
@@ -218,25 +222,15 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="tablePersonasPorRFC">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="5" rowCount="1">
-                    <Column editable="false" title="Nombre" type="java.lang.String">
-                      <Data value="Edgar Emir Borbon Jimenez"/>
-                    </Column>
-                    <Column editable="false" title="FechaNacimiento" type="java.lang.String">
-                      <Data value="02/10/2003"/>
-                    </Column>
-                    <Column editable="false" title="Telefono" type="java.lang.String">
-                      <Data value="6421068907"/>
-                    </Column>
-                    <Column editable="false" title="Sexo" type="java.lang.String">
-                      <Data value="MASCULINO"/>
-                    </Column>
-                    <Column editable="false" title="RFC" type="java.lang.String">
-                      <Data value="0000000000000"/>
-                    </Column>
+                  <Table columnCount="5" rowCount="0">
+                    <Column editable="false" title="Nombre" type="java.lang.String"/>
+                    <Column editable="false" title="FechaNacimiento" type="java.lang.String"/>
+                    <Column editable="false" title="Telefono" type="java.lang.String"/>
+                    <Column editable="false" title="Sexo" type="java.lang.String"/>
+                    <Column editable="false" title="RFC" type="java.lang.String"/>
                   </Table>
                 </Property>
               </Properties>
