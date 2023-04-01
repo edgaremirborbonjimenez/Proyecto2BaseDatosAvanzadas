@@ -43,8 +43,9 @@ public class Licencia extends Tramite implements Serializable {
         this.serie = serie;
     }
 
-    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona) {
+    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo,String serie, Persona persona) {
         super(fechaEmision, costo, persona);
+        this.serie=serie;
         this.fechaVigencia = fechaVigencia;
     }
 
@@ -66,7 +67,9 @@ public class Licencia extends Tramite implements Serializable {
 
     @Override
     public String toString() {
-        return "Licencia{" + "fechaVigencia=" + fechaVigencia + '}';
+        return "Licencia{" + "fechaVigencia=" + fechaVigencia + ", serie=" + serie + '}';
     }
+
+
 
 }

@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author edemb
  */
 @Entity
-@Table(name = "Persona")
+@Table(name = "personas")
 public class Persona implements Serializable {
 
     @Id
@@ -44,13 +44,13 @@ public class Persona implements Serializable {
     @Column(name = "fechaNacimiento", nullable = false)
     Calendar fechaNacimiento;
 
-    @Column(name = "telefono", length = 10, nullable = false)
+    @Column(name = "telefono", length = 15, nullable = false)
     private String telefono;
 
     @Column(name = "sexo", nullable = false)
     private Sexo sexo;
     
-    @Column(name = "¿es discapacitado?")
+    @Column(name = "es_discapacitado")
     private Discapacitado discapasitado;
     
 //    @OneToMany
