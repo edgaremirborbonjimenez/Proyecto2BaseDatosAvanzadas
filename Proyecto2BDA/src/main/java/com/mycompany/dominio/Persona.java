@@ -202,6 +202,14 @@ public class Persona implements Serializable {
 //        this.vehiculo = vehiculo;
 //    }
 
+    public Discapacitado getDiscapasitado() {
+        return discapasitado;
+    }
+
+    public void setDiscapasitado(Discapacitado discapasitado) {
+        this.discapasitado = discapasitado;
+    }
+
     
 
     @Override

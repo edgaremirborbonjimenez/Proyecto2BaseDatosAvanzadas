@@ -24,28 +24,22 @@ public class Licencia extends Tramite implements Serializable {
 
     @Column(name = "fechaVigencia", nullable = false)
     Calendar fechaVigencia;
-    
-    @Column(name = "serie", nullable = false)
-    private String serie;
 
     public Licencia() {
     }
 
-    public Licencia(Long id, Calendar fechaEmision, Calendar fechaVigencia, String serie, Float costo, Persona persona, List<Pago> pagos) {
+    public Licencia(Long id, Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona, List<Pago> pagos) {
         super(id, fechaEmision, costo, persona, pagos);
         this.fechaVigencia = fechaVigencia;
-        this.serie = serie;
     }
 
-    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, String serie, Float costo, Persona persona, List<Pago> pagos) {
+    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona, List<Pago> pagos) {
         super(fechaEmision, costo, persona, pagos);
         this.fechaVigencia = fechaVigencia;
-        this.serie = serie;
     }
 
-    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo,String serie, Persona persona) {
+    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona) {
         super(fechaEmision, costo, persona);
-        this.serie=serie;
         this.fechaVigencia = fechaVigencia;
     }
 
@@ -57,19 +51,9 @@ public class Licencia extends Tramite implements Serializable {
         this.fechaVigencia = fechaVigencia;
     }
 
-    public String getSerie() {
-        return serie;
-    }
-
-    public void setSerie(String serie) {
-        this.serie = serie;
-    }
-
     @Override
     public String toString() {
-        return "Licencia{" + "fechaVigencia=" + fechaVigencia + ", serie=" + serie + '}';
+        return "Licencia{" + "fechaVigencia=" + fechaVigencia + '}';
     }
-
-
 
 }
