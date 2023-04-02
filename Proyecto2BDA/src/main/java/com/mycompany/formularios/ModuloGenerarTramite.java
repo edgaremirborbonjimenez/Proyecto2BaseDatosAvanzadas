@@ -64,7 +64,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 //            }
             personaRFC.forEach(persona ->{
                 Object[] fila ={
-                    persona.getNombre(),
+                    persona.getNombreCompleto(),
                     "134asd asd",
                     persona.getTelefono(),
                     "MASCULINO",

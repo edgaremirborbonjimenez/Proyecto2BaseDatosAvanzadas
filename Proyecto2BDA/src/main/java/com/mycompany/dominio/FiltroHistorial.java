@@ -9,19 +9,19 @@ package com.mycompany.dominio;
  * @author edemb
  */
 public class FiltroHistorial {
-    private String nombre;
+    private String nombreCompleto;
     private String RFC;
     private String añoNacimiento;
 
     public FiltroHistorial() {
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreCompleto() {
+        return nombreCompleto;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
     }
 
     public String getRFC() {

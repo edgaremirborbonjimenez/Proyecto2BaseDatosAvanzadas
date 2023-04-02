@@ -31,14 +31,8 @@ public class Persona implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre", length = 30, nullable = false)
-    private String nombre;
-
-    @Column(name = "apellidoPaterno", length = 30, nullable = false)
-    private String apellidoPaterno;
-
-    @Column(name = "apellidoMaterno", length = 30, nullable = false)
-    private String apellidoMaterno;
+    @Column(name = "nombreCompleto", length = 100, nullable = false)
+    private String nombreCompleto;
 
     @Column(name = "RFC", length = 12, nullable = false)
     private String rfc;
@@ -65,10 +59,8 @@ public class Persona implements Serializable {
     public Persona() {
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo, Discapacitado discapasitado) {
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
+    public Persona(String nombreCompleto, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo, Discapacitado discapasitado) {
+        this.nombreCompleto = nombreCompleto;
         this.rfc = rfc;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
@@ -76,11 +68,9 @@ public class Persona implements Serializable {
         this.discapasitado = discapasitado;
     }
 
-    public Persona(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo,List<Tramite> tramites) {
+    public Persona(Long id, String nombreCompleto, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo,List<Tramite> tramites) {
         this.id = id;
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
+        this.nombreCompleto = nombreCompleto;
         this.rfc = rfc;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
@@ -89,10 +79,8 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo, List<Tramite> tramites) {
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
+    public Persona(String nombreCompleto, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo, List<Tramite> tramites) {
+        this.nombreCompleto = nombreCompleto;
         this.rfc = rfc;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
@@ -101,21 +89,17 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
     
-    public Persona(Long id, String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo) {
+    public Persona(Long id, String nombreCompleto, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo) {
         this.id = id;
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
+        this.nombreCompleto = nombreCompleto;
         this.rfc = rfc;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
         this.sexo = sexo;
     }
 
-    public Persona(String nombre, String apellidoPaterno, String apellidoMaterno, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo) {
-        this.nombre = nombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
+    public Persona(String nombreCompleto, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo) {
+        this.nombreCompleto = nombreCompleto;
         this.rfc = rfc;
         this.fechaNacimiento = fechaNacimiento;
         this.telefono = telefono;
@@ -130,28 +114,12 @@ public class Persona implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreCompleto() {
+        return nombreCompleto;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellidoPaterno() {
-        return apellidoPaterno;
-    }
-
-    public void setApellidoPaterno(String apellidoPaterno) {
-        this.apellidoPaterno = apellidoPaterno;
-    }
-
-    public String getApellidoMaterno() {
-        return apellidoMaterno;
-    }
-
-    public void setApellidoMaterno(String apellidoMaterno) {
-        this.apellidoMaterno = apellidoMaterno;
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
     }
 
     public String getRfc() {

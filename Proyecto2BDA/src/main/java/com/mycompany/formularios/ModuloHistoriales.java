@@ -64,7 +64,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
             listaClientes.forEach(persona -> {
                 Object[] fila = {
                     persona.getRfc(),
-                    persona.getNombre(),
+                    persona.getNombreCompleto(),
                     persona.getFechaNacimiento()
                 };
                 modeloTabla.addRow(fila);
