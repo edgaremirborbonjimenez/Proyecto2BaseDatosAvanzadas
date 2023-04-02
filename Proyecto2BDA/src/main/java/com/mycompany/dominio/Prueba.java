@@ -77,23 +77,33 @@ public class Prueba {
 //        em.persist(p20);
 //               em.getTransaction().commit();
 
-        Persona p = em.find(Persona.class, 2L);
-        Vehiculo carro = em.find(Automovil.class, 1L);
-//        
-        PlacaDAO placaDao = new PlacaDAO(em);
-       Placa placa = placaDao.generarPlacaVehiculoUsado(p, carro);
-       
-        System.out.println(placa.getNumero());
+//        Persona p = em.find(Persona.class, 2L);
+//        Vehiculo carro = em.find(Automovil.class, 1L);
+//
+//        PlacaDAO placaDao = new PlacaDAO(em);
+//        Placa placa = placaDao.generarPlacaVehiculoUsado(p, carro);
+                
+        FiltroReporteTramites filtro = new FiltroReporteTramites();
+        filtro.setDesde(new GregorianCalendar(2023, 03, 31));
+        filtro.setHasta(new GregorianCalendar(2023, 03, 31));
         
-        Query query = em.createQuery("Select p from Placa p where p.persona = :per AND p.estado = :est ");
-
-        query.setParameter("per", p);
-        query.setParameter("est", Estado.ACTIVA);
-        List<Placa> list = query.getResultList();
-
-        for (Placa o : list) {
-            System.out.println(o.getId());
-        }
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Tramite> cq = cb.createQuery(Tramite.class);
+        Root<Tramite> from = cq.from(Tramite.class);
+        CriteriaQuery<Tramite> select = cq.select(from);
+        
+//       
+//        System.out.println(placa.getNumero());
+//        
+//        Query query = em.createQuery("Select p from Placa p where p.persona = :per AND p.estado = :est ");
+//
+//        query.setParameter("per", p);
+//        query.setParameter("est", Estado.ACTIVA);
+//        List<Placa> list = query.getResultList();
+//
+//        for (Placa o : list) {
+//            System.out.println(o.getId());
+//        }
 //        placaDao.generarPlacaVehiculoNuevo(p, carro);
 //        for (int o = 0; o < 10; o++) {
 //            char[] arr = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B',
@@ -122,11 +132,6 @@ public class Prueba {
 //    em.getTransaction().begin();
 //    em.persist(carro);
 //    em.getTransaction().commit();
-
-    
-
-
-
 //
 //               
 //               LicenciaDAO licenciaDAO = new LicenciaDAO(em);

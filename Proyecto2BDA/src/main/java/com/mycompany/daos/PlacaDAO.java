@@ -49,6 +49,7 @@ public class PlacaDAO {
         String numeroPlaca = generaNumeroDePlaca();
         Placa placa = new Placa(new GregorianCalendar(), 1000F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
         placaAnterior.setEstado(Estado.DESACTIVA);
+        placaAnterior.setFechaRecepcion(placa.getFechaEmision());
         entityManager.getTransaction().begin();
         entityManager.persist(placaAnterior);
         entityManager.persist(placa);
