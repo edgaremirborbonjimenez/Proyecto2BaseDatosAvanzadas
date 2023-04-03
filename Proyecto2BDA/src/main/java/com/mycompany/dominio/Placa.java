@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -30,6 +32,7 @@ public class Placa extends Tramite implements Serializable {
     private String numero;
 
     @Column(name = "fechaRecepcion", nullable = true)
+    @Temporal(TemporalType.DATE)
     private Calendar fechaRecepcion;
 
     @Column(name = "estado", nullable = false)

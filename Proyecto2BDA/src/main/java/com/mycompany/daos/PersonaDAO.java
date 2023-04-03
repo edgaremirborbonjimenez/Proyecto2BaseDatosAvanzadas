@@ -86,7 +86,7 @@ public class PersonaDAO implements IPersonaDAO {
         em.getTransaction().commit();
     }
 
-    private List<Persona> buscarPersonas(FiltroHistorial parametros) {
+    public List<Persona> buscarPersonas(FiltroHistorial parametros) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
         entityManager = emf.createEntityManager();
 

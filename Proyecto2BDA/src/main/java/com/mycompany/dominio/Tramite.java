@@ -20,6 +20,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -36,13 +38,14 @@ public abstract class Tramite implements Serializable {
     private Long id;
 
     @Column(name = "fechaEmision", nullable = true)
+    @Temporal(TemporalType.DATE)
     private Calendar fechaEmision;
 
     @Column(name = "costo")
     private Float costo;
 
     @ManyToOne(cascade = {CascadeType.REMOVE})
-    @JoinColumn(name = "idPersona", nullable = false)
+    @JoinColumn(name = "personaID", nullable = false)
     private Persona persona;
 
     @OneToMany(mappedBy = "tramite", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
@@ -71,8 +74,6 @@ public abstract class Tramite implements Serializable {
         this.costo = costo;
         this.persona = persona;
     }
-    
-    
 
     public Long getId() {
         return id;
@@ -114,7 +115,6 @@ public abstract class Tramite implements Serializable {
         this.fechaEmision = fechaEmision;
     }
 
-    
     @Override
     public int hashCode() {
         int hash = 0;

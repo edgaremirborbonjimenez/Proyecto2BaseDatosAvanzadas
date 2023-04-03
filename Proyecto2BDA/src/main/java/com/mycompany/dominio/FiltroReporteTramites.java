@@ -13,11 +13,13 @@ import java.util.HashMap;
  */
 public class FiltroReporteTramites {
 
-    private Calendar desde;
+//    private Calendar desde;
+//    private Calendar hasta;
+        private Calendar desde;
     private Calendar hasta;
-    Boolean licencia;
-    Boolean placa;
-    String nombre;
+    private Boolean licencia;
+    private Boolean placa;
+    private Persona persona;
 
     public FiltroReporteTramites() {
     }
@@ -38,8 +40,28 @@ public class FiltroReporteTramites {
         this.placa = placa;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public Calendar getDesde() {
+        return desde;
+    }
+
+    public Calendar getHasta() {
+        return hasta;
+    }
+
+    public Boolean getLicencia() {
+        return licencia;
+    }
+
+    public Boolean getPlaca() {
+        return placa;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
 }
