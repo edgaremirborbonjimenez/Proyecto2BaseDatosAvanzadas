@@ -8,6 +8,7 @@ import com.mycompany.daos.PersonaDAO;
 import com.mycompany.formularios.Menu;
 import com.mycompany.formularios.ModuloGenerarTramite;
 import com.mycompany.interfaces.IPersonaDAO;
+import com.mycompany.utils.ConfiguracionDePaginado;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -78,13 +79,14 @@ public class main {
         menu.setVisible(true);
         
 //    FiltroHistorial filtro = new FiltroHistorial();
-//    filtro.setRFC("DICJ750712");
+//    filtro.setRFC("S");
+//    ConfiguracionDePaginado config =  new ConfiguracionDePaginado(0, 3);
 //    
 //    EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
 //    EntityManager entity = emf.createEntityManager();
 //    
 //    IPersonaDAO personaDAO = new PersonaDAO(entity);
-//    List<Persona> listaPersona = personaDAO.buscarPersonaRFC(filtro);
+//    List<Persona> listaPersona = personaDAO.buscarPersonas(filtro, config);
 //    for(Persona v : listaPersona){
 //        System.out.println(v.getId());
 //    }

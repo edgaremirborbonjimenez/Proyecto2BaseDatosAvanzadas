@@ -6,8 +6,12 @@ package com.mycompany.formularios;
 
 import com.mycompany.dominio.FiltroHistorial;
 import com.mycompany.dominio.Persona;
+import com.mycompany.excepciones.PersistenciaException;
 import com.mycompany.interfaces.IPersonaDAO;
+import com.mycompany.utils.ConfiguracionDePaginado;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,13 +21,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ModuloGenerarTramite extends javax.swing.JFrame {
 
+    private static final Logger LOG = Logger.getLogger(ModuloGenerarTramite.class.getName());
     private IPersonaDAO personaDAO;
+    private ConfiguracionDePaginado configPaginado;
     
     /**
      * Creates new form ModuloLicencia
      */
     public ModuloGenerarTramite() {
+        this.configPaginado = new ConfiguracionDePaginado(0, 5);
         initComponents();
+        this.actualizarTabla();
     }
     
     private void cerrarVentanaActual(){
@@ -45,36 +53,42 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     lic.setVisible(true);
     }
 
-    private void actualizarTabla(){
+    private String extraerRFC(){
+        String rfc = this.txtRFC.getText();
+        return rfc;
+    }
+    
+    private FiltroHistorial filtroRFC(){
         FiltroHistorial filtro = new FiltroHistorial();
-        filtro.setRFC(this.lblRFC.getText());
-        try {            
-            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonasPorRFC.getModel();
+        filtro.setRFC(this.extraerRFC());
+        return filtro;
+    }
+    
+    private void actualizarTabla(){
+        try {
+            List<Persona> listaPersonas = this.personaDAO.buscarPersonas(filtroRFC(), configPaginado);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonasPorRFC.getModel();                        
             modeloTabla.setRowCount(0);
-            List <Persona> personaRFC = personaDAO.buscarPersonaRFC(filtro);
-//            for(Persona p : personaRFC){
-//                Object[] fila = {                    
-//                    p.getNombre(),
-//                    "134asd asd",
-//                    p.getTelefono(),
-//                    "MASCULINO",
-//                    p.getRfc()
-//                };
-//                modeloTabla.addRow(fila);
-//            }
-            personaRFC.forEach(persona ->{
+            listaPersonas.forEach(persona ->{
                 Object[] fila ={
                     persona.getNombreCompleto(),
-                    "134asd asd",
-                    persona.getTelefono(),
-                    "MASCULINO",
-                    persona.getRfc()             
+                    persona.getRfc()
                 };
                 modeloTabla.addRow(fila);
             });
-            
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, ex.getMessage());
         }
+    }
+    
+    private void avanzarPagina(){
+        this.configPaginado.avanzarPagina();
+        this.actualizarTabla();
+    }
+
+    private void retrocederPagina(){
+        this.configPaginado.retrocederPagina();
+        this.actualizarTabla();
     }
     
     /**
@@ -90,7 +104,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         btnRegresar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        lblRFC = new javax.swing.JTextField();
+        txtRFC = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -107,6 +121,8 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         lblSexo = new javax.swing.JLabel();
         lblrfc = new javax.swing.JLabel();
         btnGenerarPlaca = new javax.swing.JButton();
+        btnRetroceder = new javax.swing.JButton();
+        btnAvanzar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Solicitar Persona");
@@ -130,14 +146,14 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setText("RFC :");
 
-        lblRFC.addActionListener(new java.awt.event.ActionListener() {
+        txtRFC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lblRFCActionPerformed(evt);
+                txtRFCActionPerformed(evt);
             }
         });
-        lblRFC.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtRFC.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                lblRFCKeyTyped(evt);
+                txtRFCKeyTyped(evt);
             }
         });
 
@@ -157,14 +173,14 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "FechaNacimiento", "Telefono", "Sexo", "RFC"
+                "Nombre", "RFC"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -257,6 +273,20 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             }
         });
 
+        btnRetroceder.setText("<- Retroceder");
+        btnRetroceder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetrocederActionPerformed(evt);
+            }
+        });
+
+        btnAvanzar.setText("Avanzar ->");
+        btnAvanzar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvanzarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -278,7 +308,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblRFC))
+                                    .addComponent(txtRFC))
                                 .addGap(48, 48, 48)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,6 +326,12 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                                 .addComponent(jLabel1)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(354, 354, 354)
+                .addComponent(btnRetroceder)
+                .addGap(190, 190, 190)
+                .addComponent(btnAvanzar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,11 +345,15 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel7)
-                                .addComponent(lblRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnRetroceder)
+                                    .addComponent(btnAvanzar))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblNombre)
@@ -378,15 +418,24 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         cerrarVentanaActual();
     }//GEN-LAST:event_btnGenerarLicenciaMouseClicked
 
-    private void lblRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblRFCActionPerformed
+    private void txtRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRFCActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblRFCActionPerformed
+    }//GEN-LAST:event_txtRFCActionPerformed
 
-    private void lblRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lblRFCKeyTyped
+    private void txtRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRFCKeyTyped
         // TODO add your handling code here:
         this.actualizarTabla();
-        System.out.println("si se hizo bro");
-    }//GEN-LAST:event_lblRFCKeyTyped
+    }//GEN-LAST:event_txtRFCKeyTyped
+
+    private void btnRetrocederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederActionPerformed
+        // TODO add your handling code here:
+        retrocederPagina();
+    }//GEN-LAST:event_btnRetrocederActionPerformed
+
+    private void btnAvanzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarActionPerformed
+        // TODO add your handling code here:
+        avanzarPagina();
+    }//GEN-LAST:event_btnAvanzarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -424,10 +473,12 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAvanzar;
     private javax.swing.JButton btnGenerarLicencia;
     private javax.swing.JButton btnGenerarPlaca;
     private javax.swing.ButtonGroup btnGroup;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JButton btnRetroceder;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -440,10 +491,10 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFechaNacimiento;
     private javax.swing.JLabel lblNombre;
-    private javax.swing.JTextField lblRFC;
     private javax.swing.JLabel lblSexo;
     private javax.swing.JLabel lblTelefono;
     private javax.swing.JLabel lblrfc;
     private javax.swing.JTable tablePersonasPorRFC;
+    private javax.swing.JTextField txtRFC;
     // End of variables declaration//GEN-END:variables
 }

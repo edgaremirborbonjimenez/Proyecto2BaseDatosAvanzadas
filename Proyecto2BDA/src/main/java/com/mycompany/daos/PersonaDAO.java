@@ -29,17 +29,17 @@ import javax.persistence.criteria.Root;
  * @author edemb
  */
 public class PersonaDAO implements IPersonaDAO {
-    
+
     private EntityManager entityManager;
 
-    public PersonaDAO(EntityManager entityManager){
+    public PersonaDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-    
+
     public void registrarPersonas() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
+        entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
 
         Persona p1 = new Persona("Juan García Pérez", "GAPJ920702", new GregorianCalendar(2017, Calendar.JANUARY, 22), "5512345678", Sexo.MASCULINO, Discapacitado.NO);
         Persona p2 = new Persona("María López Hernández", "LOHM900529", new GregorianCalendar(1990, Calendar.MAY, 29), "5534567890", Sexo.FEMENINO, Discapacitado.NO);
@@ -62,31 +62,32 @@ public class PersonaDAO implements IPersonaDAO {
         Persona p19 = new Persona("María Martínez López", "MALL980108", new GregorianCalendar(1998, Calendar.JANUARY, 8), "5558901234", Sexo.FEMENINO, Discapacitado.NO);
         Persona p20 = new Persona("Jorge Hernández Sánchez", "HESJ920706", new GregorianCalendar(1992, Calendar.JULY, 6), "5559012345", Sexo.MASCULINO, Discapacitado.SI);
 
-        em.persist(p1);
-        em.persist(p2);
-        em.persist(p3);
-        em.persist(p4);
-        em.persist(p5);
-        em.persist(p6);
-        em.persist(p7);
-        em.persist(p8);
-        em.persist(p9);
-        em.persist(p10);
-        em.persist(p11);
-        em.persist(p12);
-        em.persist(p13);
-        em.persist(p14);
-        em.persist(p15);
-        em.persist(p16);
-        em.persist(p17);
-        em.persist(p18);
-        em.persist(p19);
-        em.persist(p20);
+        entityManager.persist(p1);
+        entityManager.persist(p2);
+        entityManager.persist(p3);
+        entityManager.persist(p4);
+        entityManager.persist(p5);
+        entityManager.persist(p6);
+        entityManager.persist(p7);
+        entityManager.persist(p8);
+        entityManager.persist(p9);
+        entityManager.persist(p10);
+        entityManager.persist(p11);
+        entityManager.persist(p12);
+        entityManager.persist(p13);
+        entityManager.persist(p14);
+        entityManager.persist(p15);
+        entityManager.persist(p16);
+        entityManager.persist(p17);
+        entityManager.persist(p18);
+        entityManager.persist(p19);
+        entityManager.persist(p20);
 
-        em.getTransaction().commit();
+        entityManager.getTransaction().commit();
     }
 
-    public List<Persona> buscarPersonas(FiltroHistorial parametros) {
+    @Override
+    public List<Persona> buscarPersonas(FiltroHistorial parametros, ConfiguracionDePaginado configPaginado) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
         entityManager = emf.createEntityManager();
 
@@ -99,9 +100,9 @@ public class PersonaDAO implements IPersonaDAO {
         List<Predicate> filtros = new LinkedList<>();
 
         if (parametros.getRFC() != null) {
-            filtros.add(builder.like(persona.get("rfc"), parametros.getRFC()));
+            filtros.add(builder.like(persona.get("rfc"), "%" + parametros.getRFC() + "%"));
         }
-        if (parametros.getNombreCompleto()!= null) {
+        if (parametros.getNombreCompleto() != null) {
             filtros.add(builder.like(persona.get("nombreCompleto"), "%" + parametros.getNombreCompleto() + "%"));
         }
         if (parametros.getAñoNacimiento() != null) {
@@ -120,11 +121,6 @@ public class PersonaDAO implements IPersonaDAO {
     }
 
     @Override
-    public List<Persona> buscarPersonas(FiltroHistorial parametros, ConfiguracionDePaginado configPaginado) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
     public List<Persona> buscarPersonaRFC(FiltroHistorial parametros) {
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
 //        entityManager = emf.createEntityManager();
@@ -134,10 +130,10 @@ public class PersonaDAO implements IPersonaDAO {
         CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
 
         Root<Persona> persona = criteria.from(Persona.class);
-        
+
         criteria.select(persona)
                 .where(
-                        builder.equal(persona.get("rfc"), parametros.getRFC())
+                        builder.like(persona.get("rfc"), "%" + parametros.getRFC() + "%")
                 );
 
         TypedQuery<Persona> query = entityManager.createQuery(criteria);
