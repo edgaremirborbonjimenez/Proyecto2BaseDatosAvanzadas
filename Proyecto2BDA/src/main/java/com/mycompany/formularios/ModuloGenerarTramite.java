@@ -4,15 +4,21 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.daos.PersonaDAO;
 import com.mycompany.dominio.FiltroHistorial;
 import com.mycompany.dominio.Persona;
 import com.mycompany.excepciones.PersistenciaException;
 import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,7 +35,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
      * Creates new form ModuloLicencia
      */
     public ModuloGenerarTramite() {
-        this.configPaginado = new ConfiguracionDePaginado(0, 5);
+        this.configPaginado = new ConfiguracionDePaginado(0, 10);
         initComponents();
         this.actualizarTabla();
     }
@@ -66,16 +72,23 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     
     private void actualizarTabla(){
         try {
-            List<Persona> listaPersonas = this.personaDAO.buscarPersonas(filtroRFC(), configPaginado);
-            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonasPorRFC.getModel();                        
+            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+            EntityManager entity = emf.createEntityManager();
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonasPorRFC.getModel();    
+            IPersonaDAO personaDAO = new PersonaDAO(entity);
+            List<Persona> listaPersona = personaDAO.buscarPersonas(filtroRFC(), configPaginado);
             modeloTabla.setRowCount(0);
-            listaPersonas.forEach(persona ->{
-                Object[] fila ={
-                    persona.getNombreCompleto(),
-                    persona.getRfc()
+            for (Persona p : listaPersona) {
+                    Object[] fila = {
+                    p.getNombreCompleto(),
+                    p.getRfc(),
+                    formateado.format(p.getFechaNacimiento().getTime()),
+                    p.getSexo(),
+                    p.getTelefono()
                 };
                 modeloTabla.addRow(fila);
-            });
+            }
         } catch (Exception ex) {
             LOG.log(Level.SEVERE, ex.getMessage());
         }
@@ -106,7 +119,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtRFC = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablePersonasPorRFC = new javax.swing.JTable();
         btnGenerarLicencia = new javax.swing.JButton();
@@ -157,30 +169,19 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         tablePersonasPorRFC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nombre", "RFC"
+                "Nombre", "RFC", "Fecha de Nacimiento", "Sexo", "Telefono"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -191,6 +192,11 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablePersonasPorRFC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablePersonasPorRFCMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablePersonasPorRFC);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -199,21 +205,14 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(141, 141, 141))))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(127, 127, 127)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -437,6 +436,18 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         avanzarPagina();
     }//GEN-LAST:event_btnAvanzarActionPerformed
 
+    private void tablePersonasPorRFCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePersonasPorRFCMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tablePersonasPorRFCMouseClicked
+
+    public void valueChanged(ListSelectionEvent event) {
+        int selectedRow = tablePersonasPorRFC.getSelectedRow();
+        if (selectedRow != -1) { // Si se selecciona una fila válida
+            Object value = tablePersonasPorRFC.getValueAt(selectedRow, 0); // Obtener el valor de la celda en la primera columna de la fila seleccionada
+            lblNombre.setText(value.toString()); // Cambiar el texto del JLabel
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -487,7 +498,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblFechaNacimiento;
     private javax.swing.JLabel lblNombre;

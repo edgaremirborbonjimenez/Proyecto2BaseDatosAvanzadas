@@ -4,14 +4,19 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.daos.PersonaDAO;
 import com.mycompany.dominio.FiltroHistorial;
 import com.mycompany.dominio.Persona;
 import com.mycompany.excepciones.PersistenciaException;
 import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.persistence.PersistenceException;
 import javax.swing.table.DefaultTableModel;
 
@@ -55,20 +60,36 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         HistorialPlacas hisPla = new HistorialPlacas();
         hisPla.setVisible(true);
     }
+    
+    private String extraerDatosFormulario(){
+        String rfc = this.txtRFC.getText();
+        String nombre = this.txtNombre.getText();
+        return rfc;
+    }
+    
+    private FiltroHistorial filtroRFC(){
+        FiltroHistorial filtro = new FiltroHistorial();
+        filtro.setRFC(this.extraerDatosFormulario());
+        return filtro;
+    }
 
     private void cargarTablaPersonas(){
         try {
-            List<Persona> listaClientes = this.personasDAO.buscarPersonas(parametros, configPaginado);
-            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonas.getModel();
+            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+            EntityManager entity = emf.createEntityManager();
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonas.getModel();    
+            IPersonaDAO personaDAO = new PersonaDAO(entity);
+            List<Persona> listaPersona = personaDAO.buscarPersonas(filtroRFC(), configPaginado);
             modeloTabla.setRowCount(0);
-            listaClientes.forEach(persona -> {
-                Object[] fila = {
-                    persona.getRfc(),
-                    persona.getNombreCompleto(),
-                    persona.getFechaNacimiento()
+            for (Persona p : listaPersona) {
+                    Object[] fila = {
+                    p.getRfc(),
+                    p.getNombreCompleto(),                   
+                    formateado.format(p.getFechaNacimiento().getTime())
                 };
                 modeloTabla.addRow(fila);
-            });
+            }
         } catch (PersistenceException ex) {
             LOG.log(Level.SEVERE, ex.getMessage());
         }

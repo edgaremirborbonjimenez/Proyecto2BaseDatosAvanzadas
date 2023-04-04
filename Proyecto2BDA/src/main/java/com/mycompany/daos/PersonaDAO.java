@@ -17,7 +17,6 @@ import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
 import java.util.LinkedList;
 import java.util.List;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -99,6 +98,9 @@ public class PersonaDAO implements IPersonaDAO {
 
         List<Predicate> filtros = new LinkedList<>();
 
+        int offset = configPaginado.getElementoASaltar();
+        int limit = configPaginado.getElementosPorPagina();
+        
         if (parametros.getRFC() != null) {
             filtros.add(builder.like(persona.get("rfc"), "%" + parametros.getRFC() + "%"));
         }
@@ -106,16 +108,19 @@ public class PersonaDAO implements IPersonaDAO {
             filtros.add(builder.like(persona.get("nombreCompleto"), "%" + parametros.getNombreCompleto() + "%"));
         }
         if (parametros.getAñoNacimiento() != null) {
-            filtros.add(builder.like(persona.get("añoNacimiento"), parametros.getAñoNacimiento()));
+            filtros.add(builder.equal(builder.function("YEAR", Integer.class, persona.get("fechaNacimiento")), parametros.getAñoNacimiento()));
         }
 
         criteria.select(persona)
                 .where(
                         builder.or(filtros.toArray(new Predicate[0]))
                 );
-
+        
+        
         TypedQuery<Persona> query = entityManager.createQuery(criteria);
-
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+        
         List<Persona> personas = query.getResultList();
         return personas;
     }
