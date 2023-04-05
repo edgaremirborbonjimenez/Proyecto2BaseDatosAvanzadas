@@ -7,7 +7,6 @@ package com.mycompany.formularios;
 import com.mycompany.daos.PersonaDAO;
 import com.mycompany.dominio.FiltroHistorial;
 import com.mycompany.dominio.Persona;
-import com.mycompany.excepciones.PersistenciaException;
 import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
 import java.text.SimpleDateFormat;
@@ -18,7 +17,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -147,6 +145,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         btnGenerarPlaca = new javax.swing.JButton();
         btnRetroceder = new javax.swing.JButton();
         btnAvanzar = new javax.swing.JButton();
+        btnSeleccionarPersona = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Solicitar Persona");
@@ -204,11 +203,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        tablePersonasPorRFC.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tablePersonasPorRFCMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tablePersonasPorRFC);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -257,19 +251,20 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         jLabel6.setText("RFC:");
 
         lblNombre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblNombre.setText("Edgar Emir Borbon Jimenez");
+        lblNombre.setText(".....");
+        lblNombre.setToolTipText("");
 
         lblFechaNacimiento.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblFechaNacimiento.setText("02/10/2003");
+        lblFechaNacimiento.setText(".....");
 
         lblTelefono.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblTelefono.setText("6421068907");
+        lblTelefono.setText(".....");
 
         lblSexo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblSexo.setText("Masculino");
+        lblSexo.setText(".....");
 
         lblrfc.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        lblrfc.setText("0000000000000");
+        lblrfc.setText(".....");
 
         btnGenerarPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarPlaca.setText("GenerarPlaca");
@@ -298,19 +293,20 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             }
         });
 
+        btnSeleccionarPersona.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        btnSeleccionarPersona.setText("Seleccionar Persona");
+        btnSeleccionarPersona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarPersonaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnGenerarLicencia)
-                        .addGap(41, 41, 41)
-                        .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -335,7 +331,16 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(448, 448, 448)
                                 .addComponent(jLabel1)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(253, 253, 253)
+                        .addComponent(btnSeleccionarPersona)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGenerarLicencia)
+                        .addGap(41, 41, 41)
+                        .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(354, 354, 354)
@@ -360,13 +365,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnRetroceder)
-                                    .addComponent(btnAvanzar))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblNombre)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel3)
@@ -384,9 +382,18 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblrfc)
-                                .addGap(58, 58, 58)))
-                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))
+                                .addGap(132, 132, 132))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnRetroceder)
+                                    .addComponent(btnAvanzar))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnSeleccionarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -448,17 +455,32 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         avanzarPagina();
     }//GEN-LAST:event_btnAvanzarActionPerformed
 
-    private void tablePersonasPorRFCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePersonasPorRFCMouseClicked
+    private void btnSeleccionarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPersonaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tablePersonasPorRFCMouseClicked
+        int filaseleccionada;
+        try{
+            //Guardamos en un entero la fila seleccionada.
+            filaseleccionada = tablePersonasPorRFC.getSelectedRow();
+            if (filaseleccionada == -1){
+                JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
+            } else {
+                
+                String nombre = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 0);
+                String rfc = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 1);
+                String fechaNacimiento = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 2);
+                Enum sexo = (Enum)tablePersonasPorRFC.getValueAt(filaseleccionada, 3);
+                String telefono = (String)tablePersonasPorRFC.getValueAt(filaseleccionada,4);
+                lblNombre.setText(nombre);
+                lblFechaNacimiento.setText(fechaNacimiento);
+                lblTelefono.setText(telefono);
+                lblSexo.setText(sexo.toString());
+                lblrfc.setText(rfc);
+            }
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
+        }        
+    }//GEN-LAST:event_btnSeleccionarPersonaActionPerformed
 
-    public void valueChanged(ListSelectionEvent event) {
-        int selectedRow = tablePersonasPorRFC.getSelectedRow();
-        if (selectedRow != -1) { // Si se selecciona una fila válida
-            Object value = tablePersonasPorRFC.getValueAt(selectedRow, 0); // Obtener el valor de la celda en la primera columna de la fila seleccionada
-            lblNombre.setText(value.toString()); // Cambiar el texto del JLabel
-        }
-    }
     
     /**
      * @param args the command line arguments
@@ -502,6 +524,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btnGroup;
     private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnRetroceder;
+    private javax.swing.JButton btnSeleccionarPersona;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
