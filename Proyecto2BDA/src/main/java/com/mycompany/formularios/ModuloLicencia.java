@@ -24,6 +24,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
      * Creates new form ModuloLicencia
      */
     public ModuloLicencia() {
+        setLabelPersona();
         initComponents();
         licenciDAO = new LicenciaDAO(entityManager);
     }
@@ -70,8 +71,17 @@ public class ModuloLicencia extends javax.swing.JFrame {
     }
     
     private void irMenu(){
-    Menu menu = new Menu();
-    menu.setVisible(true);
+        Menu menu = new Menu();
+        menu.setVisible(true);
+    }
+    
+    private void setLabelPersona(){
+        lblNombre.setText(persona.getNombreCompleto());
+        lblFechaNcimiento.setText(persona.getFechaNacimiento().toString());
+        lblRFC.setText(persona.getRfc());
+        lblTelefono.setText(persona.getTelefono());
+        lblSexo.setText(persona.getSexo().toString());
+        lblDiscapacitado.setText(persona.getDiscapasitado().toString());
     }
 
     /**

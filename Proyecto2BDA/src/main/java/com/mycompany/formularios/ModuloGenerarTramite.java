@@ -5,11 +5,15 @@
 package com.mycompany.formularios;
 
 import com.mycompany.daos.PersonaDAO;
+import com.mycompany.dominio.Discapacitado;
 import com.mycompany.dominio.FiltroHistorial;
 import com.mycompany.dominio.Persona;
+import com.mycompany.dominio.Sexo;
 import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -48,16 +52,18 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         menu.setVisible(true);
     }
     
-    public void irGenerarPlaca(){
-    ModuloPlaca placa = new ModuloPlaca();
-    placa.setEntityManager(entityManager);
-    placa.setVisible(true);
+    public void irGenerarPlaca() {
+        ModuloPlaca placa = new ModuloPlaca();
+        placa.setEntityManager(entityManager);
+        placa.setPersona(btnSeleccionarPersonaMouseClicked());
+        placa.setVisible(true);
     }
     
-    private void irGenerarLicencia(){
-    ModuloLicencia lic = new ModuloLicencia();
-    lic.setEntityManager(entityManager);
-    lic.setVisible(true);
+    private void irGenerarLicencia() {
+        ModuloLicencia lic = new ModuloLicencia();
+        lic.setEntityManager(entityManager);
+        lic.setPersona(btnSeleccionarPersonaMouseClicked());
+        lic.setVisible(true);
     }
 
     private String extraerRFC(){
@@ -77,7 +83,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
             EntityManager entity = emf.createEntityManager();
             DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonasPorRFC.getModel();    
-            IPersonaDAO personaDAO = new PersonaDAO(entity);
+            personaDAO = new PersonaDAO(entity);
             List<Persona> listaPersona = personaDAO.buscarPersonas(filtroRFC(), configPaginado);
             modeloTabla.setRowCount(0);
             for (Persona p : listaPersona) {
@@ -86,7 +92,8 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                     p.getRfc(),
                     formateado.format(p.getFechaNacimiento().getTime()),
                     p.getSexo(),
-                    p.getTelefono()
+                    p.getTelefono(),
+                    p.getDiscapasitado()
                 };
                 modeloTabla.addRow(fila);
             }
@@ -146,6 +153,8 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         btnRetroceder = new javax.swing.JButton();
         btnAvanzar = new javax.swing.JButton();
         btnSeleccionarPersona = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        lblDiscapacidad = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Solicitar Persona");
@@ -185,14 +194,14 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "RFC", "Fecha de Nacimiento", "Sexo", "Telefono"
+                "Nombre", "RFC", "Fecha de Nacimiento", "Sexo", "Telefono", "Discapacitado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -224,11 +233,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
         btnGenerarLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarLicencia.setText("Generar Licencia");
-        btnGenerarLicencia.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnGenerarLicenciaMouseClicked(evt);
-            }
-        });
         btnGenerarLicencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarLicenciaActionPerformed(evt);
@@ -301,6 +305,12 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel8.setText("Discapacidad:");
+
+        lblDiscapacidad.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lblDiscapacidad.setText(".....");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -315,23 +325,27 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtRFC))
-                                .addGap(48, 48, 48)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
-                                    .addComponent(lblFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(lblTelefono, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblSexo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblrfc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)))
+                                    .addComponent(txtRFC)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(448, 448, 448)
                                 .addComponent(jLabel1)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(48, 48, 48)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTelefono, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblSexo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblrfc, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
+                            .addComponent(lblDiscapacidad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -354,52 +368,51 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel7)
-                                .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNombre)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblFechaNacimiento)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblTelefono)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblSexo)
-                                .addGap(12, 12, 12)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblrfc)
-                                .addGap(132, 132, 132))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnRetroceder)
-                                    .addComponent(btnAvanzar))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnSeleccionarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnGenerarLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(27, 27, 27))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRetroceder)
+                    .addComponent(btnAvanzar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSeleccionarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(81, 81, 81)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNombre)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFechaNacimiento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTelefono)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblSexo)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblrfc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblDiscapacidad)
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnGenerarLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -426,16 +439,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         cerrarVentanaActual();
     }//GEN-LAST:event_btnGenerarPlacaMouseClicked
 
-    private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
-        // TODO add your handling code here:
-        irGenerarLicencia();
-    }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
-
-    private void btnGenerarLicenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaMouseClicked
-        // TODO add your handling code here:
-        cerrarVentanaActual();
-    }//GEN-LAST:event_btnGenerarLicenciaMouseClicked
-
     private void txtRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRFCActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtRFCActionPerformed
@@ -456,30 +459,74 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAvanzarActionPerformed
 
     private void btnSeleccionarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPersonaActionPerformed
-        // TODO add your handling code here:
         int filaseleccionada;
         try{
             //Guardamos en un entero la fila seleccionada.
             filaseleccionada = tablePersonasPorRFC.getSelectedRow();
             if (filaseleccionada == -1){
                 JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
-            } else {
-                
+            } else {              
                 String nombre = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 0);
                 String rfc = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 1);
                 String fechaNacimiento = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 2);
-                Enum sexo = (Enum)tablePersonasPorRFC.getValueAt(filaseleccionada, 3);
+                Sexo sexo = (Sexo)tablePersonasPorRFC.getValueAt(filaseleccionada, 3);
                 String telefono = (String)tablePersonasPorRFC.getValueAt(filaseleccionada,4);
+                Discapacitado discapacidad = (Discapacitado)tablePersonasPorRFC.getValueAt(filaseleccionada, 5);
                 lblNombre.setText(nombre);
                 lblFechaNacimiento.setText(fechaNacimiento);
                 lblTelefono.setText(telefono);
                 lblSexo.setText(sexo.toString());
-                lblrfc.setText(rfc);
+                lblrfc.setText(rfc);    
+                lblDiscapacidad.setText(discapacidad.toString());
+                btnSeleccionarPersonaMouseClicked();
             }
         }catch (Exception ex){
             JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
-        }        
+        }
     }//GEN-LAST:event_btnSeleccionarPersonaActionPerformed
+
+    private Persona btnSeleccionarPersonaMouseClicked(){
+        int filaseleccionada;
+        try{
+            //Guardamos en un entero la fila seleccionada.
+            filaseleccionada = tablePersonasPorRFC.getSelectedRow();
+            if (filaseleccionada == -1){
+                JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
+                return null;
+            } else {           
+                Persona persona = new Persona();
+                
+                String nombre = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 0);
+                String rfc = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 1);
+                String fechaNacimiento = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 2);
+                Sexo sexo = (Sexo)tablePersonasPorRFC.getValueAt(filaseleccionada, 3);
+                String telefono = (String)tablePersonasPorRFC.getValueAt(filaseleccionada,4);
+                Discapacitado discapacidad = (Discapacitado)tablePersonasPorRFC.getValueAt(filaseleccionada, 5);
+                
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date fechaDate = sdf.parse(fechaNacimiento);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(fechaDate);
+
+                persona.setNombreCompleto(nombre);
+                persona.setRfc(rfc);
+                persona.setFechaNacimiento(calendar);
+                persona.setSexo(sexo);
+                persona.setTelefono(telefono);
+                persona.setDiscapasitado(discapacidad);
+
+                return persona;
+            }
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+    
+    private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
+        // TODO add your handling code here:
+        irGenerarLicencia();
+    }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
 
     
     /**
@@ -532,8 +579,10 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDiscapacidad;
     private javax.swing.JLabel lblFechaNacimiento;
     private javax.swing.JLabel lblNombre;
     private javax.swing.JLabel lblSexo;
