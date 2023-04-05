@@ -10,6 +10,7 @@ import com.mycompany.dominio.Automovil;
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Placa;
 import com.mycompany.dominio.Vehiculo;
+import com.mycompany.utils.ValidacionDatos;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
@@ -30,9 +31,44 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
     public ModuloPlacaAutoNuevo() {
         initComponents();
         placaDAO = new PlacaDAO(entityManager);
+        vehiculoDAO = new VehiculoDAO(entityManager);
+    }
+
+    private Boolean formatoValido() {
+        String errores = "Formato invalido en ";
+        int i = 0;
+        if (!ValidacionDatos.serieEsValida(this.txtSerie.getText())) {
+            errores += " Serie";
+            i++;
+        }
+        if (ValidacionDatos.contieneCaracteresEspeciales(this.txtMarca.getText())) {
+            errores += " Marca";
+            i++;
+        }
+        if (ValidacionDatos.contieneCaracteresEspeciales(this.txtLinea.getText())) {
+            errores += " Linea";
+            i++;
+        }
+        if (ValidacionDatos.contieneCaracteresEspeciales(this.txtColor.getText())) {
+            errores += " Color";
+            i++;
+        }
+        if (ValidacionDatos.contieneCaracteresEspeciales(this.txtModelo.getText())) {
+            errores += " Modelo";
+            i++;
+        }
+        if (i!=0) {
+            JOptionPane.showMessageDialog(this, errores, "Error en los Datos", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+
     }
 
     private Vehiculo consultarVehiculoNuevo() {
+        if (!this.formatoValido()) {
+            return null;
+        }
         Vehiculo vehiculo = new Automovil();
         vehiculo.setSerie(this.txtSerie.getText());
         vehiculo.setMarca(this.txtMarca.getText());
@@ -48,6 +84,9 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
 
     private Placa generarPlaca() {
         Vehiculo v = consultarVehiculoNuevo();
+        if (v==null) {
+            return null;
+        }
         Vehiculo vehiculo = this.vehiculoDAO.registraVehiculo(v);
         if (vehiculo == null) {
             JOptionPane.showMessageDialog(this, "Serie ya registrada, favor de ir a crear la placa en auto usado", "Alerta", JOptionPane.WARNING_MESSAGE);
@@ -82,8 +121,6 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -313,6 +350,9 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
     private void generarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarPlacaActionPerformed
         // TODO add your handling code here:
         Placa placa = this.generarPlaca();
+        if (placa==null) {
+            return;
+        }
         this.placaGeneradaExitosamente(placa);
         this.irMenu();
         this.cerrarVentanaActual();

@@ -8,6 +8,7 @@ import com.mycompany.daos.LicenciaDAO;
 import com.mycompany.daos.PersonaDAO;
 import com.mycompany.daos.PlacaDAO;
 import com.mycompany.daos.VehiculoDAO;
+import com.mycompany.utils.ValidacionDatos;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -54,7 +55,7 @@ public class Prueba {
      */
     public static void main(String[] args) throws FileNotFoundException, JRException {
         // TODO code application logic here
-        
+
         //////////        List<Licencia> lista = new ArrayList<Licencia>();
 //////////        Licencia licencia1 = new Licencia(1L,new Date(2026, 04, 02), new Date(2029, 04, 02), 1000F,Estado.ACTIVA, p1);
 //////////        Licencia licencia2 = new Licencia(2L,new Date(2026, 04, 02), new Date(2029, 04, 02), 1000F,Estado.ACTIVA, p2);
@@ -79,7 +80,6 @@ public class Prueba {
 //////////        JasperPrint jasperPrint  = JasperFillManager.fillReport(jasperReport, parameters,new JREmptyDataSource());
 //////////        JasperViewer.viewReport(jasperPrint);
 //////////        JasperExportManager.exportReportToPdfFile(jasperPrint, "..\\jasper\\LicenciasReport.pdf");
-        
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
         EntityManager em = emf.createEntityManager();
         Persona p1 = new Persona("Juan García Pérez", "GAPJ920702", new GregorianCalendar(2017, Calendar.JANUARY, 22), "5512345678", Sexo.MASCULINO, Discapacitado.NO);
@@ -128,7 +128,33 @@ public class Prueba {
         Persona pe = em.find(Persona.class, 1L);
         Persona p22 = em.find(Persona.class, 2L);
         Persona p33 = em.find(Persona.class, 3L);
-        
+
+        String serie = "qwe123";
+        String serie1 = "AAA123";
+        String serie2 = "qweeeeeeeeeeee123";
+        String serie3 = "AAAAAAAAAAAAAA123";
+        String serie4 = "AAAA%AAAAA%AAAA123";
+        String serie5 = "SKADJ%FN2RYOI348IU%";
+        String serie6 = "SKADJFN2RYOI34%IU";
+        String serie7 = "345%634A5634";
+        System.out.println(ValidacionDatos.serieEsValida(serie));
+        System.out.println(ValidacionDatos.serieEsValida(serie1));
+        System.out.println(ValidacionDatos.serieEsValida(serie2));
+        System.out.println(ValidacionDatos.serieEsValida(serie3));
+        System.out.println(ValidacionDatos.serieEsValida(serie4));
+        System.out.println(ValidacionDatos.serieEsValida(serie5));
+        System.out.println(ValidacionDatos.serieEsValida(serie6));
+        System.out.println(ValidacionDatos.serieEsValida(serie7));
+        System.out.println(ValidacionDatos.serieEsValida( "98D7F6ASDA98SD7F6"));
+//        PlacaDAO placaDAO = new PlacaDAO(em);
+//        System.out.println(placaDAO.generaNumeroDePlaca());
+//        System.out.println(placaDAO.generaNumeroDePlaca());
+//        System.out.println(placaDAO.generaNumeroDePlaca());
+//        System.out.println(placaDAO.generaNumeroDePlaca());
+//        System.out.println(placaDAO.generaNumeroDePlaca());
+//        System.out.println(placaDAO.generaNumeroDePlaca());
+//        System.out.println(placaDAO.generaNumeroDePlaca());
+
 //        try{
 //        Query query = em.createQuery("Select p from Persona p where p.id= :i").setParameter("i", 20L);
 //        Persona persona = (Persona) query.getSingleResult();
@@ -137,11 +163,10 @@ public class Prueba {
 //        }catch(Exception e){
 //            System.out.println("No se encontro a la persona");
 //        }
-        Vehiculo vehiculo = new Automovil("1234567", "Honda", "Rojo", "Recta", "4xd");
-        VehiculoDAO vDao = new VehiculoDAO(em);
-        Vehiculo v = vDao.registraVehiculo(vehiculo);
-        System.out.println(v);
-
+//        Vehiculo vehiculo = new Automovil("1234567", "Honda", "Rojo", "Recta", "4xd");
+//        VehiculoDAO vDao = new VehiculoDAO(em);
+//        Vehiculo v = vDao.registraVehiculo(vehiculo);
+//        System.out.println(v);
 //
 //        GregorianCalendar vigencia = new GregorianCalendar(2026, 04, 02);
 //        vigencia.add(1, 3);
@@ -204,9 +229,6 @@ public class Prueba {
 ////        for (Tuple nombre : lista) {
 ////            System.out.println(nombre);
 ////        }
-
-
-        
 //       
 //        System.out.println(placa.getNumero());
 //        

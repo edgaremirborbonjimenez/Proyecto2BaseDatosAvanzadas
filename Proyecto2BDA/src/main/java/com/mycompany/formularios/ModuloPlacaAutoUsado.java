@@ -9,6 +9,7 @@ import com.mycompany.daos.VehiculoDAO;
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Placa;
 import com.mycompany.dominio.Vehiculo;
+import com.mycompany.utils.ValidacionDatos;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -42,13 +43,16 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         ModuloPlaca moduloPlaca = new ModuloPlaca();
         moduloPlaca.setVisible(true);
     }
-    
-       private void irMenu(){
-    Menu menu = new Menu();
-    menu.setVisible(true);
+
+    private void irMenu() {
+        Menu menu = new Menu();
+        menu.setVisible(true);
     }
 
     private Vehiculo consultarVehiculoUsado() {
+        if (!this.formatoValido()) {
+            return null;
+        }
         Vehiculo vehiculo = vehiculoDAO.consultaVehiculoPorSerie(this.txtSerie.getText());
         if (vehiculo == null) {
             JOptionPane.showMessageDialog(this, "Serie no encontrada, favor de crear la placa en Vehiculo Nuevo", "Alerta", JOptionPane.WARNING_MESSAGE);
@@ -81,8 +85,20 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         this.entityManager = entityManager;
     }
 
-    
-    
+    private Boolean formatoValido() {
+        String errores = "Formato invalido en:";
+        int i = 0;
+        if (!ValidacionDatos.serieEsValida(this.txtSerie.getText())) {
+            errores += " Serie";
+            i++;
+        }
+        if (i != 0) {
+            JOptionPane.showMessageDialog(this, errores, "Error Formato Invalido", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -297,9 +313,9 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
     private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
         // TODO add your handling code here:
         Placa placa = generarPlacaVehiculoUsado();
-        if (placa==null) {
+        if (placa == null) {
             return;
-        }else{
+        } else {
             mensajePlacaGeneradaExitosamente(placa);
         }
     }//GEN-LAST:event_btnGenerarPlacaActionPerformed
@@ -308,43 +324,43 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         // TODO add your handling code here:
         irMenu();
         cerrarVentana();
-        
+
     }//GEN-LAST:event_btnGenerarPlacaMouseClicked
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new ModuloPlacaAutoUsado().setVisible(true);
-//            }
-//        });
-//    }
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new ModuloPlacaAutoUsado().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerarPlaca;

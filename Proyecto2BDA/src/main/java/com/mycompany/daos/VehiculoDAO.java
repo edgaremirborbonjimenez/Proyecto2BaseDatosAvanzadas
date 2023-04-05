@@ -41,6 +41,7 @@ public class VehiculoDAO implements IVehiculoDAO {
         return vehiculo;
         }catch(Exception e){
             //No se encontro el vehiculo
+            System.out.println(e.getMessage());
             return null;
         }
     }

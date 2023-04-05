@@ -64,9 +64,9 @@ public class PlacaDAO {
         entityManager.getTransaction().commit();
         return placa;
     }
-    
-    public List<Placa> historialPlacasFiltroReporte(FiltroReporteTramites filtro){
-            CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
+
+    public List<Placa> historialPlacasFiltroReporte(FiltroReporteTramites filtro) {
+        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Placa> cq = cb.createQuery(Placa.class);
         Root<Placa> from = cq.from(Placa.class);
 
@@ -76,7 +76,7 @@ public class PlacaDAO {
             filtros.add(cb.greaterThanOrEqualTo(from.get("fechaEmision"), filtro.getDesde()));
             filtros.add(cb.lessThanOrEqualTo(from.get("fechaEmision"), filtro.getHasta()));
         }
-        if (filtro.getPersona()!=null) {
+        if (filtro.getPersona() != null) {
             filtros.add(cb.equal(from.get("persona"), filtro.getPersona()));
         }
 
@@ -102,19 +102,32 @@ public class PlacaDAO {
     }
 
     private String generaNumeroDePlaca() {
-        char[] arr = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B',
+        char[] arr = {'A', 'B',
             'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
             'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
             'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
             's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
+        char[] arrDig = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
         String placa = "";
         int i = 0;
         while (i < 7) {
-            for (int j = 0; j < 3; j++) {
-                int num = (int) Math.floor(Math.random() * arr.length);
-                char caracter = arr[num];
-                placa += caracter;
-                i++;
+            if (i < 4) {
+                for (int j = 0; j < 3; j++) {
+                    int num = (int) Math.floor(Math.random() * arr.length);
+                    char caracter = arr[num];
+                    placa += caracter;
+                    i++;
+                }
+            } else {
+                for (int j = 0; j < 3; j++) {
+                    int num = (int) Math.floor(Math.random() * arrDig.length);
+                    char caracter = arrDig[num];
+                    placa += caracter;
+                    i++;
+                }
+
             }
             if (i < 7) {
                 placa += "-";
