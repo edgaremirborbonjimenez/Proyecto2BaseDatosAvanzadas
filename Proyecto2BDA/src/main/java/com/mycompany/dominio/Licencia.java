@@ -7,6 +7,7 @@ package com.mycompany.dominio;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,33 +28,62 @@ public class Licencia extends Tramite implements Serializable {
 
     @Column(name = "fechaVigencia", nullable = false)
     @Temporal(TemporalType.DATE)
-    Calendar fechaVigencia;
+    Date fechaVigencia;
 
     public Licencia() {
     }
 
-    public Licencia(Long id, Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona, List<Pago> pagos) {
-        super(id, fechaEmision, costo, persona, pagos);
+//    public Licencia(Long id, Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona, List<Pago> pagos) {
+//        super(id, fechaEmision, costo, persona, pagos);
+//        this.fechaVigencia = fechaVigencia;
+//    }
+//
+//        public Licencia(Long id, Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona) {
+//        super(id, fechaEmision, costo, persona);
+//        this.fechaVigencia = fechaVigencia;
+//    }
+//    
+//    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona, List<Pago> pagos) {
+//        super(fechaEmision, costo, persona, pagos);
+//        this.fechaVigencia = fechaVigencia;
+//    }
+//
+//    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona) {
+//        super(fechaEmision, costo, persona);
+//        this.fechaVigencia = fechaVigencia;
+//    }
+        public Licencia(Long id, Date fechaEmision, Date fechaVigencia, Float costo,Estado estado, Persona persona, List<Pago> pagos) {
+        super(id, fechaEmision, costo,estado, persona, pagos);
         this.fechaVigencia = fechaVigencia;
     }
 
-    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona, List<Pago> pagos) {
-        super(fechaEmision, costo, persona, pagos);
-        this.fechaVigencia = fechaVigencia;
-    }
-
-    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona) {
-        super(fechaEmision, costo, persona);
+        public Licencia(Long id, Date fechaEmision, Date fechaVigencia, Float costo,Estado estado, Persona persona) {
+        super(id, fechaEmision, costo,estado, persona);
         this.fechaVigencia = fechaVigencia;
     }
     
+    public Licencia(Date fechaEmision, Date fechaVigencia, Float costo,Estado estado, Persona persona, List<Pago> pagos) {
+        super(fechaEmision, costo,estado, persona, pagos);
+        this.fechaVigencia = fechaVigencia;
+    }
 
+    public Licencia(Date fechaEmision, Date fechaVigencia, Float costo,Estado estado, Persona persona) {
+        super(fechaEmision, costo,estado, persona);
+        this.fechaVigencia = fechaVigencia;
+    }
+//   public Calendar getFechaVigencia() {
+//        return fechaVigencia;
+//    }
+//
+//    public void setFechaVigencia(Calendar fechaVigencia) {
+//        this.fechaVigencia = fechaVigencia;
+//    }
 
-    public Calendar getFechaVigencia() {
+    public Date getFechaVigencia() {
         return fechaVigencia;
     }
 
-    public void setFechaVigencia(Calendar fechaVigencia) {
+    public void setFechaVigencia(Date fechaVigencia) {
         this.fechaVigencia = fechaVigencia;
     }
 

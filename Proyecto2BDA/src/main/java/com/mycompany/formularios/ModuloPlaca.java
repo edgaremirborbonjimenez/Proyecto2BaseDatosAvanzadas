@@ -4,11 +4,17 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.dominio.Persona;
+import javax.persistence.EntityManager;
+
 /**
  *
  * @author edemb
  */
 public class ModuloPlaca extends javax.swing.JFrame {
+
+    private Persona persona;
+    private EntityManager entityManager;
 
     /**
      * Creates new form ModuloPlaca
@@ -28,13 +34,32 @@ public class ModuloPlaca extends javax.swing.JFrame {
 
     public void irAutoNuevo() {
         ModuloPlacaAutoNuevo autoNuevo = new ModuloPlacaAutoNuevo();
+        autoNuevo.setEntityManager(entityManager);
         autoNuevo.setVisible(true);
     }
-    
+
     public void irAutoUsado() {
         ModuloPlacaAutoUsado autoUsado = new ModuloPlacaAutoUsado();
+        autoUsado.setEntityManager(entityManager);
         autoUsado.setVisible(true);
     }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

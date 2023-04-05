@@ -6,6 +6,7 @@ package com.mycompany.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,10 +40,13 @@ public abstract class Tramite implements Serializable {
 
     @Column(name = "fechaEmision", nullable = true)
     @Temporal(TemporalType.DATE)
-    private Calendar fechaEmision;
+    private Date fechaEmision;
 
     @Column(name = "costo")
     private Float costo;
+
+    @Column(name = "estado", nullable = false)
+    private Estado estado;
 
     @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "personaID", nullable = false)
@@ -54,24 +58,61 @@ public abstract class Tramite implements Serializable {
     public Tramite() {
     }
 
-    public Tramite(Long id, Calendar fechaEmision, Float costo, Persona persona, List<Pago> pagos) {
+//    public Tramite(Long id, Calendar fechaEmision, Float costo, Persona persona, List<Pago> pagos) {
+//        this.id = id;
+//        this.fechaEmision = fechaEmision;
+//        this.costo = costo;
+//        this.persona = persona;
+//        this.pagos = pagos;
+//    }
+//        public Tramite(Long id, Calendar fechaEmision, Float costo, Persona persona) {
+//        this.id = id;
+//        this.fechaEmision = fechaEmision;
+//        this.costo = costo;
+//        this.persona = persona;
+//    }
+//
+//    public Tramite(Calendar fechaEmision, Float costo, Persona persona, List<Pago> pagos) {
+//        this.fechaEmision = fechaEmision;
+//        this.costo = costo;
+//        this.persona = persona;
+//        this.pagos = pagos;
+//    }
+//
+//    public Tramite(Calendar fechaEmision, Float costo, Persona persona) {
+//        this.fechaEmision = fechaEmision;
+//        this.costo = costo;
+//        this.persona = persona;
+//    }
+    public Tramite(Long id, Date fechaEmision, Float costo, Estado estado, Persona persona, List<Pago> pagos) {
         this.id = id;
         this.fechaEmision = fechaEmision;
         this.costo = costo;
+        this.estado = estado;
         this.persona = persona;
         this.pagos = pagos;
     }
 
-    public Tramite(Calendar fechaEmision, Float costo, Persona persona, List<Pago> pagos) {
+    public Tramite(Long id, Date fechaEmision, Float costo, Estado estado, Persona persona) {
+        this.id = id;
         this.fechaEmision = fechaEmision;
         this.costo = costo;
+        this.estado = estado;
+        this.persona = persona;
+    }
+
+    public Tramite(Date fechaEmision, Float costo, Estado estado, Persona persona, List<Pago> pagos) {
+        this.fechaEmision = fechaEmision;
+        this.costo = costo;
+        this.estado = estado;
         this.persona = persona;
         this.pagos = pagos;
     }
 
-    public Tramite(Calendar fechaEmision, Float costo, Persona persona) {
+    public Tramite(Date fechaEmision, Float costo, Estado estado, Persona persona) {
         this.fechaEmision = fechaEmision;
         this.costo = costo;
+        this.estado = estado;
         this.persona = persona;
     }
 
@@ -107,11 +148,21 @@ public abstract class Tramite implements Serializable {
         this.costo = costo;
     }
 
-    public Calendar getFechaEmision() {
+    public Estado getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estado estado) {
+        this.estado = estado;
+    }
+    
+    
+
+    public Date getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(Calendar fechaEmision) {
+    public void setFechaEmision(Date fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 

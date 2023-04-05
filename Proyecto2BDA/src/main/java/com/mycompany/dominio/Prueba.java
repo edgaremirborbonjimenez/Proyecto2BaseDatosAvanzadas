@@ -7,21 +7,41 @@ package com.mycompany.dominio;
 import com.mycompany.daos.LicenciaDAO;
 import com.mycompany.daos.PersonaDAO;
 import com.mycompany.daos.PlacaDAO;
+import com.mycompany.daos.VehiculoDAO;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import javax.persistence.Tuple;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -32,8 +52,34 @@ public class Prueba {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, JRException {
         // TODO code application logic here
+        
+        //////////        List<Licencia> lista = new ArrayList<Licencia>();
+//////////        Licencia licencia1 = new Licencia(1L,new Date(2026, 04, 02), new Date(2029, 04, 02), 1000F,Estado.ACTIVA, p1);
+//////////        Licencia licencia2 = new Licencia(2L,new Date(2026, 04, 02), new Date(2029, 04, 02), 1000F,Estado.ACTIVA, p2);
+//////////        Licencia licencia3 = new Licencia(3L,new Date(2026, 04, 02), new Date(2029, 04, 02), 1000F,Estado.ACTIVA, p3);
+//////////
+//////////        lista.add(licencia1);
+//////////        lista.add(licencia2);
+//////////        lista.add(licencia3);
+//////////        
+//////////        JRBeanCollectionDataSource itemsJRBean = new JRBeanCollectionDataSource(lista);
+//////////        
+//////////        System.out.println(itemsJRBean.getRecordCount());
+//////////        
+//////////        Map<String,Object> parameters = new HashMap<String,Object>();        
+//////////        parameters.put("CollectionBeanParam", itemsJRBean);
+//////////        parameters.put("nombreCompleto", p1.getNombreCompleto());
+//////////        
+//////////        
+//////////        InputStream input = new FileInputStream("..\\jasper\\ReporteLicencia.jrxml");
+//////////        JasperDesign jasperDesign = JRXmlLoader.load(input);
+//////////        JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+//////////        JasperPrint jasperPrint  = JasperFillManager.fillReport(jasperReport, parameters,new JREmptyDataSource());
+//////////        JasperViewer.viewReport(jasperPrint);
+//////////        JasperExportManager.exportReportToPdfFile(jasperPrint, "..\\jasper\\LicenciasReport.pdf");
+        
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
         EntityManager em = emf.createEntityManager();
         Persona p1 = new Persona("Juan García Pérez", "GAPJ920702", new GregorianCalendar(2017, Calendar.JANUARY, 22), "5512345678", Sexo.MASCULINO, Discapacitado.NO);
@@ -56,81 +102,111 @@ public class Prueba {
         Persona p18 = new Persona("Fernando Ruiz Hernández", "RUIF860422", new GregorianCalendar(1986, Calendar.APRIL, 22), "5557890123", Sexo.MASCULINO, Discapacitado.SI);
         Persona p19 = new Persona("María Martínez López", "MALL980108", new GregorianCalendar(1998, Calendar.JANUARY, 8), "5558901234", Sexo.FEMENINO, Discapacitado.NO);
         Persona p20 = new Persona("Jorge Hernández Sánchez", "HESJ920706", new GregorianCalendar(1992, Calendar.JULY, 6), "5559012345", Sexo.MASCULINO, Discapacitado.SI);
-        em.getTransaction().begin();
-        em.persist(p1);
-        em.persist(p2);
-        em.persist(p3);
-        em.persist(p4);
-        em.persist(p5);
-        em.persist(p6);
-        em.persist(p7);
-        em.persist(p8);
-        em.persist(p9);
-        em.persist(p10);
-        em.persist(p11);
-        em.persist(p12);
-        em.persist(p13);
-        em.persist(p14);
-        em.persist(p15);
-        em.persist(p16);
-        em.persist(p17);
-        em.persist(p18);
-        em.persist(p19);
-        em.persist(p20);
-               em.getTransaction().commit();
+//        em.getTransaction().begin();
+//        em.persist(p1);
+//        em.persist(p2);
+//        em.persist(p3);
+//        em.persist(p4);
+//        em.persist(p5);
+//        em.persist(p6);
+//        em.persist(p7);
+//        em.persist(p8);
+//        em.persist(p9);
+//        em.persist(p10);
+//        em.persist(p11);
+//        em.persist(p12);
+//        em.persist(p13);
+//        em.persist(p14);
+//        em.persist(p15);
+//        em.persist(p16);
+//        em.persist(p17);
+//        em.persist(p18);
+//        em.persist(p19);
+//        em.persist(p20);
+//        em.getTransaction().commit();
 
         Persona pe = em.find(Persona.class, 1L);
         Persona p22 = em.find(Persona.class, 2L);
         Persona p33 = em.find(Persona.class, 3L);
-
-        GregorianCalendar vigencia = new GregorianCalendar(2026, 04, 02);
-        vigencia.add(1, 3);
-        Licencia l1 = new Licencia(new GregorianCalendar(2026, 04, 02), new GregorianCalendar(2029, 04, 02), 1000F, pe);
-        Licencia l2 = new Licencia(new GregorianCalendar(2026, 04, 02), new GregorianCalendar(2029, 04, 02), 1000F, p22);
-        Licencia l3 = new Licencia(new GregorianCalendar(2026, 04, 02), new GregorianCalendar(2029, 04, 02), 1000F, p33);
         
-        em.getTransaction().begin();
-        em.persist(l1);
-        em.persist(l2);
-        em.persist(l3);
-        em.getTransaction().commit();
-       Persona p = em.find(Persona.class, 2L);
+//        try{
+//        Query query = em.createQuery("Select p from Persona p where p.id= :i").setParameter("i", 20L);
+//        Persona persona = (Persona) query.getSingleResult();
+//        persona.getNombreCompleto();
+//            System.out.println("Se encontro a la persona");
+//        }catch(Exception e){
+//            System.out.println("No se encontro a la persona");
+//        }
+        Vehiculo vehiculo = new Automovil("1234567", "Honda", "Rojo", "Recta", "4xd");
+        VehiculoDAO vDao = new VehiculoDAO(em);
+        Vehiculo v = vDao.registraVehiculo(vehiculo);
+        System.out.println(v);
+
+//
+//        GregorianCalendar vigencia = new GregorianCalendar(2026, 04, 02);
+//        vigencia.add(1, 3);
+//        Licencia l1 = new Licencia(new GregorianCalendar(2026, 04, 02), new GregorianCalendar(2029, 04, 02), 1000F, pe);
+//        Licencia l2 = new Licencia(new GregorianCalendar(2026, 04, 02), new GregorianCalendar(2029, 04, 02), 1000F, p22);
+//        Licencia l3 = new Licencia(new GregorianCalendar(2026, 04, 02), new GregorianCalendar(2029, 04, 02), 1000F, p33);
+//
+//        em.getTransaction().begin();
+//        em.persist(l1);
+//        em.persist(l2);
+//        em.persist(l3);
+//        em.getTransaction().commit();
+        Persona p = em.find(Persona.class, 2L);
 //////        Vehiculo carro = em.find(Automovil.class, 1L);
 //////
 //////        PlacaDAO placaDao = new PlacaDAO(em);
 //////        Placa placa = placaDao.generarPlacaVehiculoUsado(p, carro);
 ////
-        FiltroReporteTramites filtro = new FiltroReporteTramites();
-        filtro.setDesde(new GregorianCalendar(2026, 05, 02));
-        filtro.setHasta(new GregorianCalendar(2026, 05, 02));
-        filtro.setLicencia(true);
-        filtro.setPlaca(true);
-        filtro.setPersona(p);
+//        FiltroReporteTramites filtro = new FiltroReporteTramites();
+//        filtro.setDesde(new GregorianCalendar(2026, 05, 02));
+//        filtro.setHasta(new GregorianCalendar(2026, 05, 02));
+//        filtro.setLicencia(true);
+//        filtro.setPlaca(true);
+//        filtro.setPersona(p);
+//
+//////        CriteriaBuilder cb = em.getCriteriaBuilder();
+//////        CriteriaQuery<Tramite> cq = cb.createQuery(Tramite.class);
+//////        Root<Tramite> from = cq.from(Tramite.class);
+//////
+//////        List<Predicate> filtros = new LinkedList<>();
+//////
+//////        if (filtro.getDesde() != null && filtro.getHasta() != null) {
+//////            filtros.add(cb.greaterThanOrEqualTo(from.get("fechaEmision"), filtro.getDesde()));
+//////            filtros.add(cb.lessThanOrEqualTo(from.get("fechaEmision"), filtro.getHasta()));
+//////        }
+//////        if (filtro.getPersona()!=null) {
+//////            filtros.add(cb.equal(from.get("persona"), filtro.getPersona()));
+//////        }
+//////
+//////        cq = cq.select(from).where(cb.and(filtros.toArray(new Predicate[0])));
+//////
+//////        TypedQuery<Tramite> typed = em.createQuery(cq);
+//////
+//////        List<Tramite> lista = typed.getResultList();
+//////
+//////        for (Tramite o : lista) {
+//////            System.out.println(o.getId());
+//////        }
 
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Tramite> cq = cb.createQuery(Tramite.class);
-        Root<Tramite> from = cq.from(Tramite.class);
-//        CriteriaQuery<Tramite> select = cq.select(from);
+        //TypedQuery<Tuple> query = em.createQuery("Select p.nombreCompleto AS Nombre from Persona p ", Tuple.class);
+//        TypedQuery<Tuple> query = em.createQuery("SELECT p.nombreCompleto AS nombre FROM Persona p", Tuple.class);
+//
+//        List<Tuple> lista = query.getResultList();
+//        for (Tuple tupla : lista) {
+//            String nombreCompleto = tupla.get("nombre", String.class);
+//            System.out.println(nombreCompleto);
+//        }
+////        TypedQuery<Tuple> query = em.createQuery("SELECT p FROM Persona p", Tuple.class);
+////        List<Tuple> lista = query.getResultList();
+////        for (Tuple nombre : lista) {
+////            System.out.println(nombre);
+////        }
 
-        List<Predicate> filtros = new LinkedList<>();
 
-        if (filtro.getDesde() != null && filtro.getHasta() != null) {
-            filtros.add(cb.greaterThanOrEqualTo(from.get("fechaEmision"), filtro.getDesde()));
-            filtros.add(cb.lessThanOrEqualTo(from.get("fechaEmision"), filtro.getHasta()));
-        }
-        if (filtro.getPersona()!=null) {
-            filtros.add(cb.equal(from.get("persona"), filtro.getPersona()));
-        }
-
-        cq = cq.select(from).where(cb.and(filtros.toArray(new Predicate[0])));
-
-        TypedQuery<Tramite> typed = em.createQuery(cq);
-
-        List<Tramite> lista = typed.getResultList();
-
-        for (Tramite o : lista) {
-            System.out.println(o.getId());
-        }
+        
 //       
 //        System.out.println(placa.getNumero());
 //        

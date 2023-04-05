@@ -35,6 +35,7 @@ public class Menu extends javax.swing.JFrame {
     
     private void irModuloTramite(){
         ModuloGenerarTramite licencias = new ModuloGenerarTramite();
+        licencias.setEntityManager(entity);
         licencias.setVisible(true);
     }
     

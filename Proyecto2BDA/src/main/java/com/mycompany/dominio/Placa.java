@@ -6,6 +6,7 @@ package com.mycompany.dominio;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,10 +34,7 @@ public class Placa extends Tramite implements Serializable {
 
     @Column(name = "fechaRecepcion", nullable = true)
     @Temporal(TemporalType.DATE)
-    private Calendar fechaRecepcion;
-
-    @Column(name = "estado", nullable = false)
-    private Estado estado;
+    private Date fechaRecepcion;
 
     @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "idVehiculo", nullable = false)
@@ -45,33 +43,58 @@ public class Placa extends Tramite implements Serializable {
     public Placa() {
     }
 
-    public Placa(Long id, Calendar fechaEmision, Calendar fechaRecepcion, Float costo, Persona persona, List<Pago> pagos, String numero, Estado estado, Vehiculo vehiculo) {
-        super(id, fechaEmision, costo, persona, pagos);
+//    public Placa(Long id, Calendar fechaEmision, Calendar fechaRecepcion, Float costo, Persona persona, List<Pago> pagos, String numero, Estado estado, Vehiculo vehiculo) {
+//        super(id, fechaEmision, costo, persona, pagos);
+//        this.numero = numero;
+//        this.fechaRecepcion = fechaRecepcion;
+//        this.estado = estado;
+//        this.vehiculo = vehiculo;
+//    }
+//
+//    public Placa(Calendar fechaEmision, Calendar fechaRecepcion, Float costo, Persona persona, List<Pago> pagos, String numero, Estado estado, Vehiculo vehiculo) {
+//        super(fechaEmision, costo, persona, pagos);
+//        this.numero = numero;
+//        this.fechaRecepcion = fechaRecepcion;
+//        this.estado = estado;
+//        this.vehiculo = vehiculo;
+//    }
+//
+//    public Placa(Long id, Calendar fechaEmision, Float costo, Persona persona, List<Pago> pagos, String numero, Estado estado, Vehiculo vehiculo) {
+//        super(id, fechaEmision, costo, persona, pagos);
+//        this.numero = numero;
+//        this.estado = estado;
+//        this.vehiculo = vehiculo;
+//    }
+//
+//    public Placa(Calendar fechaEmision, Float costo, Persona persona, String numero, Estado estado, Vehiculo vehiculo) {
+//        super(fechaEmision, costo, persona);
+//        this.numero = numero;
+//        this.estado = estado;
+//        this.vehiculo = vehiculo;
+//    }
+    public Placa(Long id, Date fechaEmision, Date fechaRecepcion, Float costo, Persona persona, List<Pago> pagos, String numero, Estado estado, Vehiculo vehiculo) {
+        super(id, fechaEmision, costo,estado, persona, pagos);
         this.numero = numero;
         this.fechaRecepcion = fechaRecepcion;
-        this.estado = estado;
         this.vehiculo = vehiculo;
     }
 
-    public Placa(Calendar fechaEmision, Calendar fechaRecepcion, Float costo, Persona persona, List<Pago> pagos, String numero, Estado estado, Vehiculo vehiculo) {
-        super(fechaEmision, costo, persona, pagos);
+    public Placa(Date fechaEmision, Date fechaRecepcion, Float costo, Persona persona, List<Pago> pagos, String numero, Estado estado, Vehiculo vehiculo) {
+        super(fechaEmision, costo,estado, persona, pagos);
         this.numero = numero;
         this.fechaRecepcion = fechaRecepcion;
-        this.estado = estado;
         this.vehiculo = vehiculo;
     }
 
-    public Placa(Long id, Calendar fechaEmision, Float costo, Persona persona, List<Pago> pagos, String numero, Estado estado, Vehiculo vehiculo) {
-        super(id, fechaEmision, costo, persona, pagos);
+    public Placa(Long id, Date fechaEmision, Float costo, Persona persona, List<Pago> pagos, String numero, Estado estado, Vehiculo vehiculo) {
+        super(id, fechaEmision, costo,estado, persona, pagos);
         this.numero = numero;
-        this.estado = estado;
         this.vehiculo = vehiculo;
     }
 
-    public Placa(Calendar fechaEmision, Float costo, Persona persona, String numero, Estado estado, Vehiculo vehiculo) {
-        super(fechaEmision, costo, persona);
+    public Placa(Date fechaEmision, Float costo, Persona persona, String numero, Estado estado, Vehiculo vehiculo) {
+        super(fechaEmision, costo,estado, persona);
         this.numero = numero;
-        this.estado = estado;
         this.vehiculo = vehiculo;
     }
 
@@ -83,11 +106,11 @@ public class Placa extends Tramite implements Serializable {
         this.numero = numero;
     }
 
-    public Calendar getFechaRecepcion() {
+    public Date getFechaRecepcion() {
         return fechaRecepcion;
     }
 
-    public void setFechaRecepcion(Calendar fechaRecepcion) {
+    public void setFechaRecepcion(Date fechaRecepcion) {
         this.fechaRecepcion = fechaRecepcion;
     }
 
@@ -99,12 +122,5 @@ public class Placa extends Tramite implements Serializable {
         this.vehiculo = vehiculo;
     }
 
-    public Estado getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Estado estado) {
-        this.estado = estado;
-    }
 
 }

@@ -4,28 +4,86 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.daos.PlacaDAO;
+import com.mycompany.daos.VehiculoDAO;
+import com.mycompany.dominio.Automovil;
+import com.mycompany.dominio.Persona;
+import com.mycompany.dominio.Placa;
+import com.mycompany.dominio.Vehiculo;
+import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author edemb
  */
 public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
 
+    private Persona persona;
+    private EntityManager entityManager;
+    private VehiculoDAO vehiculoDAO;
+    private PlacaDAO placaDAO;
+
     /**
      * Creates new form ModuloPlacaAutoNuevo
      */
     public ModuloPlacaAutoNuevo() {
         initComponents();
+        placaDAO = new PlacaDAO(entityManager);
+    }
+
+    private Vehiculo consultarVehiculoNuevo() {
+        Vehiculo vehiculo = new Automovil();
+        vehiculo.setSerie(this.txtSerie.getText());
+        vehiculo.setMarca(this.txtMarca.getText());
+        vehiculo.setLinea(this.txtLinea.getText());
+        vehiculo.setColor(this.txtColor.getText());
+        vehiculo.setModelo(this.txtModelo.getText());
+        return vehiculo;
+    }
+
+    private void placaGeneradaExitosamente(Placa placa) {
+        JOptionPane.showMessageDialog(this, "Se genero exitosamente la Placa: " + placa.getNumero() + " al vehiculo con el numero de serie: " + this.txtSerie.getText(), "Placa Generada Exitosamente", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private Placa generarPlaca() {
+        Vehiculo v = consultarVehiculoNuevo();
+        Vehiculo vehiculo = this.vehiculoDAO.registraVehiculo(v);
+        if (vehiculo == null) {
+            JOptionPane.showMessageDialog(this, "Serie ya registrada, favor de ir a crear la placa en auto usado", "Alerta", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+        return placaDAO.generarPlacaVehiculoNuevo(persona, vehiculo);
+    }
+
+    private void regresarModuloPlaca() {
+        ModuloPlaca placa = new ModuloPlaca();
+        placa.setVisible(true);
+
+    }
+
+    private void irMenu() {
+        Menu menu = new Menu();
+        menu.setVisible(true);
+    }
+
+    private void cerrarVentanaActual() {
+        this.dispose();
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
     
-    private void regresarModuloPlaca(){
-    ModuloPlaca placa = new ModuloPlaca();
-    placa.setVisible(true);
-        
-    }
     
-      private void cerrarVentanaActual(){
-    this.dispose();
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -47,7 +105,7 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
         txtColor = new javax.swing.JTextField();
         txtLinea = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        generarPlaca = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -82,8 +140,13 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel6.setText("Ingresa los datos del vehiculo");
 
-        jButton1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jButton1.setText("Generar Placa");
+        generarPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        generarPlaca.setText("Generar Placa");
+        generarPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generarPlacaActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton2.setText("Regresar");
@@ -175,7 +238,7 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
                                     .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(56, 56, 56))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(generarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(81, 81, 81))))
         );
         layout.setVerticalGroup(
@@ -206,7 +269,7 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(generarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel15)
                         .addGap(18, 18, 18)
@@ -247,6 +310,15 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
         cerrarVentanaActual();
     }//GEN-LAST:event_jButton2MouseClicked
 
+    private void generarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarPlacaActionPerformed
+        // TODO add your handling code here:
+        Placa placa = this.generarPlaca();
+        this.placaGeneradaExitosamente(placa);
+        this.irMenu();
+        this.cerrarVentanaActual();
+
+    }//GEN-LAST:event_generarPlacaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -283,7 +355,7 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton generarPlaca;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

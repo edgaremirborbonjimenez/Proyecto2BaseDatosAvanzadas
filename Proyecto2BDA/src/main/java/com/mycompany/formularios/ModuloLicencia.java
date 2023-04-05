@@ -4,17 +4,60 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.daos.LicenciaDAO;
+import com.mycompany.dominio.Persona;
+import com.mycompany.dominio.Vigencia;
+import javax.persistence.EntityManager;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author edemb
  */
 public class ModuloLicencia extends javax.swing.JFrame {
 
+    private Persona persona;
+    private LicenciaDAO licenciDAO;
+    private EntityManager entityManager;
+
     /**
      * Creates new form ModuloLicencia
      */
     public ModuloLicencia() {
         initComponents();
+        licenciDAO = new LicenciaDAO(entityManager);
+    }
+    
+    private void mensajeLicenciaGeneradaExitosamente(){
+        JOptionPane.showMessageDialog(this, "Licencia Generada Exitosamente para la persona :"+this.persona.getNombreCompleto(), "Licencia Generada Exitosamente", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void generarLicencia() {
+
+        licenciDAO.generarLicencia(this.consutlarVigencia(), persona);
+    }
+
+    private Vigencia consutlarVigencia() {
+        int opcion = this.cmbVigencia.getSelectedIndex();
+        if (opcion == 1) {
+            return Vigencia.Ano_1;
+        } else if (opcion == 2) {
+            return Vigencia.Ano_2;
+        } else {
+            return Vigencia.Ano_3;
+        }
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     private void cerrarVentana() {
@@ -24,6 +67,11 @@ public class ModuloLicencia extends javax.swing.JFrame {
     private void irModuloGenerarTramite() {
         ModuloGenerarTramite tra = new ModuloGenerarTramite();
         tra.setVisible(true);
+    }
+    
+    private void irMenu(){
+    Menu menu = new Menu();
+    menu.setVisible(true);
     }
 
     /**
@@ -47,7 +95,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
         lblSexo = new javax.swing.JLabel();
         lblRFC = new javax.swing.JLabel();
         btnRegresar = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cmbVigencia = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         lblDiscapacitado = new javax.swing.JLabel();
         btnGenerarLicencia = new javax.swing.JButton();
@@ -100,7 +148,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Año", "2 Años", "3 Años" }));
+        cmbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Año", "2 Años", "3 Años" }));
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setText("Es Discapacitado");
@@ -110,6 +158,11 @@ public class ModuloLicencia extends javax.swing.JFrame {
 
         btnGenerarLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarLicencia.setText("Generar Licencia");
+        btnGenerarLicencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarLicenciaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -146,7 +199,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
                             .addComponent(lblRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbVigencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnGenerarLicencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(64, 64, 64))))
         );
@@ -165,7 +218,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
                         .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(34, 34, 34)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmbVigencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -205,9 +258,17 @@ public class ModuloLicencia extends javax.swing.JFrame {
         cerrarVentana();
     }//GEN-LAST:event_btnRegresarMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
+        // TODO add your handling code here:
+        this.generarLicencia();
+        mensajeLicenciaGeneradaExitosamente();
+        this.irMenu();
+        this.cerrarVentana();
+    }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
+
+//    /**
+//     * @param args the command line arguments
+//     */
 //    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -243,7 +304,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerarLicencia;
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cmbVigencia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

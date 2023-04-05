@@ -5,13 +5,21 @@
 package com.mycompany.daos;
 
 import com.mycompany.dominio.Estado;
+import com.mycompany.dominio.FiltroReporteTramites;
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Placa;
 import com.mycompany.dominio.Vehiculo;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -36,7 +44,7 @@ public class PlacaDAO {
     public Placa generarPlacaVehiculoNuevo(Persona persona, Vehiculo vehiculo) {
 
         String numeroPlaca = generaNumeroDePlaca();
-        Placa placa = new Placa(new GregorianCalendar(), 1500F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
+        Placa placa = new Placa(new Date(), 1500F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
         entityManager.getTransaction().begin();
         entityManager.persist(placa);
         entityManager.getTransaction().commit();
@@ -47,7 +55,7 @@ public class PlacaDAO {
 
         Placa placaAnterior = consultarPlacaActiva(persona);
         String numeroPlaca = generaNumeroDePlaca();
-        Placa placa = new Placa(new GregorianCalendar(), 1000F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
+        Placa placa = new Placa(new Date(), 1000F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
         placaAnterior.setEstado(Estado.DESACTIVA);
         placaAnterior.setFechaRecepcion(placa.getFechaEmision());
         entityManager.getTransaction().begin();
@@ -55,6 +63,29 @@ public class PlacaDAO {
         entityManager.persist(placa);
         entityManager.getTransaction().commit();
         return placa;
+    }
+    
+    public List<Placa> historialPlacasFiltroReporte(FiltroReporteTramites filtro){
+            CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
+        CriteriaQuery<Placa> cq = cb.createQuery(Placa.class);
+        Root<Placa> from = cq.from(Placa.class);
+
+        List<Predicate> filtros = new LinkedList<>();
+
+        if (filtro.getDesde() != null && filtro.getHasta() != null) {
+            filtros.add(cb.greaterThanOrEqualTo(from.get("fechaEmision"), filtro.getDesde()));
+            filtros.add(cb.lessThanOrEqualTo(from.get("fechaEmision"), filtro.getHasta()));
+        }
+        if (filtro.getPersona()!=null) {
+            filtros.add(cb.equal(from.get("persona"), filtro.getPersona()));
+        }
+
+        cq = cq.select(from).where(cb.and(filtros.toArray(new Predicate[0])));
+
+        TypedQuery<Placa> typed = this.entityManager.createQuery(cq);
+
+        List<Placa> lista = typed.getResultList();
+        return lista;
     }
 
     private Placa consultarPlacaActiva(Persona persona) {

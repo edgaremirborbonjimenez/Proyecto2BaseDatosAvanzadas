@@ -30,6 +30,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private static final Logger LOG = Logger.getLogger(ModuloGenerarTramite.class.getName());
     private IPersonaDAO personaDAO;
     private ConfiguracionDePaginado configPaginado;
+    private EntityManager entityManager;
     
     /**
      * Creates new form ModuloLicencia
@@ -51,11 +52,13 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     
     public void irGenerarPlaca(){
     ModuloPlaca placa = new ModuloPlaca();
+    placa.setEntityManager(entityManager);
     placa.setVisible(true);
     }
     
     private void irGenerarLicencia(){
     ModuloLicencia lic = new ModuloLicencia();
+    lic.setEntityManager(entityManager);
     lic.setVisible(true);
     }
 
@@ -103,6 +106,15 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         this.configPaginado.retrocederPagina();
         this.actualizarTabla();
     }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+    
     
     /**
      * This method is called from within the constructor to initialize the form.

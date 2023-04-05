@@ -4,17 +4,34 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.daos.PlacaDAO;
+import com.mycompany.daos.VehiculoDAO;
+import com.mycompany.dominio.Persona;
+import com.mycompany.dominio.Placa;
+import com.mycompany.dominio.Vehiculo;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author edemb
  */
 public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
 
+    EntityManager entityManager;
+    VehiculoDAO vehiculoDAO;
+    PlacaDAO placaDAO;
+    Persona persona;
+
     /**
      * Creates new form ModuloPlacaAutoUsado
      */
     public ModuloPlacaAutoUsado() {
         initComponents();
+        vehiculoDAO = new VehiculoDAO(entityManager);
+        placaDAO = new PlacaDAO(entityManager);
     }
 
     private void cerrarVentana() {
@@ -25,7 +42,47 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         ModuloPlaca moduloPlaca = new ModuloPlaca();
         moduloPlaca.setVisible(true);
     }
+    
+       private void irMenu(){
+    Menu menu = new Menu();
+    menu.setVisible(true);
+    }
 
+    private Vehiculo consultarVehiculoUsado() {
+        Vehiculo vehiculo = vehiculoDAO.consultaVehiculoPorSerie(this.txtSerie.getText());
+        if (vehiculo == null) {
+            JOptionPane.showMessageDialog(this, "Serie no encontrada, favor de crear la placa en Vehiculo Nuevo", "Alerta", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+        return vehiculo;
+    }
+
+    private Placa generarPlacaVehiculoUsado() {
+        Vehiculo vehiculo = this.consultarVehiculoUsado();
+        if (vehiculo == null) {
+            return null;
+        }
+        return this.placaDAO.generarPlacaVehiculoUsado(persona, vehiculo);
+    }
+
+    private void mensajePlacaGeneradaExitosamente(Placa placa) {
+        JOptionPane.showMessageDialog(this, "Se genero el numero de placa: " + placa.getNumero() + " para el vehiculo con la serie: " + this.txtSerie.getText(), "Placa generada Exitosamente", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,6 +143,16 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
 
         btnGenerarPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarPlaca.setText("Generar Placa");
+        btnGenerarPlaca.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnGenerarPlacaMouseClicked(evt);
+            }
+        });
+        btnGenerarPlaca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPlacaActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setText("Nombre");
@@ -227,9 +294,26 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         cerrarVentana();
     }//GEN-LAST:event_btnRegresarMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
+        // TODO add your handling code here:
+        Placa placa = generarPlacaVehiculoUsado();
+        if (placa==null) {
+            return;
+        }else{
+            mensajePlacaGeneradaExitosamente(placa);
+        }
+    }//GEN-LAST:event_btnGenerarPlacaActionPerformed
+
+    private void btnGenerarPlacaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarPlacaMouseClicked
+        // TODO add your handling code here:
+        irMenu();
+        cerrarVentana();
+        
+    }//GEN-LAST:event_btnGenerarPlacaMouseClicked
+
+//    /**
+//     * @param args the command line arguments
+//     */
 //    public static void main(String args[]) {
 //        /* Set the Nimbus look and feel */
 //        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
