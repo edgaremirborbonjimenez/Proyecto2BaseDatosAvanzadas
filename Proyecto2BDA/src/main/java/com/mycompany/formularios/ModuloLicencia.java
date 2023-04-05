@@ -7,6 +7,9 @@ package com.mycompany.formularios;
 import com.mycompany.daos.LicenciaDAO;
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Vigencia;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
@@ -23,18 +26,22 @@ public class ModuloLicencia extends javax.swing.JFrame {
     /**
      * Creates new form ModuloLicencia
      */
-    public ModuloLicencia() {
-        setLabelPersona();
+    public ModuloLicencia(Persona persona) {
         initComponents();
+        this.persona = persona;
+        setLabelPersona();
         licenciDAO = new LicenciaDAO(entityManager);
     }
     
     private void mensajeLicenciaGeneradaExitosamente(){
         JOptionPane.showMessageDialog(this, "Licencia Generada Exitosamente para la persona :"+this.persona.getNombreCompleto(), "Licencia Generada Exitosamente", JOptionPane.INFORMATION_MESSAGE);
     }
+    
+    private void mensajeErrorFormateoFecha(){
+        JOptionPane.showMessageDialog(this, "Error al formatear la fecha", "Formateo de fecha error", JOptionPane.ERROR_MESSAGE);   
+    }
 
     private void generarLicencia() {
-
         licenciDAO.generarLicencia(this.consutlarVigencia(), persona);
     }
 
@@ -75,13 +82,36 @@ public class ModuloLicencia extends javax.swing.JFrame {
         menu.setVisible(true);
     }
     
-    private void setLabelPersona(){
-        lblNombre.setText(persona.getNombreCompleto());
-        lblFechaNcimiento.setText(persona.getFechaNacimiento().toString());
-        lblRFC.setText(persona.getRfc());
-        lblTelefono.setText(persona.getTelefono());
-        lblSexo.setText(persona.getSexo().toString());
-        lblDiscapacitado.setText(persona.getDiscapasitado().toString());
+//    public String formateoFecha(){
+//        String fechaString = persona.getFechaNacimiento().toString();
+//
+//        // Creamos un objeto SimpleDateFormat con el formato de la fecha
+//        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
+//
+//        try {
+//            // Parseamos la cadena en un objeto Date
+//            Date fechaDate = formateador.parse(fechaString);
+//
+//            // Convertimos el objeto Date a un objeto Calendar
+//            Calendar fecha = Calendar.getInstance();
+//            fecha.setTime(fechaDate);
+//            String fechaFin = formateador.format(fecha.getTime());
+//            
+//            return fechaFin;
+//        } catch (Exception e) {
+//            // En caso de error, se imprime el mensaje de excepción
+//            mensajeErrorFormateoFecha();
+//            return null;
+//        }
+//    }
+    
+    private void setLabelPersona() {           
+            lblNombre.setText(persona.getNombreCompleto());
+//            lblFechaNcimiento.setText(formateoFecha().toString());
+            lblRFC.setText(persona.getRfc());
+            lblTelefono.setText(persona.getTelefono());
+            lblSexo.setText(persona.getSexo().toString());
+            lblDiscapacitado.setText(persona.getDiscapasitado().toString());
     }
 
     /**
@@ -116,19 +146,19 @@ public class ModuloLicencia extends javax.swing.JFrame {
         jLabel1.setText("Generar Licencia");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel2.setText("Nombre");
+        jLabel2.setText("Nombre:");
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel3.setText("Fecha de Nacimiento");
+        jLabel3.setText("Fecha de Nacimiento:");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setText("Telefono");
+        jLabel4.setText("Telefono:");
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel5.setText("Sexo");
+        jLabel5.setText("Sexo:");
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel6.setText("RFC");
+        jLabel6.setText("RFC:");
 
         lblNombre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblNombre.setText("...");
@@ -161,7 +191,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
         cmbVigencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Año", "2 Años", "3 Años" }));
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel7.setText("Es Discapacitado");
+        jLabel7.setText("Es Discapacitado:");
 
         lblDiscapacitado.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblDiscapacitado.setText("...");
@@ -186,32 +216,34 @@ public class ModuloLicencia extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel7)
-                                .addComponent(lblDiscapacitado, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(89, 89, 89)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(66, 66, 66)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblFechaNcimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblSexo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbVigencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnGenerarLicencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(64, 64, 64))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblDiscapacitado, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblFechaNcimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblSexo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmbVigencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnGenerarLicencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(64, 64, 64))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -243,11 +275,11 @@ public class ModuloLicencia extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblSexo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6)
+                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRFC)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel7)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDiscapacitado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)

@@ -16,6 +16,6 @@ import java.util.List;
 public interface IPersonaDAO {
     
     List<Persona> buscarPersonas(FiltroHistorial parametros, ConfiguracionDePaginado configPaginado);
-    List<Persona> buscarPersonaRFC(FiltroHistorial parametros);
+    Persona buscarPersonaRFC(String rfc);
     
 }

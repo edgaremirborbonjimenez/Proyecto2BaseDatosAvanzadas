@@ -21,6 +21,7 @@ public class ModuloPlaca extends javax.swing.JFrame {
      */
     public ModuloPlaca() {
         initComponents();
+        this.persona = persona;
     }
 
     private void cerrarVentanaActual() {

@@ -126,7 +126,7 @@ public class PersonaDAO implements IPersonaDAO {
     }
 
     @Override
-    public List<Persona> buscarPersonaRFC(FiltroHistorial parametros) {
+    public Persona buscarPersonaRFC(String rfc) {
 //        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
 //        entityManager = emf.createEntityManager();
 //
@@ -138,13 +138,13 @@ public class PersonaDAO implements IPersonaDAO {
 
         criteria.select(persona)
                 .where(
-                        builder.like(persona.get("rfc"), "%" + parametros.getRFC() + "%")
+                        builder.like(persona.get("rfc"), "%" + rfc + "%")
                 );
 
         TypedQuery<Persona> query = entityManager.createQuery(criteria);
 //        Query query = entityManager.createQuery("SELECT p FROM Persona p");
 
-        List<Persona> personas = query.getResultList();
+        Persona personas = query.getSingleResult();
         return personas;
     }
 }

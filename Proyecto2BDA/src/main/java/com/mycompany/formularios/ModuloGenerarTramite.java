@@ -37,13 +37,14 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     /**
      * Creates new form ModuloLicencia
      */
-    public ModuloGenerarTramite() {
+    public ModuloGenerarTramite() {       
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         initComponents();
+        personaDAO = new PersonaDAO(entityManager);
         this.actualizarTabla();
     }
     
-    private void cerrarVentanaActual(){
+    public void cerrarVentanaActual(){
         this.dispose();
     }
     
@@ -55,29 +56,29 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     public void irGenerarPlaca() {
         ModuloPlaca placa = new ModuloPlaca();
         placa.setEntityManager(entityManager);
-        placa.setPersona(btnSeleccionarPersonaMouseClicked());
+        placa.setPersona(regresaPersona());
         placa.setVisible(true);
     }
     
-    private void irGenerarLicencia() {
-        ModuloLicencia lic = new ModuloLicencia();
+    public void irGenerarLicencia() {
+        Persona persona = regresaPersona();
+        ModuloLicencia lic = new ModuloLicencia(persona);
         lic.setEntityManager(entityManager);
-        lic.setPersona(btnSeleccionarPersonaMouseClicked());
         lic.setVisible(true);
     }
 
-    private String extraerRFC(){
+    public String extraerRFC(){
         String rfc = this.txtRFC.getText();
         return rfc;
     }
     
-    private FiltroHistorial filtroRFC(){
+    public FiltroHistorial filtroRFC(){
         FiltroHistorial filtro = new FiltroHistorial();
         filtro.setRFC(this.extraerRFC());
         return filtro;
     }
     
-    private void actualizarTabla(){
+    public void actualizarTabla(){
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
@@ -102,12 +103,12 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         }
     }
     
-    private void avanzarPagina(){
+    public void avanzarPagina(){
         this.configPaginado.avanzarPagina();
         this.actualizarTabla();
     }
 
-    private void retrocederPagina(){
+    public void retrocederPagina(){
         this.configPaginado.retrocederPagina();
         this.actualizarTabla();
     }
@@ -120,7 +121,37 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         this.entityManager = entityManager;
     }
     
+    public void seleccionDePersona(){
+        int filaseleccionada;
+        try{
+            //Guardamos en un entero la fila seleccionada.
+            filaseleccionada = tablePersonasPorRFC.getSelectedRow();
+            if (filaseleccionada == -1){
+                JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
+            } else {           
+                String nombre = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 0);
+                String rfc = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 1);
+                String fechaNacimiento = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 2);
+                Sexo sexo = (Sexo)tablePersonasPorRFC.getValueAt(filaseleccionada, 3);
+                String telefono = (String)tablePersonasPorRFC.getValueAt(filaseleccionada,4);
+                Discapacitado discapacidad = (Discapacitado)tablePersonasPorRFC.getValueAt(filaseleccionada, 5);
+                
+                lblNombre.setText(nombre);
+                lblrfc.setText(rfc);
+                lblFechaNacimiento.setText(fechaNacimiento);
+                lblSexo.setText(sexo.toString());
+                lblTelefono.setText(telefono);
+                lblDiscapacidad.setText(discapacidad.toString());               
+            }
+        }catch (Exception ex){
+            JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
+        }
+    }
     
+    public Persona regresaPersona(){
+        return personaDAO.buscarPersonaRFC(lblrfc.getText());      
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -459,70 +490,9 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAvanzarActionPerformed
 
     private void btnSeleccionarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPersonaActionPerformed
-        int filaseleccionada;
-        try{
-            //Guardamos en un entero la fila seleccionada.
-            filaseleccionada = tablePersonasPorRFC.getSelectedRow();
-            if (filaseleccionada == -1){
-                JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
-            } else {              
-                String nombre = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 0);
-                String rfc = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 1);
-                String fechaNacimiento = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 2);
-                Sexo sexo = (Sexo)tablePersonasPorRFC.getValueAt(filaseleccionada, 3);
-                String telefono = (String)tablePersonasPorRFC.getValueAt(filaseleccionada,4);
-                Discapacitado discapacidad = (Discapacitado)tablePersonasPorRFC.getValueAt(filaseleccionada, 5);
-                lblNombre.setText(nombre);
-                lblFechaNacimiento.setText(fechaNacimiento);
-                lblTelefono.setText(telefono);
-                lblSexo.setText(sexo.toString());
-                lblrfc.setText(rfc);    
-                lblDiscapacidad.setText(discapacidad.toString());
-                btnSeleccionarPersonaMouseClicked();
-            }
-        }catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
-        }
+        this.seleccionDePersona();
     }//GEN-LAST:event_btnSeleccionarPersonaActionPerformed
-
-    private Persona btnSeleccionarPersonaMouseClicked(){
-        int filaseleccionada;
-        try{
-            //Guardamos en un entero la fila seleccionada.
-            filaseleccionada = tablePersonasPorRFC.getSelectedRow();
-            if (filaseleccionada == -1){
-                JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
-                return null;
-            } else {           
-                Persona persona = new Persona();
-                
-                String nombre = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 0);
-                String rfc = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 1);
-                String fechaNacimiento = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 2);
-                Sexo sexo = (Sexo)tablePersonasPorRFC.getValueAt(filaseleccionada, 3);
-                String telefono = (String)tablePersonasPorRFC.getValueAt(filaseleccionada,4);
-                Discapacitado discapacidad = (Discapacitado)tablePersonasPorRFC.getValueAt(filaseleccionada, 5);
-                
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                Date fechaDate = sdf.parse(fechaNacimiento);
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(fechaDate);
-
-                persona.setNombreCompleto(nombre);
-                persona.setRfc(rfc);
-                persona.setFechaNacimiento(calendar);
-                persona.setSexo(sexo);
-                persona.setTelefono(telefono);
-                persona.setDiscapasitado(discapacidad);
-
-                return persona;
-            }
-        }catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
-    }
-    
+  
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
         irGenerarLicencia();

@@ -77,6 +77,18 @@ public class main {
 
         Menu menu = new Menu();
         menu.setVisible(true);
+//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Proyecto2BDA");
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        
+//        PersonaDAO personaDAO = new PersonaDAO(entityManager);
+//        Persona per = personaDAO.buscarPersonaRFC("MATR930523");
+//        
+//        System.out.println(per.getId());
+//        System.out.println(per.getNombreCompleto());
+//        System.out.println(per.getRfc());
+//        System.out.println(per.getFechaNacimiento());
+//        System.out.println(per.getSexo());
+//        System.out.println(per.getTelefono());
         
 //    FiltroHistorial filtro = new FiltroHistorial();
 //    filtro.setRFC("S");
