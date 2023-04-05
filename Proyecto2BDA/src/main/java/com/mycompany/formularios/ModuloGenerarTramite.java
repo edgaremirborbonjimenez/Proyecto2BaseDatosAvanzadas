@@ -40,6 +40,8 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     public ModuloGenerarTramite() {       
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         initComponents();
+        btnGenerarPlaca.setVisible(false);
+        btnGenerarPlaca.setVisible(false);
         personaDAO = new PersonaDAO(entityManager);
         this.actualizarTabla();
     }
@@ -491,6 +493,8 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
     private void btnSeleccionarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPersonaActionPerformed
         this.seleccionDePersona();
+        btnGenerarPlaca.setVisible(true);
+        btnGenerarLicencia.setVisible(true);
     }//GEN-LAST:event_btnSeleccionarPersonaActionPerformed
   
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
