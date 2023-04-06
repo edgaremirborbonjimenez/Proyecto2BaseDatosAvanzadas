@@ -40,8 +40,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     public ModuloGenerarTramite() {       
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         initComponents();
-        btnGenerarPlaca.setVisible(false);
-        btnGenerarPlaca.setVisible(false);
+        this.deshabilitarBotonesTramites();
         personaDAO = new PersonaDAO(entityManager);
         this.actualizarTabla();
     }
@@ -53,6 +52,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     public void regresarMenu(){
         Menu menu = new Menu();
         menu.setVisible(true);
+        this.dispose();
     }
     
     public void irGenerarPlaca() {
@@ -60,6 +60,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         placa.setEntityManager(entityManager);
         placa.setPersona(regresaPersona());
         placa.setVisible(true);
+        this.dispose();
     }
     
     public void irGenerarLicencia() {
@@ -67,6 +68,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         ModuloLicencia lic = new ModuloLicencia(persona);
         lic.setEntityManager(entityManager);
         lic.setVisible(true);
+        this.dispose();
     }
 
     public String extraerRFC(){
@@ -108,11 +110,13 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     public void avanzarPagina(){
         this.configPaginado.avanzarPagina();
         this.actualizarTabla();
+        this.deshabilitarBotonesTramites();
     }
 
     public void retrocederPagina(){
         this.configPaginado.retrocederPagina();
         this.actualizarTabla();
+        this.deshabilitarBotonesTramites();
     }
 
     public EntityManager getEntityManager() {
@@ -123,6 +127,16 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         this.entityManager = entityManager;
     }
     
+    public void deshabilitarBotonesTramites(){
+        this.btnGenerarPlaca.setEnabled(false);
+        this.btnGenerarLicencia.setEnabled(false);
+    }
+    
+    public void habilitarBotonesTramites(){
+        this.btnGenerarPlaca.setEnabled(true);
+        this.btnGenerarLicencia.setEnabled(true);
+    }
+    
     public void seleccionDePersona(){
         int filaseleccionada;
         try{
@@ -130,20 +144,25 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             filaseleccionada = tablePersonasPorRFC.getSelectedRow();
             if (filaseleccionada == -1){
                 JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
-            } else {           
+            } else {         
+                //Habilitamos los botones de tramites
+                habilitarBotonesTramites();
+                
                 String nombre = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 0);
                 String rfc = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 1);
                 String fechaNacimiento = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 2);
                 Sexo sexo = (Sexo)tablePersonasPorRFC.getValueAt(filaseleccionada, 3);
                 String telefono = (String)tablePersonasPorRFC.getValueAt(filaseleccionada,4);
                 Discapacitado discapacidad = (Discapacitado)tablePersonasPorRFC.getValueAt(filaseleccionada, 5);
-                
+                                              
                 lblNombre.setText(nombre);
                 lblrfc.setText(rfc);
                 lblFechaNacimiento.setText(fechaNacimiento);
                 lblSexo.setText(sexo.toString());
                 lblTelefono.setText(telefono);
-                lblDiscapacidad.setText(discapacidad.toString());               
+                lblDiscapacidad.setText(discapacidad.toString());       
+                btnGenerarPlaca.setVisible(true);
+                btnGenerarLicencia.setVisible(true);
             }
         }catch (Exception ex){
             JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
@@ -492,9 +511,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAvanzarActionPerformed
 
     private void btnSeleccionarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPersonaActionPerformed
-        this.seleccionDePersona();
-        btnGenerarPlaca.setVisible(true);
-        btnGenerarLicencia.setVisible(true);
+        this.seleccionDePersona();        
     }//GEN-LAST:event_btnSeleccionarPersonaActionPerformed
   
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed

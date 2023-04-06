@@ -37,6 +37,7 @@ public class Menu extends javax.swing.JFrame {
         ModuloGenerarTramite licencias = new ModuloGenerarTramite();
         licencias.setEntityManager(entity);
         licencias.setVisible(true);
+        this.dispose();
     }
     
     private  void irModuloPlaca(){
@@ -47,6 +48,7 @@ public class Menu extends javax.swing.JFrame {
     private  void irHistorialPlacasLicencia(){
         ModuloHistoriales historiales = new ModuloHistoriales();
         historiales.setVisible(true);
+        this.dispose();
     }
     
     private void irGenerarReporte(){
