@@ -161,8 +161,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                 lblSexo.setText(sexo.toString());
                 lblTelefono.setText(telefono);
                 lblDiscapacidad.setText(discapacidad.toString());       
-                btnGenerarPlaca.setVisible(true);
-                btnGenerarLicencia.setVisible(true);
             }
         }catch (Exception ex){
             JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
