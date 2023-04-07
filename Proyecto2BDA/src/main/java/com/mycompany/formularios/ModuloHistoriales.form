@@ -37,7 +37,7 @@
                           <Component id="chkNombre" min="-2" max="-2" attributes="0"/>
                           <Component id="txtNombre" min="-2" pref="216" max="-2" attributes="0"/>
                           <Component id="chkFechaNacimiento" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" min="-2" pref="207" max="-2" attributes="0"/>
+                          <Component id="cmbAnioNacimiento" min="-2" pref="207" max="-2" attributes="0"/>
                           <Component id="btnBuscar" min="-2" pref="189" max="-2" attributes="0"/>
                           <Component id="btnRegresar" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                           <Component id="chkRFC" alignment="0" min="-2" pref="93" max="-2" attributes="0"/>
@@ -124,7 +124,7 @@
                               <EmptySpace min="32" pref="32" max="-2" attributes="0"/>
                               <Component id="chkFechaNacimiento" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
-                              <Component id="jComboBox1" min="-2" max="-2" attributes="0"/>
+                              <Component id="cmbAnioNacimiento" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="57" pref="57" max="-2" attributes="0"/>
                               <Component id="btnBuscar" min="-2" pref="46" max="-2" attributes="0"/>
                           </Group>
@@ -300,6 +300,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Fecha de Nacimiento"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkFechaNacimientoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnBuscar">
       <Properties>
@@ -312,7 +315,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="jComboBox1">
+    <Component class="javax.swing.JComboBox" name="cmbAnioNacimiento">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
