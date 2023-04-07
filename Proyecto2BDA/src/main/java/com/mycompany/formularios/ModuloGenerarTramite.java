@@ -11,6 +11,7 @@ import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Sexo;
 import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
+import com.mycompany.utils.ValidacionDatos;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -82,7 +83,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         return filtro;
     }
     
-    public void actualizarTabla(){
+    public void actualizarTabla(){       
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
@@ -138,6 +139,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     }
     
     public void seleccionDePersona(){
+        validacionCampoRFC();
         int filaseleccionada;
         try{
             //Guardamos en un entero la fila seleccionada.
@@ -171,6 +173,25 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         return personaDAO.buscarPersonaRFC(lblrfc.getText());      
     }
 
+    public void validacionCampoRFC(){
+        String rfc = txtRFC.getText();
+        if (ValidacionDatos.isEmpty(rfc)) {
+            mostrarErrorValidacionRFCVacio();
+        }
+        
+        if (ValidacionDatos.exceedsLimit(rfc, 10)) {
+            mostrarErrorValidacionRFCExcedeLimite();
+        }
+    }
+    
+    public void mostrarErrorValidacionRFCVacio(){
+        JOptionPane.showMessageDialog(null, "El RFC esta vacio", "Campo RFC Invalido", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public void mostrarErrorValidacionRFCExcedeLimite(){
+        JOptionPane.showMessageDialog(null, "El RFC supera el numero de caracteres permitidos", "Campo RFC Invalido", JOptionPane.ERROR_MESSAGE);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
