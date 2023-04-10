@@ -27,6 +27,7 @@ public class Menu extends javax.swing.JFrame {
         conexion = new ConexionDAO();
         conexion.crearConexion("Proyecto2BDA");
         entity = conexion.getEntityManager();
+        System.out.println(entity);
     }
     
     private void cerrarVentanaActual(){

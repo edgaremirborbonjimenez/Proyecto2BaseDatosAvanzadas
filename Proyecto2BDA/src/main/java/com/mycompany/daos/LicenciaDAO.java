@@ -65,10 +65,13 @@ public class LicenciaDAO {
         }
 
         Licencia licencia = new Licencia(new Date(), fechaV, costo, Estado.ACTIVA, persona);
+        if(licenciaAnterior!=null){
         licenciaAnterior.setEstado(Estado.DESACTIVA);
-
+        }
         entityManager.getTransaction().begin();
+        if(licenciaAnterior!=null){
         entityManager.persist(licenciaAnterior);
+        }
         entityManager.persist(licencia);
 
         entityManager.getTransaction().commit();

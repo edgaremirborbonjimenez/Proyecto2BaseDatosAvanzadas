@@ -26,7 +26,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
     /**
      * Creates new form ModuloLicencia
      */
-    public ModuloLicencia(Persona persona) {
+    public ModuloLicencia(Persona persona,EntityManager entityManager) {
         initComponents();
         this.persona = persona;
         setLabelPersona();
@@ -303,6 +303,8 @@ public class ModuloLicencia extends javax.swing.JFrame {
 
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
+                System.out.println(this.entityManager);
+
         this.generarLicencia();
         mensajeLicenciaGeneradaExitosamente();
         this.irMenu();

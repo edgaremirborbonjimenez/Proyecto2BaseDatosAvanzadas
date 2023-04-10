@@ -29,10 +29,22 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
     /**
      * Creates new form ModuloPlacaAutoUsado
      */
-    public ModuloPlacaAutoUsado() {
+    public ModuloPlacaAutoUsado(Persona persona, EntityManager entityManager) {
         initComponents();
+        this.entityManager=entityManager;
+        this.persona=persona;
+        setLabelPersona();
         vehiculoDAO = new VehiculoDAO(entityManager);
         placaDAO = new PlacaDAO(entityManager);
+    }
+    
+            private void setLabelPersona() {           
+            lblNombre.setText(persona.getNombreCompleto());
+//            lblFechaNcimiento.setText(formateoFecha().toString());
+            lblRFC.setText(persona.getRfc());
+            lblTelefono.setText(persona.getTelefono());
+            lblSexo.setText(persona.getSexo().toString());
+            lblDiscapacitado.setText(persona.getDiscapasitado().toString());
     }
 
     private void cerrarVentana() {
@@ -41,6 +53,8 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
 
     private void irModuloPlaca() {
         ModuloPlaca moduloPlaca = new ModuloPlaca();
+        moduloPlaca.setEntityManager(this.entityManager);
+        moduloPlaca.setPersona(this.persona);
         moduloPlaca.setVisible(true);
     }
 
@@ -66,7 +80,8 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         if (vehiculo == null) {
             return null;
         }
-        return this.placaDAO.generarPlacaVehiculoUsado(persona, vehiculo);
+        Placa placa = this.placaDAO.generarPlacaVehiculoUsado(persona, vehiculo);
+        return placa;
     }
 
     private void mensajePlacaGeneradaExitosamente(Placa placa) {
@@ -171,31 +186,31 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel4.setText("Nombre");
+        jLabel4.setText("Nombre:");
 
         lblNombre.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblNombre.setText("...");
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel6.setText("Fecha de Nacimiento");
+        jLabel6.setText("Fecha de Nacimiento:");
 
         lblFechaNacimiento.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblFechaNacimiento.setText("...");
 
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel8.setText("Telefono");
+        jLabel8.setText("Telefono:");
 
         lblTelefono.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblTelefono.setText("...");
 
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel10.setText("Sexo");
+        jLabel10.setText("Sexo:");
 
         lblSexo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblSexo.setText("...");
 
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel12.setText("RFC");
+        jLabel12.setText("RFC:");
 
         lblRFC.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblRFC.setText("...");
@@ -204,7 +219,7 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         jLabel3.setText("Persona :");
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel14.setText("Discapacitado");
+        jLabel14.setText("Discapacitado:");
 
         lblDiscapacitado.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lblDiscapacitado.setText("...");
@@ -235,8 +250,8 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
                                 .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -271,28 +286,28 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblFechaNacimiento)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel8))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(16, 16, 16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTelefono)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblSexo)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel12)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblRFC)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel14)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblDiscapacitado)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -328,40 +343,40 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnGenerarPlacaMouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ModuloPlacaAutoUsado().setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(ModuloPlacaAutoUsado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new ModuloPlacaAutoUsado().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGenerarPlaca;

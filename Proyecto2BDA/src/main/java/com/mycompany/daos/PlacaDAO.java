@@ -51,9 +51,9 @@ public class PlacaDAO {
         return placa;
     }
 
-    public Placa generarPlacaVehiculoUsado(Persona persona, Vehiculo vehiculo) {
+    public Placa generarPlacaVehiculoUsado(Persona persona,Vehiculo vehiculo) {
 
-        Placa placaAnterior = consultarPlacaActiva(persona);
+        Placa placaAnterior = consultarPlacaActiva(vehiculo.getSerie());
         String numeroPlaca = generaNumeroDePlaca();
         Placa placa = new Placa(new Date(), 1000F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
         placaAnterior.setEstado(Estado.DESACTIVA);
@@ -88,17 +88,23 @@ public class PlacaDAO {
         return lista;
     }
 
-    private Placa consultarPlacaActiva(Persona persona) {
-        Query query = this.entityManager.createQuery("Select p from Placa p where p.persona = :per AND p.estado = :est ");
+    private Placa consultarPlacaActiva(String serie) {
+        VehiculoDAO vehiculoDAO = new VehiculoDAO(entityManager);
+        Vehiculo vehiculo = vehiculoDAO.consultaVehiculoPorSerie(serie);
+        Query query = this.entityManager.createQuery("Select p from Placa p where p.vehiculo = :veh AND p.estado = :est ");
 
-        query.setParameter("per", persona);
+        query.setParameter("veh", vehiculo);
         query.setParameter("est", Estado.ACTIVA);
-        List<Placa> list = query.getResultList();
-        if (list.size() == 1) {
-            return list.get(0);
-        } else {
+        Placa placaActiva = (Placa) query.getSingleResult();
+        try{
+            placaActiva.getNumero();
+            return placaActiva;
+        }catch(Exception e){
+            //No se encontro placa activa
+            System.out.println(e.getMessage());
             return null;
         }
+
     }
 
     private String generaNumeroDePlaca() {

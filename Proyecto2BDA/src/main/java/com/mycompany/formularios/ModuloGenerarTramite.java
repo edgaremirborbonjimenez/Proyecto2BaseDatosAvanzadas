@@ -34,28 +34,28 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private IPersonaDAO personaDAO;
     private ConfiguracionDePaginado configPaginado;
     private EntityManager entityManager;
-    
+
     /**
      * Creates new form ModuloLicencia
      */
-    public ModuloGenerarTramite() {       
+    public ModuloGenerarTramite() {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         initComponents();
         this.deshabilitarBotonesTramites();
         personaDAO = new PersonaDAO(entityManager);
         this.actualizarTabla();
     }
-    
-    public void cerrarVentanaActual(){
+
+    public void cerrarVentanaActual() {
         this.dispose();
     }
-    
-    public void regresarMenu(){
+
+    public void regresarMenu() {
         Menu menu = new Menu();
         menu.setVisible(true);
         this.dispose();
     }
-    
+
     public void irGenerarPlaca() {
         ModuloPlaca placa = new ModuloPlaca();
         placa.setEntityManager(entityManager);
@@ -63,37 +63,37 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         placa.setVisible(true);
         this.dispose();
     }
-    
+
     public void irGenerarLicencia() {
         Persona persona = regresaPersona();
-        ModuloLicencia lic = new ModuloLicencia(persona);
-        lic.setEntityManager(entityManager);
+        ModuloLicencia lic = new ModuloLicencia(persona,this.entityManager);
+        //lic.setEntityManager(entityManager);
         lic.setVisible(true);
         this.dispose();
     }
 
-    public String extraerRFC(){
+    public String extraerRFC() {
         String rfc = this.txtRFC.getText();
         return rfc;
     }
-    
-    public FiltroHistorial filtroRFC(){
+
+    public FiltroHistorial filtroRFC() {
         FiltroHistorial filtro = new FiltroHistorial();
         filtro.setRFC(this.extraerRFC());
         return filtro;
     }
-    
-    public void actualizarTabla(){       
+
+    public void actualizarTabla() {
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
             EntityManager entity = emf.createEntityManager();
-            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonasPorRFC.getModel();    
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonasPorRFC.getModel();
             personaDAO = new PersonaDAO(entity);
             List<Persona> listaPersona = personaDAO.buscarPersonas(filtroRFC(), configPaginado);
             modeloTabla.setRowCount(0);
             for (Persona p : listaPersona) {
-                    Object[] fila = {
+                Object[] fila = {
                     p.getNombreCompleto(),
                     p.getRfc(),
                     formateado.format(p.getFechaNacimiento().getTime()),
@@ -107,14 +107,14 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
             LOG.log(Level.SEVERE, ex.getMessage());
         }
     }
-    
-    public void avanzarPagina(){
+
+    public void avanzarPagina() {
         this.configPaginado.avanzarPagina();
         this.actualizarTabla();
         this.deshabilitarBotonesTramites();
     }
 
-    public void retrocederPagina(){
+    public void retrocederPagina() {
         this.configPaginado.retrocederPagina();
         this.actualizarTabla();
         this.deshabilitarBotonesTramites();
@@ -127,71 +127,71 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-    
-    public void deshabilitarBotonesTramites(){
+
+    public void deshabilitarBotonesTramites() {
         this.btnGenerarPlaca.setEnabled(false);
         this.btnGenerarLicencia.setEnabled(false);
     }
-    
-    public void habilitarBotonesTramites(){
+
+    public void habilitarBotonesTramites() {
         this.btnGenerarPlaca.setEnabled(true);
         this.btnGenerarLicencia.setEnabled(true);
     }
-    
-    public void seleccionDePersona(){
+
+    public void seleccionDePersona() {
         validacionCampoRFC();
         int filaseleccionada;
-        try{
+        try {
             //Guardamos en un entero la fila seleccionada.
             filaseleccionada = tablePersonasPorRFC.getSelectedRow();
-            if (filaseleccionada == -1){
+            if (filaseleccionada == -1) {
                 JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
-            } else {         
+            } else {
                 //Habilitamos los botones de tramites
                 habilitarBotonesTramites();
-                
-                String nombre = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 0);
-                String rfc = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 1);
-                String fechaNacimiento = (String)tablePersonasPorRFC.getValueAt(filaseleccionada, 2);
-                Sexo sexo = (Sexo)tablePersonasPorRFC.getValueAt(filaseleccionada, 3);
-                String telefono = (String)tablePersonasPorRFC.getValueAt(filaseleccionada,4);
-                Discapacitado discapacidad = (Discapacitado)tablePersonasPorRFC.getValueAt(filaseleccionada, 5);
-                                              
+
+                String nombre = (String) tablePersonasPorRFC.getValueAt(filaseleccionada, 0);
+                String rfc = (String) tablePersonasPorRFC.getValueAt(filaseleccionada, 1);
+                String fechaNacimiento = (String) tablePersonasPorRFC.getValueAt(filaseleccionada, 2);
+                Sexo sexo = (Sexo) tablePersonasPorRFC.getValueAt(filaseleccionada, 3);
+                String telefono = (String) tablePersonasPorRFC.getValueAt(filaseleccionada, 4);
+                Discapacitado discapacidad = (Discapacitado) tablePersonasPorRFC.getValueAt(filaseleccionada, 5);
+
                 lblNombre.setText(nombre);
                 lblrfc.setText(rfc);
                 lblFechaNacimiento.setText(fechaNacimiento);
                 lblSexo.setText(sexo.toString());
                 lblTelefono.setText(telefono);
-                lblDiscapacidad.setText(discapacidad.toString());       
+                lblDiscapacidad.setText(discapacidad.toString());
             }
-        }catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion.", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-    public Persona regresaPersona(){
-        return personaDAO.buscarPersonaRFC(lblrfc.getText());      
+
+    public Persona regresaPersona() {
+        return personaDAO.buscarPersonaRFC(lblrfc.getText());
     }
 
-    public void validacionCampoRFC(){
+    public void validacionCampoRFC() {
         String rfc = txtRFC.getText();
         if (ValidacionDatos.isEmpty(rfc)) {
             mostrarErrorValidacionRFCVacio();
         }
-        
+
         if (ValidacionDatos.exceedsLimit(rfc, 10)) {
             mostrarErrorValidacionRFCExcedeLimite();
         }
     }
-    
-    public void mostrarErrorValidacionRFCVacio(){
+
+    public void mostrarErrorValidacionRFCVacio() {
         JOptionPane.showMessageDialog(null, "El RFC esta vacio", "Campo RFC Invalido", JOptionPane.ERROR_MESSAGE);
     }
-    
-    public void mostrarErrorValidacionRFCExcedeLimite(){
+
+    public void mostrarErrorValidacionRFCExcedeLimite() {
         JOptionPane.showMessageDialog(null, "El RFC supera el numero de caracteres permitidos", "Campo RFC Invalido", JOptionPane.ERROR_MESSAGE);
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -503,6 +503,8 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
         // TODO add your handling code here:
         irGenerarPlaca();
+        System.out.println(this.entityManager);
+
     }//GEN-LAST:event_btnGenerarPlacaActionPerformed
 
     private void btnGenerarPlacaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarPlacaMouseClicked
@@ -530,15 +532,15 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAvanzarActionPerformed
 
     private void btnSeleccionarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPersonaActionPerformed
-        this.seleccionDePersona();        
+        this.seleccionDePersona();
     }//GEN-LAST:event_btnSeleccionarPersonaActionPerformed
-  
+
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
         irGenerarLicencia();
+        System.out.println(this.entityManager);
     }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
 
-    
     /**
      * @param args the command line arguments
      */

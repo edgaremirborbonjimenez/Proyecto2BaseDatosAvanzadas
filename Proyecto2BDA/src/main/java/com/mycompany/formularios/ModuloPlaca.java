@@ -21,7 +21,7 @@ public class ModuloPlaca extends javax.swing.JFrame {
      */
     public ModuloPlaca() {
         initComponents();
-        this.persona = persona;
+//        this.persona = persona;
     }
 
     private void cerrarVentanaActual() {
@@ -34,14 +34,14 @@ public class ModuloPlaca extends javax.swing.JFrame {
     }
 
     public void irAutoNuevo() {
-        ModuloPlacaAutoNuevo autoNuevo = new ModuloPlacaAutoNuevo();
-        autoNuevo.setEntityManager(entityManager);
+        ModuloPlacaAutoNuevo autoNuevo = new ModuloPlacaAutoNuevo(persona,entityManager);
+//        autoNuevo.setEntityManager(entityManager);
         autoNuevo.setVisible(true);
     }
 
     public void irAutoUsado() {
-        ModuloPlacaAutoUsado autoUsado = new ModuloPlacaAutoUsado();
-        autoUsado.setEntityManager(entityManager);
+        ModuloPlacaAutoUsado autoUsado = new ModuloPlacaAutoUsado(this.persona,this.entityManager);
+//        autoUsado.setEntityManager(entityManager);
         autoUsado.setVisible(true);
     }
 
