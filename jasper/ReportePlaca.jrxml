@@ -52,7 +52,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="53"/>
 				</textElement>
-				<text><![CDATA[Reporte de Licencias]]></text>
+				<text><![CDATA[Reporte de Placas]]></text>
 			</staticText>
 		</band>
 	</title>

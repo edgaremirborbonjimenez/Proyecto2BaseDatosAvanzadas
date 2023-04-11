@@ -31,7 +31,7 @@ import javax.persistence.criteria.Root;
  *
  * @author edemb
  */
-public class LicenciaDAO implements ILicenciaDAO{
+public class LicenciaDAO implements ILicenciaDAO {
 
     private EntityManager entityManager;
 
@@ -46,7 +46,7 @@ public class LicenciaDAO implements ILicenciaDAO{
 
         query.setFirstResult(offset);
         query.setMaxResults(limit);
-        
+
         List<Licencia> list = query.getResultList();
         return list;
     }
@@ -71,41 +71,41 @@ public class LicenciaDAO implements ILicenciaDAO{
         }
 
         Licencia licencia = new Licencia(new Date(), fechaV, costo, Estado.ACTIVA, persona);
-        if(licenciaAnterior!=null){
-        licenciaAnterior.setEstado(Estado.DESACTIVA);
+        if (licenciaAnterior != null) {
+            licenciaAnterior.setEstado(Estado.DESACTIVA);
         }
         entityManager.getTransaction().begin();
-        if(licenciaAnterior!=null){
-        entityManager.persist(licenciaAnterior);
+        if (licenciaAnterior != null) {
+            entityManager.persist(licenciaAnterior);
         }
         entityManager.persist(licencia);
 
         entityManager.getTransaction().commit();
         return licencia;
     }
-
-    public List<Licencia> historialLicenciaFiltroReporte(FiltroReporteTramites filtro) {
-        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-        CriteriaQuery<Licencia> cq = cb.createQuery(Licencia.class);
-        Root<Licencia> from = cq.from(Licencia.class);
-
-        List<Predicate> filtros = new LinkedList<>();
-
-        if (filtro.getDesde() != null && filtro.getHasta() != null) {
-            filtros.add(cb.greaterThanOrEqualTo(from.get("fechaEmision"), filtro.getDesde()));
-            filtros.add(cb.lessThanOrEqualTo(from.get("fechaEmision"), filtro.getHasta()));
-        }
-        if (filtro.getPersona() != null) {
-            filtros.add(cb.equal(from.get("persona"), filtro.getPersona()));
-        }
-
-        cq = cq.select(from).where(cb.and(filtros.toArray(new Predicate[0])));
-
-        TypedQuery<Licencia> typed = this.entityManager.createQuery(cq);
-
-        List<Licencia> lista = typed.getResultList();
-        return lista;
-    }
+//
+//    public List<Licencia> historialLicenciaFiltroReporte(FiltroReporteTramites filtro) {
+//        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
+//        CriteriaQuery<Licencia> cq = cb.createQuery(Licencia.class);
+//        Root<Licencia> from = cq.from(Licencia.class);
+//
+//        List<Predicate> filtros = new LinkedList<>();
+//
+//        if (filtro.getDesde() != null && filtro.getHasta() != null) {
+//            filtros.add(cb.greaterThanOrEqualTo(from.get("fechaEmision"), filtro.getDesde()));
+//            filtros.add(cb.lessThanOrEqualTo(from.get("fechaEmision"), filtro.getHasta()));
+//        }
+//        if (filtro.getPersona() != null) {
+//            filtros.add(cb.equal(from.get("persona"), filtro.getPersona()));
+//        }
+//
+//        cq = cq.select(from).where(cb.and(filtros.toArray(new Predicate[0])));
+//
+//        TypedQuery<Licencia> typed = this.entityManager.createQuery(cq);
+//
+//        List<Licencia> lista = typed.getResultList();
+//        return lista;
+//    }
 
     private Licencia consultarLicenciaActiva(Persona persona) {
         Query query = this.entityManager.createQuery("Select p from Licencia p where p.persona = :per AND p.estado = :est ");
@@ -118,5 +118,44 @@ public class LicenciaDAO implements ILicenciaDAO{
         } else {
             return null;
         }
+    }
+
+    public List<Licencia> consultaReporteLicencia(FiltroReporteTramites filtro) {
+        String spql = "Select l from Licencia l";
+        Query query;
+        List<Licencia> lista;
+        if (filtro.getNombre() != null) {
+            spql += " INNER JOIN l.persona per where per.nombreCompleto LIKE :nombre";
+            if (filtro.getDesde() != null) {
+                spql += " AND l.fechaEmision BETWEEN :desde AND :hasta";
+
+                query = this.entityManager.createQuery(spql, Licencia.class);
+                query.setParameter("nombre", "%" + filtro.getNombre() + "%");
+                query.setParameter("desde", filtro.getDesde());
+                query.setParameter("hasta", filtro.getHasta());
+
+                lista = query.getResultList();
+                return lista;
+            } else {
+                query = this.entityManager.createQuery(spql, Licencia.class);
+                query.setParameter("nombre", "%" + filtro.getNombre() + "%");
+
+                lista = query.getResultList();
+                return lista;
+            }
+        } else {
+            if (filtro.getDesde() != null) {
+                spql += " WHERE l.fechaEmision BETWEEN :desde AND :hasta";
+
+                query = this.entityManager.createQuery(spql, Licencia.class);
+                query.setParameter("desde", filtro.getDesde());
+                query.setParameter("hasta", filtro.getHasta());
+
+                lista = query.getResultList();
+                return lista;
+            }
+        }
+        //Si el Filtro esta vacio
+        return null;
     }
 }

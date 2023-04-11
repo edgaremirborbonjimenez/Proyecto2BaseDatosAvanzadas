@@ -5,6 +5,7 @@
 package com.mycompany.dominio;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -13,55 +14,35 @@ import java.util.HashMap;
  */
 public class FiltroReporteTramites {
 
-//    private Calendar desde;
-//    private Calendar hasta;
-        private Calendar desde;
-    private Calendar hasta;
-    private Boolean licencia;
-    private Boolean placa;
-    private Persona persona;
+    private Date desde;
+    private Date hasta;
+    private String Nombre;
 
     public FiltroReporteTramites() {
     }
 
-    public void setDesde(Calendar desde) {
+    public void setDesde(Date desde) {
         this.desde = desde;
     }
 
-    public void setHasta(Calendar hasta) {
+    public void setHasta(Date hasta) {
         this.hasta = hasta;
     }
 
-    public void setLicencia(Boolean licencia) {
-        this.licencia = licencia;
-    }
-
-    public void setPlaca(Boolean placa) {
-        this.placa = placa;
-    }
-
-    public Calendar getDesde() {
+    public Date getDesde() {
         return desde;
     }
 
-    public Calendar getHasta() {
+    public Date getHasta() {
         return hasta;
     }
 
-    public Boolean getLicencia() {
-        return licencia;
+    public String getNombre() {
+        return Nombre;
     }
 
-    public Boolean getPlaca() {
-        return placa;
-    }
-
-    public Persona getPersona() {
-        return persona;
-    }
-
-    public void setPersona(Persona persona) {
-        this.persona = persona;
+    public void setNombre(String Nombre) {
+        this.Nombre = Nombre;
     }
 
 }
