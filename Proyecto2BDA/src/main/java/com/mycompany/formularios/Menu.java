@@ -47,7 +47,7 @@ public class Menu extends javax.swing.JFrame {
     }
     
     private  void irHistorialPlacasLicencia(){
-        ModuloHistoriales historiales = new ModuloHistoriales();
+        ModuloHistoriales historiales = new ModuloHistoriales(entity);
         historiales.setVisible(true);
         this.dispose();
     }

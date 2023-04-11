@@ -65,8 +65,9 @@ public class ModuloHistoriales extends javax.swing.JFrame {
 
     private void irHistorialPlaca() {
 
-        HistorialPlacas hisPla = new HistorialPlacas();
+        HistorialPlacas hisPla = new HistorialPlacas(regresaPersona());
         hisPla.setVisible(true);
+        hisPla.setEntityManager(entityManager);
     }
     
     private String extraerDatosFormulario(){
