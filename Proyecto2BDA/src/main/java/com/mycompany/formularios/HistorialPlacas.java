@@ -6,6 +6,7 @@ package com.mycompany.formularios;
 
 import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -13,11 +14,14 @@ import com.mycompany.utils.ConfiguracionDePaginado;
  */
 public class HistorialPlacas extends javax.swing.JFrame {
         
+    private EntityManager entityManager;
+    
     /**
      * Creates new form HistorialPlacas
      */
     public HistorialPlacas() {
         initComponents();
+        this.entityManager = entityManager;
     }
 
     private void cerrarVentana() {
@@ -25,7 +29,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
     }
 
     private void irModuloHistorial() {
-        ModuloHistoriales historiales = new ModuloHistoriales ();
+        ModuloHistoriales historiales = new ModuloHistoriales (entityManager);
         historiales.setVisible(true);
     }
 

@@ -127,8 +127,8 @@ public class PersonaDAO implements IPersonaDAO {
 
     @Override
     public Persona buscarPersonaRFC(String rfc) {
-//        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
-//        entityManager = emf.createEntityManager();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+        entityManager = emf.createEntityManager();
 //
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 

@@ -12,6 +12,8 @@ import com.mycompany.dominio.Licencia;
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Placa;
 import com.mycompany.dominio.Vigencia;
+import com.mycompany.interfaces.ILicenciaDAO;
+import com.mycompany.utils.ConfiguracionDePaginado;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -29,7 +31,7 @@ import javax.persistence.criteria.Root;
  *
  * @author edemb
  */
-public class LicenciaDAO {
+public class LicenciaDAO implements ILicenciaDAO{
 
     private EntityManager entityManager;
 
@@ -37,10 +39,14 @@ public class LicenciaDAO {
         this.entityManager = entityManager;
     }
 
-    public List<Licencia> consultarLicenciasPersona(Persona persona) {
+    public List<Licencia> consultarLicenciasPersona(Persona persona, ConfiguracionDePaginado configuracionDePaginado) {
+        int offset = configuracionDePaginado.getElementoASaltar();
+        int limit = configuracionDePaginado.getElementosPorPagina();
+        Query query = this.entityManager.createQuery("Select l from Licencia l where l.persona = :per").setParameter("per", persona);
 
-        Query query = this.entityManager.createQuery("Select l from Licencia l where p.persona = :per").setParameter("per", persona);
-
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+        
         List<Licencia> list = query.getResultList();
         return list;
     }

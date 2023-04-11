@@ -4,7 +4,19 @@
  */
 package com.mycompany.formularios;
 
-import com.mycompany.interfaces.IPersonaDAO;
+import com.mycompany.daos.LicenciaDAO;
+import com.mycompany.dominio.Licencia;
+import com.mycompany.dominio.Persona;
+import com.mycompany.interfaces.ILicenciaDAO;
+import com.mycompany.utils.ConfiguracionDePaginado;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -12,11 +24,29 @@ import com.mycompany.interfaces.IPersonaDAO;
  */
 public class HistorialLicencias extends javax.swing.JFrame {
 
+    private static final Logger LOG = Logger.getLogger(HistorialLicencias.class.getName());
+    private ILicenciaDAO licenciaDAO;
+    private EntityManager entityManager;
+    private Persona persona;
+    private ConfiguracionDePaginado configPaginado;
+    
     /**
      * Creates new form HistorialLicencias
      */
-    public HistorialLicencias() {
+    public HistorialLicencias(Persona persona) {
+        this.configPaginado = new ConfiguracionDePaginado(0, 10);
+        this.persona = persona;
         initComponents();
+        licenciaDAO = new LicenciaDAO(entityManager);
+        this.cargarTablaHistorialLicencia();
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     private void cerrarVentana() {
@@ -24,10 +54,49 @@ public class HistorialLicencias extends javax.swing.JFrame {
     }
 
     private void irModuloHistorial() {
-        ModuloHistoriales historiales = new ModuloHistoriales();
+        ModuloHistoriales historiales = new ModuloHistoriales(this.entityManager);
         historiales.setVisible(true);
     }
 
+    private void cargarTablaHistorialLicencia(){
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+            EntityManager entity = emf.createEntityManager();
+            licenciaDAO = new LicenciaDAO(entity);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tableHistorialLicencia.getModel();
+            List<Licencia> listaLicencia = licenciaDAO.consultarLicenciasPersona(this.persona, configPaginado);
+            modeloTabla.setRowCount(0);
+            for (Licencia l : listaLicencia) {
+                Object[] fila = {
+                    l.getFechaEmision(),
+                    l.getFechaVigencia(),
+                    l.getCosto()
+                };
+                modeloTabla.addRow(fila);
+            }
+        } catch (PersistenceException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage());
+        }
+    }
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    public void avanzarPagina() {
+        this.configPaginado.avanzarPagina();
+        this.cargarTablaHistorialLicencia();
+    }
+
+    public void retrocederPagina() {
+        this.configPaginado.retrocederPagina();
+        this.cargarTablaHistorialLicencia();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,8 +109,10 @@ public class HistorialLicencias extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableHistorialLicencia = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
+        btnRetroceder = new javax.swing.JButton();
+        btnAvanzar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Historial de Licencias");
@@ -49,7 +120,7 @@ public class HistorialLicencias extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Historial de Licencias");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableHistorialLicencia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -72,7 +143,7 @@ public class HistorialLicencias extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableHistorialLicencia);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -104,6 +175,10 @@ public class HistorialLicencias extends javax.swing.JFrame {
             }
         });
 
+        btnRetroceder.setText("<- Retroceder");
+
+        btnAvanzar.setText("Avanzar ->");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,10 +188,17 @@ public class HistorialLicencias extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(309, 309, 309))
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(253, 253, 253)
+                        .addComponent(btnRetroceder)
+                        .addGap(201, 201, 201)
+                        .addComponent(btnAvanzar)))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -126,9 +208,13 @@ public class HistorialLicencias extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRetroceder)
+                    .addComponent(btnAvanzar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addGap(21, 21, 21))
         );
 
         pack();
@@ -146,7 +232,7 @@ public class HistorialLicencias extends javax.swing.JFrame {
         cerrarVentana();
 
     }//GEN-LAST:event_btnRegresarMouseClicked
-
+    
     /**
      * // * @param args the command line arguments //
      */
@@ -183,10 +269,12 @@ public class HistorialLicencias extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAvanzar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JButton btnRetroceder;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableHistorialLicencia;
     // End of variables declaration//GEN-END:variables
 }

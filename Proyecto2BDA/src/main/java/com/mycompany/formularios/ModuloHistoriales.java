@@ -34,14 +34,17 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     private static final Logger LOG = Logger.getLogger(ModuloHistoriales.class.getName());
     private ConfiguracionDePaginado configPaginado;
     private FiltroHistorial parametros;
+    private IPersonaDAO personaDAO;
+    private EntityManager entityManager;
     private final IPersonaDAO personasDAO = null;
     
     /**
      * Creates new form ModuloHistoriales
      */
-    public ModuloHistoriales() {
+    public ModuloHistoriales(EntityManager entityManager) {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         initComponents();
+        this.personaDAO = new PersonaDAO(entityManager);
         this.deshabilitarBotonesTramites();     
     }
 
@@ -55,10 +58,9 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     }
 
     private void irHistorialLicencia() {
-
-        HistorialLicencias hisLic = new HistorialLicencias();
+        HistorialLicencias hisLic = new HistorialLicencias(regresaPersona());
         hisLic.setVisible(true);
-
+        hisLic.setEntityManager(entityManager);
     }
 
     private void irHistorialPlaca() {
@@ -209,10 +211,10 @@ public class ModuloHistoriales extends javax.swing.JFrame {
                 habilitarBotonesTramites();
                 
                 String nombre = (String)tablePersonas.getValueAt(filaseleccionada, 0);
-                String rfc = (String)tablePersonas.getValueAt(filaseleccionada, 1);
-                String fechaNacimiento = (String)tablePersonas.getValueAt(filaseleccionada, 2);
+                String fechaNacimiento = (String)tablePersonas.getValueAt(filaseleccionada, 1);
+                String telefono = (String)tablePersonas.getValueAt(filaseleccionada, 2);
                 Sexo sexo = (Sexo)tablePersonas.getValueAt(filaseleccionada, 3);
-                String telefono = (String)tablePersonas.getValueAt(filaseleccionada,4);
+                String rfc = (String)tablePersonas.getValueAt(filaseleccionada,4);
                 Discapacitado discapacidad = (Discapacitado)tablePersonas.getValueAt(filaseleccionada, 5);
                                               
                 lblNombre.setText(nombre);
@@ -227,6 +229,11 @@ public class ModuloHistoriales extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
         }
     }
+    
+    public Persona regresaPersona() {
+        return personaDAO.buscarPersonaRFC(lblRFC.getText());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -502,17 +509,18 @@ public class ModuloHistoriales extends javax.swing.JFrame {
                             .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)))
-                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(lblDiscapacitado, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblDiscapacitado, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblRFC, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(52, 52, 52)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -520,13 +528,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
                             .addComponent(btnRetroceder)
                             .addComponent(btnAvanzar))
                         .addGap(18, 18, 18)
-                        .addComponent(btnSeleccionarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnHistorialPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnHistorialLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addComponent(btnSeleccionarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -561,11 +563,20 @@ public class ModuloHistoriales extends javax.swing.JFrame {
                                 .addComponent(jLabel10)
                                 .addGap(18, 18, 18)
                                 .addComponent(lblSexo)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addGap(15, 15, 15)
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
-                        .addComponent(lblRFC)
+                        .addComponent(lblRFC)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnHistorialPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHistorialLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 40, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel14)
                         .addGap(6, 6, 6)
                         .addComponent(lblDiscapacitado)
@@ -598,7 +609,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
   
     private void btnHistorialLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialLicenciaActionPerformed
         // TODO add your handling code here:
-        irHistorialLicencia();
+        this.irHistorialLicencia();
     }//GEN-LAST:event_btnHistorialLicenciaActionPerformed
 
     private void btnHistorialLicenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistorialLicenciaMouseClicked

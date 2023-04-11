@@ -4,10 +4,17 @@
  */
 package com.mycompany.interfaces;
 
+import com.mycompany.dominio.Licencia;
+import com.mycompany.dominio.Persona;
+import com.mycompany.utils.ConfiguracionDePaginado;
+import java.util.List;
+
 /**
  *
  * @author Usuario
  */
 public interface ILicenciaDAO {
+    
+    List<Licencia> consultarLicenciasPersona(Persona persona, ConfiguracionDePaginado configuracionDePaginado);
     
 }

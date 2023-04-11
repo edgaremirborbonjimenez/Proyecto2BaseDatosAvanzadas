@@ -13,8 +13,6 @@ import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
 import com.mycompany.utils.ValidacionDatos;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -175,10 +173,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
     public void validacionCampoRFC() {
         String rfc = txtRFC.getText();
-        if (ValidacionDatos.isEmpty(rfc)) {
-            mostrarErrorValidacionRFCVacio();
-        }
-
         if (ValidacionDatos.exceedsLimit(rfc, 10)) {
             mostrarErrorValidacionRFCExcedeLimite();
         }
