@@ -4,23 +4,11 @@
  */
 package com.mycompany.dominio;
 
-import com.mycompany.daos.PersonaDAO;
 import com.mycompany.formularios.Menu;
-import com.mycompany.formularios.ModuloGenerarTramite;
-import com.mycompany.interfaces.IPersonaDAO;
-import com.mycompany.utils.ConfiguracionDePaginado;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  *
- * @author edemb
+ * @author Usuario
  */
 public class main {
 
@@ -29,7 +17,7 @@ public class main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Proyecto2BDA");
+        //        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("Proyecto2BDA");
 //        EntityManager entityManager = entityManagerFactory.createEntityManager();
 //
 //        entityManager.getTransaction().begin();
@@ -106,5 +94,5 @@ public class main {
 //        ModuloGenerarTramite m = new ModuloGenerarTramite();
 //        m.setVisible(true);
     }
-
+    
 }

@@ -4,28 +4,61 @@
  */
 package com.mycompany.formularios;
 
-import com.mycompany.interfaces.IPersonaDAO;
+import com.mycompany.daos.PlacaDAO;
+import com.mycompany.dominio.Persona;
+import com.mycompany.dominio.Placa;
+import com.mycompany.interfaces.IPlacaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author edemb
  */
 public class HistorialPlacas extends javax.swing.JFrame {
-        
-    private EntityManager entityManager;
     
+    private static final Logger LOG = Logger.getLogger(HistorialLicencias.class.getName());
+    private IPlacaDAO placaDAO;
+    private EntityManager entityManager;
+    private Persona persona;
+    private ConfiguracionDePaginado configPaginado;    
+
     /**
      * Creates new form HistorialPlacas
      */
-    public HistorialPlacas() {
+    public HistorialPlacas(Persona persona) {
+        this.configPaginado = new ConfiguracionDePaginado(0, 10);
+        this.persona = persona;
         initComponents();
-        this.entityManager = entityManager;
+        placaDAO = new PlacaDAO(entityManager);
+        this.cargarTablaHistorialPlacas();
     }
 
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
+
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+    
     private void cerrarVentana() {
         this.dispose();
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     private void irModuloHistorial() {
@@ -33,6 +66,39 @@ public class HistorialPlacas extends javax.swing.JFrame {
         historiales.setVisible(true);
     }
 
+    public void cargarTablaHistorialPlacas(){
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+            EntityManager entity = emf.createEntityManager();
+            placaDAO = new PlacaDAO(entity);
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tableHistorialPlacas.getModel();
+            List<Placa> listaPlacas = placaDAO.consultarPlacasPersona(this.persona, configPaginado);
+            modeloTabla.setRowCount(0);
+            for (Placa p : listaPlacas) {
+                Object[] fila = {
+                    p.getFechaEmision(),
+                    p.getFechaRecepcion(),
+                    p.getCosto(),
+                    p.getNumero(),
+                    p.getCosto()
+                };
+                modeloTabla.addRow(fila);
+            }
+        } catch (PersistenceException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage());
+        }
+    }
+    
+    public void avanzarPagina() {
+        this.configPaginado.avanzarPagina();
+        this.cargarTablaHistorialPlacas();
+    }
+
+    public void retrocederPagina() {
+        this.configPaginado.retrocederPagina();
+        this.cargarTablaHistorialPlacas();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,11 +108,16 @@ public class HistorialPlacas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableHistorialPlacas = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
+        btnRetroceder = new javax.swing.JButton();
+        btnAvanzar = new javax.swing.JButton();
+
+        jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Historial de Placas");
@@ -54,7 +125,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Historial de Placas");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableHistorialPlacas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -77,7 +148,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tableHistorialPlacas);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -109,6 +180,20 @@ public class HistorialPlacas extends javax.swing.JFrame {
             }
         });
 
+        btnRetroceder.setText("<- Retroceder");
+        btnRetroceder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetrocederActionPerformed(evt);
+            }
+        });
+
+        btnAvanzar.setText("Avanzar ->");
+        btnAvanzar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAvanzarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,10 +203,17 @@ public class HistorialPlacas extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(321, 321, 321))
             .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(265, 265, 265)
+                        .addComponent(btnRetroceder)
+                        .addGap(175, 175, 175)
+                        .addComponent(btnAvanzar)))
                 .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -131,9 +223,13 @@ public class HistorialPlacas extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRetroceder)
+                    .addComponent(btnAvanzar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
 
         pack();
@@ -149,6 +245,16 @@ public class HistorialPlacas extends javax.swing.JFrame {
         // TODO add your handling code here:
         cerrarVentana();
     }//GEN-LAST:event_btnRegresarMouseClicked
+
+    private void btnRetrocederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederActionPerformed
+        // TODO add your handling code here:
+        this.retrocederPagina();
+    }//GEN-LAST:event_btnRetrocederActionPerformed
+
+    private void btnAvanzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarActionPerformed
+        // TODO add your handling code here:
+        this.avanzarPagina();
+    }//GEN-LAST:event_btnAvanzarActionPerformed
 
     /**
      * @param args the command line arguments //
@@ -186,10 +292,13 @@ public class HistorialPlacas extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAvanzar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JButton btnRetroceder;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tableHistorialPlacas;
     // End of variables declaration//GEN-END:variables
 }
