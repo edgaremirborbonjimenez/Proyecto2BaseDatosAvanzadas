@@ -9,6 +9,8 @@ import com.mycompany.dominio.FiltroReporteTramites;
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Placa;
 import com.mycompany.dominio.Vehiculo;
+import com.mycompany.interfaces.IPlacaDAO;
+import com.mycompany.utils.ConfiguracionDePaginado;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -25,7 +27,7 @@ import javax.persistence.criteria.Root;
  *
  * @author edemb
  */
-public class PlacaDAO {
+public class PlacaDAO implements IPlacaDAO{
 
     EntityManager entityManager;
 
@@ -33,16 +35,21 @@ public class PlacaDAO {
         this.entityManager = entityManager;
     }
 
-    public List<Placa> consultarPlacasPersona(Persona persona) {
+    public List<Placa> consultarPlacasPersona(Persona persona, ConfiguracionDePaginado configuracionDePaginado) {
 
+        int offset = configuracionDePaginado.getElementoASaltar();
+        int limit = configuracionDePaginado.getElementosPorPagina();
+        
         Query query = this.entityManager.createQuery("Select p from Placa p where p.persona = :per").setParameter("per", persona);
-
+        
+        query.setFirstResult(offset);
+        query.setMaxResults(limit);
+        
         List<Placa> list = query.getResultList();
         return list;
     }
 
     public Placa generarPlacaVehiculoNuevo(Persona persona, Vehiculo vehiculo) {
-
         String numeroPlaca = generaNumeroDePlaca();
         Placa placa = new Placa(new Date(), 1500F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
         entityManager.getTransaction().begin();

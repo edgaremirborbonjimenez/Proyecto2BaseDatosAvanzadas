@@ -4,10 +4,17 @@
  */
 package com.mycompany.interfaces;
 
+import com.mycompany.dominio.Persona;
+import com.mycompany.dominio.Placa;
+import com.mycompany.utils.ConfiguracionDePaginado;
+import java.util.List;
+
 /**
  *
  * @author Usuario
  */
 public interface IPlacaDAO {
+    
+    List<Placa> consultarPlacasPersona(Persona persona, ConfiguracionDePaginado configuracionDePaginado);
     
 }
