@@ -9,6 +9,7 @@ import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Placa;
 import com.mycompany.interfaces.IPlacaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +38,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         this.persona = persona;
         initComponents();
+        this.setLabelPersona();
         placaDAO = new PlacaDAO(entityManager);
         this.cargarTablaHistorialPlacas();
     }
@@ -68,6 +70,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
 
     public void cargarTablaHistorialPlacas(){
         try {
+            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
             EntityManager entity = emf.createEntityManager();
             placaDAO = new PlacaDAO(entity);
@@ -76,8 +79,8 @@ public class HistorialPlacas extends javax.swing.JFrame {
             modeloTabla.setRowCount(0);
             for (Placa p : listaPlacas) {
                 Object[] fila = {
-                    p.getFechaEmision(),
-                    p.getFechaRecepcion(),
+                    formateado.format(p.getFechaEmision().getTime()),
+                    formateado.format(p.getFechaRecepcion().getTime()),
                     p.getCosto(),
                     p.getNumero(),
                     p.getCosto()
@@ -99,6 +102,11 @@ public class HistorialPlacas extends javax.swing.JFrame {
         this.cargarTablaHistorialPlacas();
     }
     
+    public void setLabelPersona(){
+        lblNombre.setText(this.persona.getNombreCompleto());
+        lblRFC.setText(this.persona.getRfc());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -116,6 +124,10 @@ public class HistorialPlacas extends javax.swing.JFrame {
         btnRegresar = new javax.swing.JButton();
         btnRetroceder = new javax.swing.JButton();
         btnAvanzar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblRFC = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
 
@@ -194,27 +206,47 @@ public class HistorialPlacas extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel3.setText("Nombre");
+        jLabel3.setToolTipText("");
+
+        jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel4.setText("RFC");
+
+        lblNombre.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblNombre.setText("......");
+
+        lblRFC.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblRFC.setText("......");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(321, 321, 321))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(49, 49, 49)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(47, 47, 47)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(lblNombre)
+                                    .addComponent(lblRFC)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(265, 265, 265)
                         .addComponent(btnRetroceder)
                         .addGap(175, 175, 175)
                         .addComponent(btnAvanzar)))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(185, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(450, 450, 450))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,7 +254,16 @@ public class HistorialPlacas extends javax.swing.JFrame {
                 .addGap(44, 44, 44)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblNombre)
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel4)
+                        .addGap(21, 21, 21)
+                        .addComponent(lblRFC)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRetroceder)
@@ -297,8 +338,12 @@ public class HistorialPlacas extends javax.swing.JFrame {
     private javax.swing.JButton btnRetroceder;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblRFC;
     private javax.swing.JTable tableHistorialPlacas;
     // End of variables declaration//GEN-END:variables
 }

@@ -37,39 +37,53 @@ public class PlacaDAO implements IPlacaDAO{
 
     public List<Placa> consultarPlacasPersona(Persona persona, ConfiguracionDePaginado configuracionDePaginado) {
 
-        int offset = configuracionDePaginado.getElementoASaltar();
-        int limit = configuracionDePaginado.getElementosPorPagina();
-        
-        Query query = this.entityManager.createQuery("Select p from Placa p where p.persona = :per").setParameter("per", persona);
-        
-        query.setFirstResult(offset);
-        query.setMaxResults(limit);
-        
-        List<Placa> list = query.getResultList();
-        return list;
+        try {
+            int offset = configuracionDePaginado.getElementoASaltar();
+            int limit = configuracionDePaginado.getElementosPorPagina();
+
+            Query query = this.entityManager.createQuery("Select p from Placa p where p.persona = :per").setParameter("per", persona);
+
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+
+            List<Placa> list = query.getResultList();
+            return list;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public Placa generarPlacaVehiculoNuevo(Persona persona, Vehiculo vehiculo) {
-        String numeroPlaca = generaNumeroDePlaca();
-        Placa placa = new Placa(new Date(), 1500F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
-        entityManager.getTransaction().begin();
-        entityManager.persist(placa);
-        entityManager.getTransaction().commit();
-        return placa;
+        try {
+            String numeroPlaca = generaNumeroDePlaca();
+            Placa placa = new Placa(new Date(), 1500F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
+            entityManager.getTransaction().begin();
+            entityManager.persist(placa);
+            entityManager.getTransaction().commit();
+            return placa;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public Placa generarPlacaVehiculoUsado(Persona persona,Vehiculo vehiculo) {
-
-        Placa placaAnterior = consultarPlacaActiva(vehiculo.getSerie());
-        String numeroPlaca = generaNumeroDePlaca();
-        Placa placa = new Placa(new Date(), 1000F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
-        placaAnterior.setEstado(Estado.DESACTIVA);
-        placaAnterior.setFechaRecepcion(placa.getFechaEmision());
-        entityManager.getTransaction().begin();
-        entityManager.persist(placaAnterior);
-        entityManager.persist(placa);
-        entityManager.getTransaction().commit();
-        return placa;
+        try {           
+            Placa placaAnterior = consultarPlacaActiva(vehiculo.getSerie());
+            String numeroPlaca = generaNumeroDePlaca();
+            Placa placa = new Placa(new Date(), 1000F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
+            placaAnterior.setEstado(Estado.DESACTIVA);
+            placaAnterior.setFechaRecepcion(placa.getFechaEmision());
+            entityManager.getTransaction().begin();
+            entityManager.persist(placaAnterior);
+            entityManager.persist(placa);
+            entityManager.getTransaction().commit();
+            return placa;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
 //    public List<Placa> historialPlacasFiltroReporte(FiltroReporteTramites filtro) {

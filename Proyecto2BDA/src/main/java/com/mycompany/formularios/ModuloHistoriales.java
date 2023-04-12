@@ -44,6 +44,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     public ModuloHistoriales(EntityManager entityManager) {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         initComponents();
+        this.cargarTablaPersonas();
         this.personaDAO = new PersonaDAO(entityManager);
         this.deshabilitarBotonesTramites();     
     }
@@ -82,29 +83,30 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         return filtro;
     }
 
-    private void cargarTablaPersonas(){
-        validacionCamposFormulario();
-        try {
-            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
-            EntityManager entity = emf.createEntityManager();
-            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonas.getModel();    
-            IPersonaDAO personaDAO = new PersonaDAO(entity);
-            List<Persona> listaPersona = personaDAO.buscarPersonas(filtroRFC(), configPaginado);
-            modeloTabla.setRowCount(0);
-            for (Persona p : listaPersona) {
+    private void cargarTablaPersonas() {
+        if (validacionCampoNombreExcedeLimite() == false && validacionCampoNombreVacio() == false && validacionCampoRFCVacio() == false && validacionCampoRFCExcedeLimite() == false) {
+            try {
+                SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+                EntityManager entity = emf.createEntityManager();
+                DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonas.getModel();
+                IPersonaDAO personaDAO = new PersonaDAO(entity);
+                List<Persona> listaPersona = personaDAO.buscarPersonas(filtroRFC(), configPaginado);
+                modeloTabla.setRowCount(0);
+                for (Persona p : listaPersona) {
                     Object[] fila = {
-                    p.getNombreCompleto(),
-                    formateado.format(p.getFechaNacimiento().getTime()),                  
-                    p.getTelefono(),
-                    p.getSexo(),
-                    p.getRfc(),
-                    p.getDiscapasitado()
-                };
-                modeloTabla.addRow(fila);
+                        p.getNombreCompleto(),
+                        formateado.format(p.getFechaNacimiento().getTime()),
+                        p.getTelefono(),
+                        p.getSexo(),
+                        p.getRfc(),
+                        p.getDiscapasitado()
+                    };
+                    modeloTabla.addRow(fila);
+                }
+            } catch (PersistenceException ex) {
+                LOG.log(Level.SEVERE, ex.getMessage());
             }
-        } catch (PersistenceException ex) {
-            LOG.log(Level.SEVERE, ex.getMessage());
         }
     }
     public void avanzarPagina(){
@@ -156,33 +158,61 @@ public class ModuloHistoriales extends javax.swing.JFrame {
        }
     }
     
-    public void validacionCamposFormulario() {
+    public boolean validacionCampoNombreVacio(){
         String nombre = txtNombre.getText();
         if (chkNombre.isSelected()) {
             if (ValidacionDatos.isEmpty(nombre)) {
                 mostrarErroresValidacionNombreVacio();
-            }
+                return true;
+            }else{
+                return false;
+            }          
+        } else {
+            return false;
         }
-
+    }
+    
+    public boolean validacionCampoNombreExcedeLimite(){
+        String nombre = txtNombre.getText();
         if (chkNombre.isSelected()) {
             if (ValidacionDatos.exceedsLimit(nombre, 60)) {
                 mostrarErroresValidacionNombreExcedeLimite();
-            }
-        }
-
-        String rfc = txtRFC.getText();
-        if (chkRFC.isSelected()) {
-            if (ValidacionDatos.isEmpty(rfc)) {
-                mostrarErroresValidacionRFCVacio();
-            }
-        }
-
-        if (chkRFC.isSelected()) {
-            if (ValidacionDatos.exceedsLimit(rfc, 10)) {
-                mostrarErroresValidacionRFCExcedeLimite();
-            }
+                return true;
+            }else{
+                return false;
+            }          
+        } else {
+            return false;
         }
     }
+    
+    public boolean validacionCampoRFCVacio(){
+        String rfc = txtRFC.getText();
+        if (chkRFC.isSelected()) {
+            if (ValidacionDatos.isEmpty(rfc) == true) {
+                mostrarErroresValidacionRFCVacio();
+                return true;
+            }else{
+                return false;
+            }          
+        } else {
+            return false;
+        }
+    }
+    
+     public boolean validacionCampoRFCExcedeLimite(){
+        String rfc = txtRFC.getText();
+        if (chkRFC.isSelected()) {
+            if (ValidacionDatos.exceedsLimit(rfc, 10) == true) {
+                mostrarErroresValidacionRFCExcedeLimite();
+                return true;
+            }else{
+                return false;
+            }          
+        } else {
+            return false;
+        }
+    }   
     
     private void mostrarErroresValidacionNombreVacio(){
         JOptionPane.showMessageDialog(null, "El Nombre esta vacio", "Campo Nombre Invalido", JOptionPane.ERROR_MESSAGE);

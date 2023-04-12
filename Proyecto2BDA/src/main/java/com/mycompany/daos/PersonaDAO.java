@@ -87,64 +87,72 @@ public class PersonaDAO implements IPersonaDAO {
 
     @Override
     public List<Persona> buscarPersonas(FiltroHistorial parametros, ConfiguracionDePaginado configPaginado) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
-        entityManager = emf.createEntityManager();
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+            entityManager = emf.createEntityManager();
 
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
-        CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
+            CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
 
-        Root<Persona> persona = criteria.from(Persona.class);
+            Root<Persona> persona = criteria.from(Persona.class);
 
-        List<Predicate> filtros = new LinkedList<>();
+            List<Predicate> filtros = new LinkedList<>();
 
-        int offset = configPaginado.getElementoASaltar();
-        int limit = configPaginado.getElementosPorPagina();
-        
-        if (parametros.getRFC() != null) {
-            filtros.add(builder.like(persona.get("rfc"), "%" + parametros.getRFC() + "%"));
+            int offset = configPaginado.getElementoASaltar();
+            int limit = configPaginado.getElementosPorPagina();
+
+            if (parametros.getRFC() != null) {
+                filtros.add(builder.like(persona.get("rfc"), "%" + parametros.getRFC() + "%"));
+            }
+            if (parametros.getNombreCompleto() != null) {
+                filtros.add(builder.like(persona.get("nombreCompleto"), "%" + parametros.getNombreCompleto() + "%"));
+            }
+            if (parametros.getAñoNacimiento() != null) {
+                filtros.add(builder.equal(builder.function("YEAR", Integer.class, persona.get("fechaNacimiento")), parametros.getAñoNacimiento()));
+            }
+
+            criteria.select(persona)
+                    .where(
+                            builder.or(filtros.toArray(new Predicate[0]))
+                    );
+
+            TypedQuery<Persona> query = entityManager.createQuery(criteria);
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+
+            List<Persona> personas = query.getResultList();
+            return personas;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
         }
-        if (parametros.getNombreCompleto() != null) {
-            filtros.add(builder.like(persona.get("nombreCompleto"), "%" + parametros.getNombreCompleto() + "%"));
-        }
-        if (parametros.getAñoNacimiento() != null) {
-            filtros.add(builder.equal(builder.function("YEAR", Integer.class, persona.get("fechaNacimiento")), parametros.getAñoNacimiento()));
-        }
-
-        criteria.select(persona)
-                .where(
-                        builder.or(filtros.toArray(new Predicate[0]))
-                );
-        
-        
-        TypedQuery<Persona> query = entityManager.createQuery(criteria);
-        query.setFirstResult(offset);
-        query.setMaxResults(limit);
-        
-        List<Persona> personas = query.getResultList();
-        return personas;
     }
 
     @Override
     public Persona buscarPersonaRFC(String rfc) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
-        entityManager = emf.createEntityManager();
-//
-        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        try {
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+            entityManager = emf.createEntityManager();
+            
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
-        CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
+            CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
 
-        Root<Persona> persona = criteria.from(Persona.class);
+            Root<Persona> persona = criteria.from(Persona.class);
 
-        criteria.select(persona)
-                .where(
-                        builder.like(persona.get("rfc"), "%" + rfc + "%")
-                );
+            criteria.select(persona)
+                    .where(
+                            builder.like(persona.get("rfc"), "%" + rfc + "%")
+                    );
 
-        TypedQuery<Persona> query = entityManager.createQuery(criteria);
-//        Query query = entityManager.createQuery("SELECT p FROM Persona p");
+            TypedQuery<Persona> query = entityManager.createQuery(criteria);
 
-        Persona personas = query.getSingleResult();
-        return personas;
+            Persona personas = query.getSingleResult();
+            return personas;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 }

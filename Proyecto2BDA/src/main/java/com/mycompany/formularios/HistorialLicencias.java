@@ -9,6 +9,7 @@ import com.mycompany.dominio.Licencia;
 import com.mycompany.dominio.Persona;
 import com.mycompany.interfaces.ILicenciaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +38,7 @@ public class HistorialLicencias extends javax.swing.JFrame {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         this.persona = persona;
         initComponents();
+        this.setLabelPersona();
         licenciaDAO = new LicenciaDAO(entityManager);
         this.cargarTablaHistorialLicencia();
     }
@@ -60,6 +62,7 @@ public class HistorialLicencias extends javax.swing.JFrame {
 
     private void cargarTablaHistorialLicencia(){
         try {
+            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
             EntityManager entity = emf.createEntityManager();
             licenciaDAO = new LicenciaDAO(entity);
@@ -68,8 +71,8 @@ public class HistorialLicencias extends javax.swing.JFrame {
             modeloTabla.setRowCount(0);
             for (Licencia l : listaLicencia) {
                 Object[] fila = {
-                    l.getFechaEmision(),
-                    l.getFechaVigencia(),
+                    formateado.format(l.getFechaEmision().getTime()),
+                    formateado.format(l.getFechaVigencia().getTime()),
                     l.getCosto()
                 };
                 modeloTabla.addRow(fila);
@@ -97,6 +100,11 @@ public class HistorialLicencias extends javax.swing.JFrame {
         this.cargarTablaHistorialLicencia();
     }
     
+    public void setLabelPersona(){
+        lblNombre.setText(this.persona.getNombreCompleto());
+        lblRFC.setText(this.persona.getRfc());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -113,6 +121,10 @@ public class HistorialLicencias extends javax.swing.JFrame {
         btnRegresar = new javax.swing.JButton();
         btnRetroceder = new javax.swing.JButton();
         btnAvanzar = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblRFC = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Historial de Licencias");
@@ -149,10 +161,9 @@ public class HistorialLicencias extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 806, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,27 +190,45 @@ public class HistorialLicencias extends javax.swing.JFrame {
 
         btnAvanzar.setText("Avanzar ->");
 
+        jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel3.setText("Nombre");
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel2.setText("RFC");
+
+        lblNombre.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblNombre.setText("........");
+
+        lblRFC.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
+        lblRFC.setText("........");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(309, 309, 309))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(38, 38, 38)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3)
+                                    .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lblRFC, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)))
+                            .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(253, 253, 253)
+                        .addGap(207, 207, 207)
                         .addComponent(btnRetroceder)
-                        .addGap(201, 201, 201)
-                        .addComponent(btnAvanzar)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .addGap(216, 216, 216)
+                        .addComponent(btnAvanzar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(401, 401, 401)
+                        .addComponent(jLabel1)))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,7 +236,16 @@ public class HistorialLicencias extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel2)
+                        .addGap(26, 26, 26)
+                        .addComponent(lblRFC))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRetroceder)
@@ -273,8 +311,12 @@ public class HistorialLicencias extends javax.swing.JFrame {
     private javax.swing.JButton btnRegresar;
     private javax.swing.JButton btnRetroceder;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblRFC;
     private javax.swing.JTable tableHistorialLicencia;
     // End of variables declaration//GEN-END:variables
 }
