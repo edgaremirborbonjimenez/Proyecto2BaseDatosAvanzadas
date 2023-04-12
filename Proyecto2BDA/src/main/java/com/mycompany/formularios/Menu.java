@@ -53,6 +53,9 @@ public class Menu extends javax.swing.JFrame {
     }
     
     private void irGenerarReporte(){
+        ModuloReporte moduloReporte = new ModuloReporte(entity);
+        moduloReporte.setVisible(true);
+        this.dispose();
     }
     
     private void personasAInsetar(){
@@ -184,6 +187,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
         // TODO add your handling code here:
+        this.irGenerarReporte();
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
     private void btnGenerarLicenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaMouseClicked

@@ -78,10 +78,10 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnGenerarReporte">
       <Properties>
+        <Property name="text" type="java.lang.String" value="Generar Reporte de Tramites Realizados"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Generar Reporte de Tramites Realizados"/>
       </Properties>
       <Events>
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnGenerarReporteMouseClicked"/>
