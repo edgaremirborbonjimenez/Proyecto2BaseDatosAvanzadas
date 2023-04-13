@@ -80,7 +80,6 @@ public class HistorialPlacas extends javax.swing.JFrame {
             for (Placa p : listaPlacas) {
                 Object[] fila = {
                     formateado.format(p.getFechaEmision().getTime()),
-                    formateado.format(p.getFechaRecepcion().getTime()),
                     p.getCosto(),
                     p.getNumero(),
                     p.getCosto()
@@ -142,14 +141,14 @@ public class HistorialPlacas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Fecha de Emision", "Fecha de Vigencia", "Costo", "Numero de Placa", "Estado"
+                "Fecha de Emision", "Costo", "Numero de Placa", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

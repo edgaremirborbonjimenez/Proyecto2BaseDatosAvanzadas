@@ -11,7 +11,7 @@ package com.mycompany.dominio;
 public class FiltroHistorial {
     private String nombreCompleto;
     private String RFC;
-    private String añoNacimiento;
+    private String anioNacimiento;
 
     public FiltroHistorial() {
     }
@@ -32,12 +32,12 @@ public class FiltroHistorial {
         this.RFC = RFC;
     }
 
-    public String getAñoNacimiento() {
-        return añoNacimiento;
+    public String getAnioNacimiento() {
+        return anioNacimiento;
     }
 
-    public void setAñoNacimiento(String añoNacimiento) {
-        this.añoNacimiento = añoNacimiento;
+    public void setAnioNacimiento(String anioNacimiento) {
+        this.anioNacimiento = anioNacimiento;
     }
     
     

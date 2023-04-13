@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 public class ModuloLicencia extends javax.swing.JFrame {
 
     private Persona persona;
-    private LicenciaDAO licenciDAO;
+    private LicenciaDAO licenciaDAO;
     private EntityManager entityManager;
 
     /**
@@ -29,8 +29,9 @@ public class ModuloLicencia extends javax.swing.JFrame {
     public ModuloLicencia(Persona persona,EntityManager entityManager) {
         initComponents();
         this.persona = persona;
+        this.entityManager = entityManager;
         setLabelPersona();
-        licenciDAO = new LicenciaDAO(entityManager);
+        licenciaDAO = new LicenciaDAO(entityManager);
     }
     
     private void mensajeLicenciaGeneradaExitosamente(){
@@ -42,7 +43,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
     }
 
     private void generarLicencia() {
-        licenciDAO.generarLicencia(this.consutlarVigencia(), persona);
+        licenciaDAO.generarLicencia(this.consutlarVigencia(), persona);
     }
 
     private Vigencia consutlarVigencia() {
@@ -75,6 +76,7 @@ public class ModuloLicencia extends javax.swing.JFrame {
     private void irModuloGenerarTramite() {
         ModuloGenerarTramite tra = new ModuloGenerarTramite();
         tra.setVisible(true);
+        tra.setEntityManager(entityManager);
     }
     
     private void irMenu(){

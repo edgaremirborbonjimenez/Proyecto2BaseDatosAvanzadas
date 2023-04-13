@@ -85,6 +85,35 @@ public class PersonaDAO implements IPersonaDAO {
         entityManager.getTransaction().commit();
     }
 
+    public List<Persona> consultaTotal(ConfiguracionDePaginado configPaginado){
+        try{
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+            entityManager = emf.createEntityManager();
+            
+            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+
+            CriteriaQuery<Persona> criteria = builder.createQuery(Persona.class);
+
+            Root<Persona> persona = criteria.from(Persona.class);
+
+            criteria.select(persona);
+            
+            int offset = configPaginado.getElementoASaltar();
+            int limit = configPaginado.getElementosPorPagina();
+            
+            TypedQuery<Persona> query = entityManager.createQuery(criteria);
+            
+            query.setFirstResult(offset);
+            query.setMaxResults(limit);
+            
+            List <Persona> listaPersonas = (List <Persona>) query.getResultList();
+            return listaPersonas;
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+    
     @Override
     public List<Persona> buscarPersonas(FiltroHistorial parametros, ConfiguracionDePaginado configPaginado) {
         try {
@@ -108,13 +137,13 @@ public class PersonaDAO implements IPersonaDAO {
             if (parametros.getNombreCompleto() != null) {
                 filtros.add(builder.like(persona.get("nombreCompleto"), "%" + parametros.getNombreCompleto() + "%"));
             }
-            if (parametros.getAñoNacimiento() != null) {
-                filtros.add(builder.equal(builder.function("YEAR", Integer.class, persona.get("fechaNacimiento")), parametros.getAñoNacimiento()));
+            if (parametros.getAnioNacimiento() != null) {
+                filtros.add(builder.equal(builder.function("YEAR", Integer.class, persona.get("fechaNacimiento")), parametros.getAnioNacimiento()));
             }
 
             criteria.select(persona)
                     .where(
-                            builder.or(filtros.toArray(new Predicate[0]))
+                            builder.and(filtros.toArray(new Predicate[0]))
                     );
 
             TypedQuery<Persona> query = entityManager.createQuery(criteria);

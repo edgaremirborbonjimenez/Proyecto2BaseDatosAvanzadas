@@ -71,44 +71,121 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         hisPla.setEntityManager(entityManager);
     }
     
-    private String extraerDatosFormulario(){
-        String rfc = this.txtRFC.getText();
-        String nombre = this.txtNombre.getText();
-        return rfc;
+    public String extraerDatosFormularioRFC(){
+        if (!chkRFC.isSelected()) {
+            return null;
+        }
+        if (txtRFC.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "RFC Vacio");
+            return null;
+        }
+        if (ValidacionDatos.contieneCaracteresEspeciales(txtRFC.getText())) {
+            JOptionPane.showMessageDialog(null, "El RFC no puede contener caracteres especiales");
+            return null;
+        }
+        return txtRFC.getText();
     }
     
-    private FiltroHistorial filtroRFC(){
+    public String extraerDatosFormularioNombre(){
+        if (!chkNombre.isSelected()) {
+            return null;
+        }
+        if (txtNombre.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Nombre Vacio");
+            return null;
+        }
+        if (ValidacionDatos.contieneCaracteresEspeciales(txtNombre.getText())) {
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener caracteres especiales");
+            return null;
+        }
+        return txtNombre.getText();
+    }
+    
+    public String extraerDatosFormularioAnioNacimiento(){
+        if (!chkFechaNacimiento.isSelected()) {
+            return null;
+        }
+        return cmbAnioNacimiento.getSelectedItem().toString();
+    }
+    
+    public FiltroHistorial filtroConsulta(){
         FiltroHistorial filtro = new FiltroHistorial();
-        filtro.setRFC(this.extraerDatosFormulario());
+        if (chkRFC.isSelected()) {
+            filtro.setRFC(this.extraerDatosFormularioRFC());
+            if (filtro.getRFC() == null) {
+                return null;
+            }
+        }
+        if (chkNombre.isSelected()) {
+            filtro.setNombreCompleto(this.extraerDatosFormularioNombre());
+            if (filtro.getNombreCompleto() == null) {
+                return null;
+            }
+        }
+        if (chkFechaNacimiento.isSelected()) {
+            filtro.setAnioNacimiento(this.extraerDatosFormularioAnioNacimiento());
+            if (filtro.getAnioNacimiento() == null) {
+                return null;
+            }
+        }
+
         return filtro;
     }
 
-    private void cargarTablaPersonas() {
-        if (validacionCampoNombreExcedeLimite() == false && validacionCampoNombreVacio() == false && validacionCampoRFCVacio() == false && validacionCampoRFCExcedeLimite() == false) {
-            try {
-                SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
-                EntityManager entity = emf.createEntityManager();
-                DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonas.getModel();
-                IPersonaDAO personaDAO = new PersonaDAO(entity);
-                List<Persona> listaPersona = personaDAO.buscarPersonas(filtroRFC(), configPaginado);
-                modeloTabla.setRowCount(0);
-                for (Persona p : listaPersona) {
-                    Object[] fila = {
-                        p.getNombreCompleto(),
-                        formateado.format(p.getFechaNacimiento().getTime()),
-                        p.getTelefono(),
-                        p.getSexo(),
-                        p.getRfc(),
-                        p.getDiscapasitado()
-                    };
-                    modeloTabla.addRow(fila);
-                }
-            } catch (PersistenceException ex) {
-                LOG.log(Level.SEVERE, ex.getMessage());
+    public void cargarTablaPersonas() {
+        try {
+            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+            EntityManager entity = emf.createEntityManager();
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonas.getModel();
+            personaDAO = new PersonaDAO(entity);
+            List<Persona> listaPersona = personaDAO.consultaTotal(configPaginado);
+            modeloTabla.setRowCount(0);
+            for (Persona p : listaPersona) {
+                Object[] fila = {
+                    p.getNombreCompleto(),
+                    formateado.format(p.getFechaNacimiento().getTime()),
+                    p.getTelefono(),
+                    p.getSexo(),
+                    p.getRfc(),
+                    p.getDiscapasitado()
+                };
+                modeloTabla.addRow(fila);
             }
+        } catch (PersistenceException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage());
         }
     }
+    
+    public void cargarTablaPersonasFiltro() {
+        try {
+            FiltroHistorial filtro = this.filtroConsulta();
+            if (filtro == null) {
+                return;
+            }
+            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
+            EntityManager entity = emf.createEntityManager();
+            DefaultTableModel modeloTabla = (DefaultTableModel) this.tablePersonas.getModel();
+            personaDAO = new PersonaDAO(entity);
+            List<Persona> listaPersona = personaDAO.buscarPersonas(filtro, configPaginado);
+            modeloTabla.setRowCount(0);
+            for (Persona p : listaPersona) {
+                Object[] fila = {
+                    p.getNombreCompleto(),
+                    formateado.format(p.getFechaNacimiento().getTime()),
+                    p.getTelefono(),
+                    p.getSexo(),
+                    p.getRfc(),
+                    p.getDiscapasitado()
+                };
+                modeloTabla.addRow(fila);
+            }
+        } catch (PersistenceException ex) {
+            LOG.log(Level.SEVERE, ex.getMessage());
+        }
+    }
+    
     public void avanzarPagina(){
         this.configPaginado.avanzarPagina();
         this.cargarTablaPersonas();
@@ -200,7 +277,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         }
     }
     
-     public boolean validacionCampoRFCExcedeLimite(){
+    public boolean validacionCampoRFCExcedeLimite(){
         String rfc = txtRFC.getText();
         if (chkRFC.isSelected()) {
             if (ValidacionDatos.exceedsLimit(rfc, 10) == true) {
@@ -660,7 +737,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        this.cargarTablaPersonas();
+        cargarTablaPersonasFiltro();        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSeleccionarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPersonaActionPerformed

@@ -17,5 +17,6 @@ public interface IPersonaDAO {
     
     List<Persona> buscarPersonas(FiltroHistorial parametros, ConfiguracionDePaginado configPaginado);
     Persona buscarPersonaRFC(String rfc);
+    List<Persona> consultaTotal(ConfiguracionDePaginado configPaginado);
     
 }
