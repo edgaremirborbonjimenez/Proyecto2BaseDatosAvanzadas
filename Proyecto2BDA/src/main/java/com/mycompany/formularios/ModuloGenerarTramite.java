@@ -336,7 +336,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         lblrfc.setText(".....");
 
         btnGenerarPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        btnGenerarPlaca.setText("GenerarPlaca");
+        btnGenerarPlaca.setText("Generar Placa");
         btnGenerarPlaca.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnGenerarPlacaMouseClicked(evt);

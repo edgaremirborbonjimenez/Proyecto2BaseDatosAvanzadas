@@ -10,6 +10,7 @@ import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Placa;
 import com.mycompany.dominio.Vehiculo;
 import com.mycompany.utils.ValidacionDatos;
+import java.text.SimpleDateFormat;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -38,13 +39,18 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         placaDAO = new PlacaDAO(entityManager);
     }
     
-            private void setLabelPersona() {           
+    private void setLabelPersona() {
+        try {
+            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");        
             lblNombre.setText(persona.getNombreCompleto());
-//            lblFechaNcimiento.setText(formateoFecha().toString());
+            lblFechaNacimiento.setText(formateado.format(persona.getFechaNacimiento().getTime()));
             lblRFC.setText(persona.getRfc());
             lblTelefono.setText(persona.getTelefono());
             lblSexo.setText(persona.getSexo().toString());
             lblDiscapacitado.setText(persona.getDiscapasitado().toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private void cerrarVentana() {

@@ -80,38 +80,20 @@ public class ModuloLicencia extends javax.swing.JFrame {
     private void irMenu(){
         Menu menu = new Menu();
         menu.setVisible(true);
-    }
+    }    
     
-//    public String formateoFecha(){
-//        String fechaString = persona.getFechaNacimiento().toString();
-//
-//        // Creamos un objeto SimpleDateFormat con el formato de la fecha
-//        SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
-//
-//        try {
-//            // Parseamos la cadena en un objeto Date
-//            Date fechaDate = formateador.parse(fechaString);
-//
-//            // Convertimos el objeto Date a un objeto Calendar
-//            Calendar fecha = Calendar.getInstance();
-//            fecha.setTime(fechaDate);
-//            String fechaFin = formateador.format(fecha.getTime());
-//            
-//            return fechaFin;
-//        } catch (Exception e) {
-//            // En caso de error, se imprime el mensaje de excepción
-//            mensajeErrorFormateoFecha();
-//            return null;
-//        }
-//    }
-    
-    private void setLabelPersona() {           
+    private void setLabelPersona() {
+        try {
+            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
             lblNombre.setText(persona.getNombreCompleto());
-//            lblFechaNcimiento.setText(formateoFecha().toString());
+            lblFechaNcimiento.setText(formateado.format(persona.getFechaNacimiento().getTime()));
             lblRFC.setText(persona.getRfc());
             lblTelefono.setText(persona.getTelefono());
             lblSexo.setText(persona.getSexo().toString());
             lblDiscapacitado.setText(persona.getDiscapasitado().toString());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
