@@ -37,16 +37,17 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     private IPersonaDAO personaDAO;
     private EntityManager entityManager;
     private final IPersonaDAO personasDAO = null;
-    
+
     /**
      * Creates new form ModuloHistoriales
      */
     public ModuloHistoriales(EntityManager entityManager) {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         initComponents();
+        this.entityManager = entityManager;
         this.cargarTablaPersonas();
         this.personaDAO = new PersonaDAO(entityManager);
-        this.deshabilitarBotonesTramites();     
+        this.deshabilitarBotonesTramites();
     }
 
     private void cerrarVentanaActual() {
@@ -59,19 +60,17 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     }
 
     private void irHistorialLicencia() {
-        HistorialLicencias hisLic = new HistorialLicencias(regresaPersona());
+        HistorialLicencias hisLic = new HistorialLicencias(regresaPersona(), this.entityManager);
         hisLic.setVisible(true);
-        hisLic.setEntityManager(entityManager);
     }
 
     private void irHistorialPlaca() {
 
-        HistorialPlacas hisPla = new HistorialPlacas(regresaPersona());
+        HistorialPlacas hisPla = new HistorialPlacas(regresaPersona(), this.entityManager);
         hisPla.setVisible(true);
-        hisPla.setEntityManager(entityManager);
     }
-    
-    public String extraerDatosFormularioRFC(){
+
+    public String extraerDatosFormularioRFC() {
         if (!chkRFC.isSelected()) {
             return null;
         }
@@ -85,8 +84,8 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         }
         return txtRFC.getText();
     }
-    
-    public String extraerDatosFormularioNombre(){
+
+    public String extraerDatosFormularioNombre() {
         if (!chkNombre.isSelected()) {
             return null;
         }
@@ -100,15 +99,15 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         }
         return txtNombre.getText();
     }
-    
-    public String extraerDatosFormularioAnioNacimiento(){
+
+    public String extraerDatosFormularioAnioNacimiento() {
         if (!chkFechaNacimiento.isSelected()) {
             return null;
         }
         return cmbAnioNacimiento.getSelectedItem().toString();
     }
-    
-    public FiltroHistorial filtroConsulta(){
+
+    public FiltroHistorial filtroConsulta() {
         FiltroHistorial filtro = new FiltroHistorial();
         if (chkRFC.isSelected()) {
             filtro.setRFC(this.extraerDatosFormularioRFC());
@@ -156,7 +155,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
             LOG.log(Level.SEVERE, ex.getMessage());
         }
     }
-    
+
     public void cargarTablaPersonasFiltro() {
         try {
             FiltroHistorial filtro = this.filtroConsulta();
@@ -185,30 +184,30 @@ public class ModuloHistoriales extends javax.swing.JFrame {
             LOG.log(Level.SEVERE, ex.getMessage());
         }
     }
-    
-    public void avanzarPagina(){
+
+    public void avanzarPagina() {
         this.configPaginado.avanzarPagina();
         this.cargarTablaPersonas();
         this.deshabilitarBotonesTramites();
     }
 
-    public void retrocederPagina(){
+    public void retrocederPagina() {
         this.configPaginado.retrocederPagina();
         this.cargarTablaPersonas();
         this.deshabilitarBotonesTramites();
     }
-    
-    public void deshabilitarBotonesTramites(){
+
+    public void deshabilitarBotonesTramites() {
         this.btnHistorialPlaca.setEnabled(false);
         this.btnHistorialLicencia.setEnabled(false);
     }
-    
-    public void habilitarBotonesTramites(){
+
+    public void habilitarBotonesTramites() {
         this.btnHistorialPlaca.setEnabled(true);
         this.btnHistorialLicencia.setEnabled(true);
     }
-    
-    public void checkRFC(){
+
+    public void checkRFC() {
         if (chkRFC.isSelected()) {
             txtRFC.setEditable(true);
         } else {
@@ -216,8 +215,8 @@ public class ModuloHistoriales extends javax.swing.JFrame {
             txtRFC.setEditable(false);
         }
     }
-    
-    public void checkNombre(){
+
+    public void checkNombre() {
         if (chkNombre.isSelected()) {
             txtNombre.setEditable(true);
         } else {
@@ -226,122 +225,122 @@ public class ModuloHistoriales extends javax.swing.JFrame {
             txtNombre.setEditable(false);
         }
     }
-    
-    public void checkAnioNacimiento(){
+
+    public void checkAnioNacimiento() {
         if (chkFechaNacimiento.isSelected()) {
             cmbAnioNacimiento.setEditable(true);
-        }else{
+        } else {
             cmbAnioNacimiento.setEditable(false);
-       }
+        }
     }
-    
-    public boolean validacionCampoNombreVacio(){
+
+    public boolean validacionCampoNombreVacio() {
         String nombre = txtNombre.getText();
         if (chkNombre.isSelected()) {
             if (ValidacionDatos.isEmpty(nombre)) {
                 mostrarErroresValidacionNombreVacio();
                 return true;
-            }else{
+            } else {
                 return false;
-            }          
+            }
         } else {
             return false;
         }
     }
-    
-    public boolean validacionCampoNombreExcedeLimite(){
+
+    public boolean validacionCampoNombreExcedeLimite() {
         String nombre = txtNombre.getText();
         if (chkNombre.isSelected()) {
             if (ValidacionDatos.exceedsLimit(nombre, 60)) {
                 mostrarErroresValidacionNombreExcedeLimite();
                 return true;
-            }else{
+            } else {
                 return false;
-            }          
+            }
         } else {
             return false;
         }
     }
-    
-    public boolean validacionCampoRFCVacio(){
+
+    public boolean validacionCampoRFCVacio() {
         String rfc = txtRFC.getText();
         if (chkRFC.isSelected()) {
             if (ValidacionDatos.isEmpty(rfc) == true) {
                 mostrarErroresValidacionRFCVacio();
                 return true;
-            }else{
+            } else {
                 return false;
-            }          
+            }
         } else {
             return false;
         }
     }
-    
-    public boolean validacionCampoRFCExcedeLimite(){
+
+    public boolean validacionCampoRFCExcedeLimite() {
         String rfc = txtRFC.getText();
         if (chkRFC.isSelected()) {
             if (ValidacionDatos.exceedsLimit(rfc, 10) == true) {
                 mostrarErroresValidacionRFCExcedeLimite();
                 return true;
-            }else{
+            } else {
                 return false;
-            }          
+            }
         } else {
             return false;
         }
-    }   
-    
-    private void mostrarErroresValidacionNombreVacio(){
+    }
+
+    private void mostrarErroresValidacionNombreVacio() {
         JOptionPane.showMessageDialog(null, "El Nombre esta vacio", "Campo Nombre Invalido", JOptionPane.ERROR_MESSAGE);
     }
-    
-    private void mostrarErroresValidacionNombreExcedeLimite(){
+
+    private void mostrarErroresValidacionNombreExcedeLimite() {
         JOptionPane.showMessageDialog(null, "El Nombre supera el limite de caracteres permitidos", "Campo Nombre Invalido", JOptionPane.ERROR_MESSAGE);
     }
-    
-    private void mostrarErroresValidacionRFCVacio(){
+
+    private void mostrarErroresValidacionRFCVacio() {
         JOptionPane.showMessageDialog(null, "El RFC esta vacio", "Campo RFC Invalido", JOptionPane.ERROR_MESSAGE);
     }
-    
-    private void mostrarErroresValidacionRFCExcedeLimite(){
+
+    private void mostrarErroresValidacionRFCExcedeLimite() {
         JOptionPane.showMessageDialog(null, "El RFC supera el limite de caracteres permitidos", "Campo RFC Invalido", JOptionPane.ERROR_MESSAGE);
     }
-    
-    public void seleccionDePersona(){
+
+    public void seleccionDePersona() {
         int filaseleccionada;
-        try{
+        try {
             //Guardamos en un entero la fila seleccionada.
             filaseleccionada = tablePersonas.getSelectedRow();
-            if (filaseleccionada == -1){
+            if (filaseleccionada == -1) {
                 JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fila.");
-            } else {         
+            } else {
                 //Habilitamos los botones de tramites
                 habilitarBotonesTramites();
-                
-                String nombre = (String)tablePersonas.getValueAt(filaseleccionada, 0);
-                String fechaNacimiento = (String)tablePersonas.getValueAt(filaseleccionada, 1);
-                String telefono = (String)tablePersonas.getValueAt(filaseleccionada, 2);
-                Sexo sexo = (Sexo)tablePersonas.getValueAt(filaseleccionada, 3);
-                String rfc = (String)tablePersonas.getValueAt(filaseleccionada,4);
-                Discapacitado discapacidad = (Discapacitado)tablePersonas.getValueAt(filaseleccionada, 5);
-                                              
+
+                String nombre = (String) tablePersonas.getValueAt(filaseleccionada, 0);
+                String fechaNacimiento = (String) tablePersonas.getValueAt(filaseleccionada, 1);
+                String telefono = (String) tablePersonas.getValueAt(filaseleccionada, 2);
+                Sexo sexo = (Sexo) tablePersonas.getValueAt(filaseleccionada, 3);
+                String rfc = (String) tablePersonas.getValueAt(filaseleccionada, 4);
+                Discapacitado discapacidad = (Discapacitado) tablePersonas.getValueAt(filaseleccionada, 5);
+
                 lblNombre.setText(nombre);
                 lblRFC.setText(rfc);
                 lblFechaNacimiento.setText(fechaNacimiento);
                 lblSexo.setText(sexo.toString());
                 lblTelefono.setText(telefono);
-                lblDiscapacitado.setText(discapacidad.toString());       
+                lblDiscapacitado.setText(discapacidad.toString());
 
             }
-        }catch (Exception ex){
-            JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion." ,JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex + "\nInténtelo nuevamente", "Error En la Operacion.", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     public Persona regresaPersona() {
         return personaDAO.buscarPersonaRFC(lblRFC.getText());
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -387,11 +386,6 @@ public class ModuloHistoriales extends javax.swing.JFrame {
 
         btnHistorialLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnHistorialLicencia.setText("Historial de Licencias");
-        btnHistorialLicencia.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnHistorialLicenciaMouseClicked(evt);
-            }
-        });
         btnHistorialLicencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHistorialLicenciaActionPerformed(evt);
@@ -400,11 +394,6 @@ public class ModuloHistoriales extends javax.swing.JFrame {
 
         btnHistorialPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnHistorialPlaca.setText("Historial de Placas");
-        btnHistorialPlaca.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnHistorialPlacaMouseClicked(evt);
-            }
-        });
         btnHistorialPlaca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHistorialPlacaActionPerformed(evt);
@@ -413,11 +402,6 @@ public class ModuloHistoriales extends javax.swing.JFrame {
 
         btnRegresar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnRegresar.setText("Regresar");
-        btnRegresar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRegresarMouseClicked(evt);
-            }
-        });
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -698,12 +682,8 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         irMenu();
-    }//GEN-LAST:event_btnRegresarActionPerformed
-
-    private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
-        // TODO add your handling code here:
         cerrarVentanaActual();
-    }//GEN-LAST:event_btnRegresarMouseClicked
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void chkRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkRFCActionPerformed
         // TODO add your handling code here:
@@ -714,35 +694,27 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.checkNombre();
     }//GEN-LAST:event_chkNombreActionPerformed
-  
+
     private void btnHistorialLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialLicenciaActionPerformed
         // TODO add your handling code here:
         this.irHistorialLicencia();
-    }//GEN-LAST:event_btnHistorialLicenciaActionPerformed
-
-    private void btnHistorialLicenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistorialLicenciaMouseClicked
-        // TODO add your handling code here:
         cerrarVentanaActual();
-    }//GEN-LAST:event_btnHistorialLicenciaMouseClicked
+    }//GEN-LAST:event_btnHistorialLicenciaActionPerformed
 
     private void btnHistorialPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialPlacaActionPerformed
         // TODO add your handling code here:
         irHistorialPlaca();
-    }//GEN-LAST:event_btnHistorialPlacaActionPerformed
-
-    private void btnHistorialPlacaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistorialPlacaMouseClicked
-        // TODO add your handling code here:
         cerrarVentanaActual();
-    }//GEN-LAST:event_btnHistorialPlacaMouseClicked
+    }//GEN-LAST:event_btnHistorialPlacaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        cargarTablaPersonasFiltro();        
+        cargarTablaPersonasFiltro();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSeleccionarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPersonaActionPerformed
         // TODO add your handling code here:
-        this.seleccionDePersona(); 
+        this.seleccionDePersona();
     }//GEN-LAST:event_btnSeleccionarPersonaActionPerformed
 
     private void btnRetrocederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederActionPerformed

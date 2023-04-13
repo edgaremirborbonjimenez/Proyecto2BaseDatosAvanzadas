@@ -34,10 +34,11 @@ public class HistorialLicencias extends javax.swing.JFrame {
     /**
      * Creates new form HistorialLicencias
      */
-    public HistorialLicencias(Persona persona) {
+    public HistorialLicencias(Persona persona,EntityManager entityManager) {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         this.persona = persona;
         initComponents();
+        this.entityManager=entityManager;
         this.setLabelPersona();
         licenciaDAO = new LicenciaDAO(entityManager);
         this.cargarTablaHistorialLicencia();

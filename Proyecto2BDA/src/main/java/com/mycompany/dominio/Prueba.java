@@ -146,6 +146,7 @@ public class Prueba {
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
         JasperViewer.viewReport(jasperPrint);
         JasperExportManager.exportReportToPdfFile(jasperPrint, "..\\jasper\\LicenciasReport.pdf");
+        
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
         EntityManager em = emf.createEntityManager();
         Persona p4 = new Persona("Laura Martínez Gómez", "MAGL840704", new GregorianCalendar(1984, Calendar.JULY, 4), "5512345678", Sexo.FEMENINO, Discapacitado.SI);

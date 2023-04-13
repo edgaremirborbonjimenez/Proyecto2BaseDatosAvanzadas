@@ -4,11 +4,17 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.daos.LicenciaDAO;
+import com.mycompany.daos.PagoDAO;
 import com.mycompany.daos.PlacaDAO;
 import com.mycompany.daos.VehiculoDAO;
+import com.mycompany.dominio.Estado;
+import com.mycompany.dominio.Licencia;
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Placa;
+import com.mycompany.dominio.Tramite;
 import com.mycompany.dominio.Vehiculo;
+import com.mycompany.dominio.Vigencia;
 import com.mycompany.utils.ValidacionDatos;
 import java.text.SimpleDateFormat;
 import javax.persistence.EntityManager;
@@ -26,22 +32,26 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
     VehiculoDAO vehiculoDAO;
     PlacaDAO placaDAO;
     Persona persona;
+    LicenciaDAO licenciaDAO;
+    PagoDAO pagoDAO;
 
     /**
      * Creates new form ModuloPlacaAutoUsado
      */
     public ModuloPlacaAutoUsado(Persona persona, EntityManager entityManager) {
         initComponents();
-        this.entityManager=entityManager;
-        this.persona=persona;
+        this.entityManager = entityManager;
+        this.persona = persona;
         setLabelPersona();
         vehiculoDAO = new VehiculoDAO(entityManager);
         placaDAO = new PlacaDAO(entityManager);
+        licenciaDAO = new LicenciaDAO(entityManager);
+        pagoDAO = new PagoDAO(entityManager);
     }
-    
+
     private void setLabelPersona() {
         try {
-            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");        
+            SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
             lblNombre.setText(persona.getNombreCompleto());
             lblFechaNacimiento.setText(formateado.format(persona.getFechaNacimiento().getTime()));
             lblRFC.setText(persona.getRfc());
@@ -58,8 +68,7 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
     }
 
     private void irModuloPlaca() {
-        ModuloPlaca moduloPlaca = new ModuloPlaca();
-        moduloPlaca.setEntityManager(this.entityManager);
+        ModuloPlaca moduloPlaca = new ModuloPlaca(this.entityManager);
         moduloPlaca.setPersona(this.persona);
         moduloPlaca.setVisible(true);
     }
@@ -81,13 +90,36 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         return vehiculo;
     }
 
+    private Boolean tieneLicenciaVigente() {
+        Licencia licencia = licenciaDAO.consultarLicenciaActiva(this.persona);
+        if (licencia == null ||licencia.getEstado() == Estado.DESACTIVA) {
+            JOptionPane.showMessageDialog(this, "La persona que quiere generar la placa no tienen vigente su Licencia", "Licencia Vencida", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
     private Placa generarPlacaVehiculoUsado() {
+        if (!tieneLicenciaVigente()) {
+            return null;
+        }
         Vehiculo vehiculo = this.consultarVehiculoUsado();
         if (vehiculo == null) {
             return null;
         }
         Placa placa = this.placaDAO.generarPlacaVehiculoUsado(persona, vehiculo);
+        
+        if (placa==null) {
+            JOptionPane.showMessageDialog(this, "No se pudo generar la Placa", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        generarPago(placa);
+        
         return placa;
+    }
+    
+    private void generarPago(Tramite tramite){
+    pagoDAO.generarPago(tramite);
     }
 
     private void mensajePlacaGeneradaExitosamente(Placa placa) {
@@ -167,11 +199,6 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
 
         btnRegresar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnRegresar.setText("Regresar");
-        btnRegresar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRegresarMouseClicked(evt);
-            }
-        });
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -180,11 +207,6 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
 
         btnGenerarPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarPlaca.setText("Generar Placa");
-        btnGenerarPlaca.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnGenerarPlacaMouseClicked(evt);
-            }
-        });
         btnGenerarPlaca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarPlacaActionPerformed(evt);
@@ -290,16 +312,16 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblFechaNacimiento)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel8))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel8)
+                        .addGap(12, 12, 12))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(lblTelefono)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
@@ -325,12 +347,8 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         irModuloPlaca();
-    }//GEN-LAST:event_btnRegresarActionPerformed
-
-    private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
-        // TODO add your handling code here:
         cerrarVentana();
-    }//GEN-LAST:event_btnRegresarMouseClicked
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
         // TODO add your handling code here:
@@ -339,15 +357,10 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
             return;
         } else {
             mensajePlacaGeneradaExitosamente(placa);
+            irMenu();
+            cerrarVentana();
         }
     }//GEN-LAST:event_btnGenerarPlacaActionPerformed
-
-    private void btnGenerarPlacaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarPlacaMouseClicked
-        // TODO add your handling code here:
-        irMenu();
-        cerrarVentana();
-
-    }//GEN-LAST:event_btnGenerarPlacaMouseClicked
 
 //    /**
 //     * @param args the command line arguments

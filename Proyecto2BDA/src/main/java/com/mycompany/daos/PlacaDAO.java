@@ -109,7 +109,7 @@ public class PlacaDAO implements IPlacaDAO{
 //        return lista;
 //    }
 
-    private Placa consultarPlacaActiva(String serie) {
+    public Placa consultarPlacaActiva(String serie) {
         VehiculoDAO vehiculoDAO = new VehiculoDAO(entityManager);
         Vehiculo vehiculo = vehiculoDAO.consultaVehiculoPorSerie(serie);
         Query query = this.entityManager.createQuery("Select p from Placa p where p.vehiculo = :veh AND p.estado = :est ");

@@ -5,7 +5,11 @@
 package com.mycompany.formularios;
 
 import com.mycompany.daos.LicenciaDAO;
+import com.mycompany.daos.PagoDAO;
+import com.mycompany.dominio.Licencia;
+import com.mycompany.dominio.Pago;
 import com.mycompany.dominio.Persona;
+import com.mycompany.dominio.Tramite;
 import com.mycompany.dominio.Vigencia;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,29 +25,49 @@ public class ModuloLicencia extends javax.swing.JFrame {
 
     private Persona persona;
     private LicenciaDAO licenciaDAO;
+    private PagoDAO pagoDAO;
     private EntityManager entityManager;
 
     /**
      * Creates new form ModuloLicencia
      */
-    public ModuloLicencia(Persona persona,EntityManager entityManager) {
+    public ModuloLicencia(Persona persona, EntityManager entityManager) {
         initComponents();
         this.persona = persona;
         this.entityManager = entityManager;
         setLabelPersona();
         licenciaDAO = new LicenciaDAO(entityManager);
-    }
-    
-    private void mensajeLicenciaGeneradaExitosamente(){
-        JOptionPane.showMessageDialog(this, "Licencia Generada Exitosamente para la persona :"+this.persona.getNombreCompleto(), "Licencia Generada Exitosamente", JOptionPane.INFORMATION_MESSAGE);
-    }
-    
-    private void mensajeErrorFormateoFecha(){
-        JOptionPane.showMessageDialog(this, "Error al formatear la fecha", "Formateo de fecha error", JOptionPane.ERROR_MESSAGE);   
+        System.out.println(entityManager);
+        pagoDAO = new PagoDAO(entityManager);
     }
 
-    private void generarLicencia() {
+    private void mensajeLicenciaGeneradaExitosamente() {
+        JOptionPane.showMessageDialog(this, "Licencia Generada Exitosamente para la persona :" + this.persona.getNombreCompleto(), "Licencia Generada Exitosamente", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void mensajeErrorPersona() {
+        JOptionPane.showMessageDialog(this, "Error Persona no encontrada", "Formateo de fecha error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private Boolean generarLicencia() {
+
+        if (this.persona == null) {
+            mensajeErrorPersona();
+            return false;
+        }
         licenciaDAO.generarLicencia(this.consutlarVigencia(), persona);
+        Licencia licencia = licenciaDAO.consultarLicenciaActiva(persona);
+        Pago pago = generarPago(licencia);
+        if (pago == null) {
+            JOptionPane.showMessageDialog(this, "No se pudo generar el Pago del Tramite", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
+    private Pago generarPago(Tramite tramite) {
+        Pago pago = this.pagoDAO.generarPago(tramite);
+        return pago;
     }
 
     private Vigencia consutlarVigencia() {
@@ -74,16 +98,15 @@ public class ModuloLicencia extends javax.swing.JFrame {
     }
 
     private void irModuloGenerarTramite() {
-        ModuloGenerarTramite tra = new ModuloGenerarTramite();
+        ModuloGenerarTramite tra = new ModuloGenerarTramite(this.entityManager);
         tra.setVisible(true);
-        tra.setEntityManager(entityManager);
     }
-    
-    private void irMenu(){
+
+    private void irMenu() {
         Menu menu = new Menu();
         menu.setVisible(true);
-    }    
-    
+    }
+
     private void setLabelPersona() {
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
@@ -161,11 +184,6 @@ public class ModuloLicencia extends javax.swing.JFrame {
 
         btnRegresar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnRegresar.setText("Regresar");
-        btnRegresar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRegresarMouseClicked(evt);
-            }
-        });
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -278,18 +296,14 @@ public class ModuloLicencia extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         irModuloGenerarTramite();
-    }//GEN-LAST:event_btnRegresarActionPerformed
-
-    private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
-        // TODO add your handling code here:
         cerrarVentana();
-    }//GEN-LAST:event_btnRegresarMouseClicked
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
-                System.out.println(this.entityManager);
-
-        this.generarLicencia();
+        if (!this.generarLicencia()) {
+            return;
+        }
         mensajeLicenciaGeneradaExitosamente();
         this.irMenu();
         this.cerrarVentana();

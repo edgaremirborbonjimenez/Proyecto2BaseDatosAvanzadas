@@ -107,7 +107,11 @@ public class LicenciaDAO implements ILicenciaDAO {
 //        return lista;
 //    }
 
-    private Licencia consultarLicenciaActiva(Persona persona) {
+    public Licencia consultarLicenciaActiva(Persona persona) {
+        if (persona==null) {
+            return null;
+        }
+        System.out.println(this.entityManager);
         Query query = this.entityManager.createQuery("Select p from Licencia p where p.persona = :per AND p.estado = :est ");
 
         query.setParameter("per", persona);

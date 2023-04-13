@@ -36,9 +36,10 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     /**
      * Creates new form ModuloLicencia
      */
-    public ModuloGenerarTramite() {
+    public ModuloGenerarTramite(EntityManager entityManager) {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         initComponents();
+        this.entityManager= entityManager;
         this.deshabilitarBotonesTramites();
         personaDAO = new PersonaDAO(entityManager);
         this.actualizarTabla();
@@ -55,8 +56,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     }
 
     public void irGenerarPlaca() {
-        ModuloPlaca placa = new ModuloPlaca();
-        placa.setEntityManager(entityManager);
+        ModuloPlaca placa = new ModuloPlaca(this.entityManager);
         placa.setPersona(regresaPersona());
         placa.setVisible(true);
         this.dispose();
@@ -64,8 +64,8 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
     public void irGenerarLicencia() {
         Persona persona = regresaPersona();
-        ModuloLicencia lic = new ModuloLicencia(persona,this.entityManager);
-        //lic.setEntityManager(entityManager);
+        System.out.println(this.entityManager);
+        ModuloLicencia lic = new ModuloLicencia(persona, this.entityManager);
         lic.setVisible(true);
         this.dispose();
     }
@@ -229,11 +229,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
         btnRegresar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnRegresar.setText("Regresar");
-        btnRegresar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRegresarMouseClicked(evt);
-            }
-        });
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -337,11 +332,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
         btnGenerarPlaca.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarPlaca.setText("Generar Placa");
-        btnGenerarPlaca.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnGenerarPlacaMouseClicked(evt);
-            }
-        });
         btnGenerarPlaca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarPlacaActionPerformed(evt);
@@ -417,9 +407,10 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                         .addGap(253, 253, 253)
                         .addComponent(btnSeleccionarPersona)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGenerarLicencia)
-                        .addGap(41, 41, 41)
-                        .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(202, 202, 202)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(354, 354, 354)
@@ -487,24 +478,15 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         this.regresarMenu();
-    }//GEN-LAST:event_btnRegresarActionPerformed
-
-    private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
-        // TODO add your handling code here:
         cerrarVentanaActual();
-    }//GEN-LAST:event_btnRegresarMouseClicked
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
         // TODO add your handling code here:
         irGenerarPlaca();
-        System.out.println(this.entityManager);
+        cerrarVentanaActual();
 
     }//GEN-LAST:event_btnGenerarPlacaActionPerformed
-
-    private void btnGenerarPlacaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarPlacaMouseClicked
-        // TODO add your handling code here:
-        cerrarVentanaActual();
-    }//GEN-LAST:event_btnGenerarPlacaMouseClicked
 
     private void txtRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRFCActionPerformed
         // TODO add your handling code here:
@@ -532,7 +514,8 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
         irGenerarLicencia();
-        System.out.println(this.entityManager);
+        cerrarVentanaActual();
+
     }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
 
     /**

@@ -65,7 +65,7 @@ public class ValidacionDatos {
 
     public static boolean serieEsValida(String serie) {
         
-        String regex = "^[A-Z\\d]{17}$";
+        String regex = "^[A-Z\\d]{7}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(serie);
         

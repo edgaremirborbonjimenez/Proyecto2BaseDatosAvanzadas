@@ -4,11 +4,16 @@
  */
 package com.mycompany.formularios;
 
+import com.mycompany.daos.LicenciaDAO;
+import com.mycompany.daos.PagoDAO;
 import com.mycompany.daos.PlacaDAO;
 import com.mycompany.daos.VehiculoDAO;
 import com.mycompany.dominio.Automovil;
+import com.mycompany.dominio.Estado;
+import com.mycompany.dominio.Licencia;
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Placa;
+import com.mycompany.dominio.Tramite;
 import com.mycompany.dominio.Vehiculo;
 import com.mycompany.utils.ValidacionDatos;
 import java.text.SimpleDateFormat;
@@ -25,20 +30,24 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
     private EntityManager entityManager;
     private VehiculoDAO vehiculoDAO;
     private PlacaDAO placaDAO;
+    private LicenciaDAO licenciaDAO;
+    PagoDAO pagoDAO;
 
     /**
      * Creates new form ModuloPlacaAutoNuevo
      */
     public ModuloPlacaAutoNuevo(Persona persona, EntityManager entityManager) {
         initComponents();
-        this.persona=persona;
-        this.entityManager=entityManager;
+        this.persona = persona;
+        this.entityManager = entityManager;
         setLabelPersona();
         placaDAO = new PlacaDAO(entityManager);
         vehiculoDAO = new VehiculoDAO(entityManager);
+        licenciaDAO = new LicenciaDAO(entityManager);
+        pagoDAO = new PagoDAO(entityManager);
     }
-    
-    private void setLabelPersona() {           
+
+    private void setLabelPersona() {
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
             lblNombre.setText(persona.getNombreCompleto());
@@ -75,7 +84,7 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
             errores += " Modelo";
             i++;
         }
-        if (i!=0) {
+        if (i != 0) {
             JOptionPane.showMessageDialog(this, errores, "Error en los Datos", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -100,9 +109,21 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Se genero exitosamente la Placa: " + placa.getNumero() + " al vehiculo con el numero de serie: " + this.txtSerie.getText(), "Placa Generada Exitosamente", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    private Boolean tieneLicenciaVigente() {
+        Licencia licencia = licenciaDAO.consultarLicenciaActiva(this.persona);
+        if (licencia == null || licencia.getEstado() == Estado.DESACTIVA) {
+            JOptionPane.showMessageDialog(this, "La persona que quiere generar la placa no tienen vigente su Licencia", "Licencia Vencida", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
     private Placa generarPlaca() {
+        if (!tieneLicenciaVigente()) {
+            return null;
+        }
         Vehiculo v = consultarVehiculoNuevo();
-        if (v==null) {
+        if (v == null) {
             return null;
         }
         Vehiculo vehiculo = this.vehiculoDAO.registraVehiculo(v);
@@ -110,12 +131,23 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Serie ya registrada, favor de ir a crear la placa en auto usado", "Alerta", JOptionPane.WARNING_MESSAGE);
             return null;
         }
-        return placaDAO.generarPlacaVehiculoNuevo(persona, vehiculo);
+        Placa placa = placaDAO.generarPlacaVehiculoNuevo(persona, vehiculo);
+
+        if (placa == null) {
+            JOptionPane.showMessageDialog(this, "No se pudo generar la Placa", "Error", JOptionPane.ERROR_MESSAGE);
+
+            return null;
+        }
+        generarPago(placa);
+        return placa;
+    }
+
+    private void generarPago(Tramite tramite) {
+        pagoDAO.generarPago(tramite);
     }
 
     private void regresarModuloPlaca() {
-        ModuloPlaca placa = new ModuloPlaca();
-        placa.setEntityManager(this.entityManager);
+        ModuloPlaca placa = new ModuloPlaca(this.entityManager);
         placa.setPersona(this.persona);
         placa.setVisible(true);
 
@@ -209,11 +241,6 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jButton2.setText("Regresar");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -376,17 +403,13 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         regresarModuloPlaca();
+        this.cerrarVentanaActual();
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        // TODO add your handling code here:
-        cerrarVentanaActual();
-    }//GEN-LAST:event_jButton2MouseClicked
 
     private void generarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarPlacaActionPerformed
         // TODO add your handling code here:
         Placa placa = this.generarPlaca();
-        if (placa==null) {
+        if (placa == null) {
             return;
         }
         this.placaGeneradaExitosamente(placa);

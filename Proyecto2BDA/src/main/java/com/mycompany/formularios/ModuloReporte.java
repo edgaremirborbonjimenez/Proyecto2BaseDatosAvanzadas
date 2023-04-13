@@ -206,7 +206,7 @@ public class ModuloReporte extends javax.swing.JFrame {
 
             JasperPrint jasperPrint = this.reporteDAO.generarReporteLicencia(lista);
             String path = this.consultarRutaExportacion();
-            if (path.isBlank()) {
+            if (path==null || path.isBlank()) {
                 return;
             }
             path+=".pdf";
@@ -228,7 +228,7 @@ public class ModuloReporte extends javax.swing.JFrame {
 
             JasperPrint jasperPrint = this.reporteDAO.generarReportePlaca(lista);
             String path = this.consultarRutaExportacion();
-            if (path.isBlank()) {
+            if (path==null||path.isBlank()) {
                 return;
             }
             path+=".pdf";

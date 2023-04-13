@@ -18,47 +18,42 @@ public class Menu extends javax.swing.JFrame {
 
     private ConexionDAO conexion;
     private EntityManager entity;
-    
+
     /**
      * Creates new form NewJFrame
      */
     public Menu() {
-        initComponents();      
+        initComponents();
         conexion = new ConexionDAO();
         conexion.crearConexion("Proyecto2BDA");
         entity = conexion.getEntityManager();
         System.out.println(entity);
     }
-    
-    private void cerrarVentanaActual(){
-    this.dispose();
+
+    private void cerrarVentanaActual() {
+        this.dispose();
     }
-    
-    private void irModuloTramite(){
-        ModuloGenerarTramite licencias = new ModuloGenerarTramite();
-        licencias.setEntityManager(entity);
+
+    private void irModuloTramite() {
+        ModuloGenerarTramite licencias = new ModuloGenerarTramite(this.entity);
         licencias.setVisible(true);
         this.dispose();
     }
-    
-    private  void irModuloPlaca(){
-        ModuloPlaca placa = new ModuloPlaca();
-        placa.setVisible(true);
-    }
-    
-    private  void irHistorialPlacasLicencia(){
+
+
+    private void irHistorialPlacasLicencia() {
         ModuloHistoriales historiales = new ModuloHistoriales(entity);
         historiales.setVisible(true);
         this.dispose();
     }
-    
-    private void irGenerarReporte(){
+
+    private void irGenerarReporte() {
         ModuloReporte moduloReporte = new ModuloReporte(entity);
         moduloReporte.setVisible(true);
         this.dispose();
     }
-    
-    private void personasAInsetar(){
+
+    private void personasAInsetar() {
         try {
             PersonaDAO insertar = new PersonaDAO(entity);
             insertar.registrarPersonas();
@@ -87,11 +82,6 @@ public class Menu extends javax.swing.JFrame {
 
         btnHistorial.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnHistorial.setText("Historial de Placas y Licencias");
-        btnHistorial.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnHistorialMouseClicked(evt);
-            }
-        });
         btnHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHistorialActionPerformed(evt);
@@ -100,11 +90,6 @@ public class Menu extends javax.swing.JFrame {
 
         btnGenerarReporte.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarReporte.setText("Generar Reporte de Tramites Realizados");
-        btnGenerarReporte.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnGenerarReporteMouseClicked(evt);
-            }
-        });
         btnGenerarReporte.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarReporteActionPerformed(evt);
@@ -113,11 +98,6 @@ public class Menu extends javax.swing.JFrame {
 
         btnGenerarLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnGenerarLicencia.setText("Generar Tramite");
-        btnGenerarLicencia.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnGenerarLicenciaMouseClicked(evt);
-            }
-        });
         btnGenerarLicencia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarLicenciaActionPerformed(evt);
@@ -162,9 +142,9 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
                 .addComponent(btnGenerarLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
+                .addGap(46, 46, 46)
                 .addComponent(btnHistorial, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
+                .addGap(35, 35, 35)
                 .addComponent(btnGenerarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(btnInsertarPersonas)
@@ -178,32 +158,20 @@ public class Menu extends javax.swing.JFrame {
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
         this.irModuloTramite();
+        cerrarVentanaActual();
     }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
         // TODO add your handling code here:
         irHistorialPlacasLicencia();
+        cerrarVentanaActual();
     }//GEN-LAST:event_btnHistorialActionPerformed
 
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
         // TODO add your handling code here:
         this.irGenerarReporte();
+        cerrarVentanaActual();
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
-
-    private void btnGenerarLicenciaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaMouseClicked
-        // TODO add your handling code here:
-        cerrarVentanaActual();
-    }//GEN-LAST:event_btnGenerarLicenciaMouseClicked
-
-    private void btnHistorialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHistorialMouseClicked
-        // TODO add your handling code here:
-        cerrarVentanaActual();
-    }//GEN-LAST:event_btnHistorialMouseClicked
-
-    private void btnGenerarReporteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGenerarReporteMouseClicked
-        // TODO add your handling code here:
-        cerrarVentanaActual();
-    }//GEN-LAST:event_btnGenerarReporteMouseClicked
 
     private void btnInsertarPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarPersonasActionPerformed
         // TODO add your handling code here:

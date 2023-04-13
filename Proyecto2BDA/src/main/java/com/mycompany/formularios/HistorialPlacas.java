@@ -34,10 +34,11 @@ public class HistorialPlacas extends javax.swing.JFrame {
     /**
      * Creates new form HistorialPlacas
      */
-    public HistorialPlacas(Persona persona) {
+    public HistorialPlacas(Persona persona,EntityManager entityManager) {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         this.persona = persona;
         initComponents();
+        this.entityManager= entityManager;
         this.setLabelPersona();
         placaDAO = new PlacaDAO(entityManager);
         this.cargarTablaHistorialPlacas();
