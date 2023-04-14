@@ -83,7 +83,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
                     formateado.format(p.getFechaEmision().getTime()),
                     p.getCosto(),
                     p.getNumero(),
-                    p.getCosto()
+                    p.getEstado()
                 };
                 modeloTabla.addRow(fila);
             }

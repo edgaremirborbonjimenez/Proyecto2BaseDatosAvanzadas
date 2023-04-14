@@ -76,7 +76,6 @@
                       <Component id="btnGenerarPlaca" min="-2" pref="161" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnGenerarLicencia" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="202" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -111,6 +110,10 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnRegresar" alignment="3" min="-2" pref="53" max="-2" attributes="0"/>
                   <Component id="btnSeleccionarPersona" alignment="3" min="-2" pref="53" max="-2" attributes="0"/>
+                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+                      <Component id="btnGenerarLicencia" alignment="3" min="-2" pref="53" max="-2" attributes="0"/>
+                      <Component id="btnGenerarPlaca" alignment="3" min="-2" pref="53" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -139,12 +142,7 @@
               <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="lblDiscapacidad" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnGenerarLicencia" alignment="3" min="-2" pref="53" max="-2" attributes="0"/>
-                  <Component id="btnGenerarPlaca" alignment="3" min="-2" pref="53" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

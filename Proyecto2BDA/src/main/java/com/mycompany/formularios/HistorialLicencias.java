@@ -74,7 +74,8 @@ public class HistorialLicencias extends javax.swing.JFrame {
                 Object[] fila = {
                     formateado.format(l.getFechaEmision().getTime()),
                     formateado.format(l.getFechaVigencia().getTime()),
-                    l.getCosto()
+                    l.getCosto(),
+                    l.getEstado()
                 };
                 modeloTabla.addRow(fila);
             }
@@ -138,14 +139,14 @@ public class HistorialLicencias extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Fecha de Emision", "Fecha de Vigencia", "Costo"
+                "Fecha de Emision", "Fecha de Vigencia", "Costo", "Estado"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
