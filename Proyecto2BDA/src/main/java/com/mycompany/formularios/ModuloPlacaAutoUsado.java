@@ -139,10 +139,10 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
     }
 
     private Boolean formatoValido() {
-        String errores = "Formato invalido en:";
+        String errores = "Formato invalido en:\n";
         int i = 0;
         if (!ValidacionDatos.serieEsValida(this.txtSerie.getText())) {
-            errores += " Serie";
+            errores += " Serie: Debe contener 7 caracteres, solo acepta MAYUSCULAS y Numeros y no acepta espacios al final";
             i++;
         }
         if (i != 0) {

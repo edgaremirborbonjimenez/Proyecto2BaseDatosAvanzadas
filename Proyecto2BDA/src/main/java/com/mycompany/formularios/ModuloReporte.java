@@ -105,7 +105,19 @@ public class ModuloReporte extends javax.swing.JFrame {
     }
 
     private String consultarNombre() {
-        return this.txtNombre.getText();
+        if (txtNombre.getText().isBlank()) {
+            JOptionPane.showMessageDialog(this, "El campo nombre esta vacio", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        if (ValidacionDatos.exceedsLimit(txtNombre.getText(), 100)) {
+            JOptionPane.showMessageDialog(this, "El nombre excede el limitede caracteres(100)", "Error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+        if (ValidacionDatos.contieneCaracteresEspeciales(txtNombre.getText())) {
+            JOptionPane.showMessageDialog(this, "Error el nombre contiene caracteres especiales o espacio al final", "Error", HEIGHT);
+            return null;
+        }
+        return txtNombre.getText();
     }
 
     private List<Reporte> consultarLicencias() {
@@ -139,7 +151,8 @@ public class ModuloReporte extends javax.swing.JFrame {
     private FiltroReporteTramites creaFiltroReporte() {
         FiltroReporteTramites filtro = new FiltroReporteTramites();
         HashMap<String, Date> periodo = consultarPeriodos();
-        if (periodo == null && consultarNombre().isBlank()) {
+        if (!chPeriodo.isSelected() && !chNombre.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Favor de Seleccionar algun tipo de filtro", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         if (chPeriodo.isSelected()) {
@@ -171,7 +184,7 @@ public class ModuloReporte extends javax.swing.JFrame {
     private void vistaPreviaReporteLicencia() {
         List<Reporte> lista = consultarLicencias();
         if (lista == null) {
-            JOptionPane.showMessageDialog(this, "Datos invalidos, revisa que todo este correcto, nombre sin caracteres especiales o las dos fechas puestas", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Datos invalidos, revisa que todo este correcto, nombre sin caracteres especiales y sin espacios al final o las dos fechas puestas", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
@@ -185,7 +198,7 @@ public class ModuloReporte extends javax.swing.JFrame {
         private void vistaPreviaReportePlaca() {
         List<Reporte> lista = consultarPlacas();
         if (lista == null) {
-            JOptionPane.showMessageDialog(this, "Datos invalidos, revisa que todo este correcto, nombre sin caracteres especiales o las dos fechas puestas", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Datos invalidos, revisa que todo este correcto, nombre sin caracteres especiales y sin espacios al final o las dos fechas puestas", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
@@ -199,7 +212,7 @@ public class ModuloReporte extends javax.swing.JFrame {
     private void exportarReporteLicencia() {
         List<Reporte> lista = consultarLicencias();
         if (lista == null) {
-            JOptionPane.showMessageDialog(this, "Datos invalidos, revisa que todo este correcto, nombre sin caracteres especiales o las dos fechas puestas", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Datos invalidos, revisa que todo este correcto, nombre sin caracteres especiales y sin espacios al final o las dos fechas puestas", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {
@@ -221,7 +234,7 @@ public class ModuloReporte extends javax.swing.JFrame {
        private void exportarReportePlaca() {
         List<Reporte> lista = consultarPlacas();
         if (lista == null) {
-            JOptionPane.showMessageDialog(this, "Datos invalidos, revisa que todo este correcto, nombre sin caracteres especiales o las dos fechas puestas", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Datos invalidos, revisa que todo este correcto, nombre sin caracteres especiales y sin espacios al final o las dos fechas puestas", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
         try {

@@ -62,26 +62,26 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
     }
 
     private Boolean formatoValido() {
-        String errores = "Formato invalido en ";
+        String errores = "Formato invalido en: \n";
         int i = 0;
         if (!ValidacionDatos.serieEsValida(this.txtSerie.getText())) {
-            errores += " Serie";
+            errores += " Serie: Debe contener 7 caracteres, solo acepta MAYUSCULAS y Numeros y no acepta espacios al final\n";
             i++;
         }
         if (ValidacionDatos.contieneCaracteresEspeciales(this.txtMarca.getText())) {
-            errores += " Marca";
+            errores += " Marca: Revise que no este vacio y no contenga caracteres especiales ni espacios al final\n";
             i++;
         }
         if (ValidacionDatos.contieneCaracteresEspeciales(this.txtLinea.getText())) {
-            errores += " Linea";
+            errores += " Linea: Revise que no este vacio y no contenga caracteres especiales ni espacios al final\n";
             i++;
         }
         if (ValidacionDatos.contieneCaracteresEspeciales(this.txtColor.getText())) {
-            errores += " Color";
+            errores += " Color: Revise que no este vacio y no contenga caracteres especiales ni espacios al final\n";
             i++;
         }
         if (ValidacionDatos.contieneCaracteresEspeciales(this.txtModelo.getText())) {
-            errores += " Modelo";
+            errores += " Modelo: Revise que no este vacio y no contenga caracteres especiales ni espacios al final";
             i++;
         }
         if (i != 0) {
@@ -403,11 +403,11 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel13)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDiscapacitado)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel7)
-                        .addComponent(jLabel9)))
+                        .addComponent(jLabel9))
+                    .addComponent(lblDiscapacitado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))

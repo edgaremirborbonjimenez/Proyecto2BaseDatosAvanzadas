@@ -150,12 +150,12 @@
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="lblDiscapacitado" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="3" groupAlignment="3" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                       <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="lblDiscapacitado" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="67" max="32767" attributes="0"/>
               <Component id="jButton2" min="-2" pref="46" max="-2" attributes="0"/>

@@ -34,7 +34,7 @@ public class ValidacionDatos {
      * @param texto Texto a validar
      * @param limiteCaracteres Cantidad de caracteres maximos
      * @return Regresa verdaero si el texto esta vacio o excede el limite de
-     * caracteres especificado, regresa falso si no esta vacio o excede el
+     * caracteres especificado, regresa falso si no esta vacio o no excede el
      * limite de caracteres.
      */
     public static boolean exceedsLimit(String texto, int limiteCaracteres) {
@@ -73,7 +73,7 @@ public class ValidacionDatos {
     }
     
     public static boolean contieneCaracteresEspeciales(String texto){
-            String regex = "^[a-zA-Z\\d]*[^\\W]$";
+            String regex = "^[a-zA-Z\\d\\s]*[^\\W]$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(texto);
         

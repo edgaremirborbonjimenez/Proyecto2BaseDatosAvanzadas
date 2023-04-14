@@ -75,11 +75,11 @@ public class ModuloHistoriales extends javax.swing.JFrame {
             return null;
         }
         if (txtRFC.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "RFC Vacio");
+            JOptionPane.showMessageDialog(null, "El Esta RFC Vacio","Error Campo Invalido",JOptionPane.ERROR_MESSAGE);
             return null;
         }
         if (ValidacionDatos.contieneCaracteresEspeciales(txtRFC.getText())) {
-            JOptionPane.showMessageDialog(null, "El RFC no puede contener caracteres especiales");
+            JOptionPane.showMessageDialog(null, "El RFC no puede contener caracteres especiales ni espacios al final","Error Campo Invalido",JOptionPane.ERROR_MESSAGE);
             return null;
         }
         return txtRFC.getText();
@@ -90,11 +90,11 @@ public class ModuloHistoriales extends javax.swing.JFrame {
             return null;
         }
         if (txtNombre.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Nombre Vacio");
+            JOptionPane.showMessageDialog(null, "El Nombre Esta Vacio","Error Campo Invalido",JOptionPane.ERROR_MESSAGE);
             return null;
         }
         if (ValidacionDatos.contieneCaracteresEspeciales(txtNombre.getText())) {
-            JOptionPane.showMessageDialog(null, "El nombre no puede contener caracteres especiales");
+            JOptionPane.showMessageDialog(null, "El nombre no puede contener caracteres especiales ni espacios al final","Error Campo Invalido",JOptionPane.ERROR_MESSAGE);
             return null;
         }
         return txtNombre.getText();

@@ -40,7 +40,7 @@ public class PersonaDAO implements IPersonaDAO {
         entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
 
-        Persona p1 = new Persona("Juan García Pérez", "GAPJ920702", new GregorianCalendar(2017, Calendar.JANUARY, 22), "5512345678", Sexo.MASCULINO, Discapacitado.NO);
+        Persona p1 = new Persona("Ana Fernanda Beltran Gastelum", "GAPJ920702", new GregorianCalendar(2004, Calendar.JUNE, 24), "6421073923", Sexo.FEMENINO, Discapacitado.NO);
         Persona p2 = new Persona("María López Hernández", "LOHM900529", new GregorianCalendar(1990, Calendar.MAY, 29), "5534567890", Sexo.FEMENINO, Discapacitado.NO);
         Persona p3 = new Persona("Pedro Sánchez Ramírez", "SARP970825", new GregorianCalendar(1997, Calendar.AUGUST, 25), "5252611989", Sexo.MASCULINO, Discapacitado.NO);
         Persona p4 = new Persona("Laura Martínez Gómez", "MAGL840704", new GregorianCalendar(1984, Calendar.JULY, 4), "5512345678", Sexo.FEMENINO, Discapacitado.SI);
