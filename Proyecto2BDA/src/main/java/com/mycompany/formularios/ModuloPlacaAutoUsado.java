@@ -23,6 +23,7 @@ import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 /**
+ * Clase que contiene el Modulo Placa Auto Usado
  *
  * @author edemb
  */
@@ -49,6 +50,9 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         pagoDAO = new PagoDAO(entityManager);
     }
 
+    /**
+     * Le asigna valores a los labels de los datos de la Persona
+     */
     private void setLabelPersona() {
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
@@ -63,21 +67,35 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Cierra la ventana de Modulo Placa Auto Usado
+     */
     private void cerrarVentana() {
         this.dispose();
     }
 
+    /**
+     * Abre la ventana Modulo de Seleccion de Placa
+     */
     private void irModuloPlaca() {
         ModuloPlaca moduloPlaca = new ModuloPlaca(this.entityManager);
         moduloPlaca.setPersona(this.persona);
         moduloPlaca.setVisible(true);
     }
 
+    /**
+     * Abre la ventana del Modulo Menu
+     */
     private void irMenu() {
         Menu menu = new Menu();
         menu.setVisible(true);
     }
 
+    /**
+     * Consulta el vehiculo
+     *
+     * @return Vehiculo, null en caso de algun error
+     */
     private Vehiculo consultarVehiculoUsado() {
         if (!this.formatoValido()) {
             return null;
@@ -90,15 +108,25 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         return vehiculo;
     }
 
+    /**
+     * Valida que la persona tenga Licencia Vigente
+     *
+     * @return true si tiene, false en caso contrario
+     */
     private Boolean tieneLicenciaVigente() {
         Licencia licencia = licenciaDAO.consultarLicenciaActiva(this.persona);
-        if (licencia == null ||licencia.getEstado() == Estado.DESACTIVA) {
+        if (licencia == null || licencia.getEstado() == Estado.DESACTIVA) {
             JOptionPane.showMessageDialog(this, "La persona que quiere generar la placa no tienen vigente su Licencia", "Licencia Vencida", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
     }
 
+    /**
+     * Genera la Placa el vehiculo usado
+     *
+     * @return Placa generada, null en caso de algun error
+     */
     private Placa generarPlacaVehiculoUsado() {
         if (!tieneLicenciaVigente()) {
             return null;
@@ -108,36 +136,39 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
             return null;
         }
         Placa placa = this.placaDAO.generarPlacaVehiculoUsado(persona, vehiculo);
-        
-        if (placa==null) {
+
+        if (placa == null) {
             JOptionPane.showMessageDialog(this, "No se pudo generar la Placa", "Error", JOptionPane.ERROR_MESSAGE);
             return null;
         }
         generarPago(placa);
-        
+
         return placa;
     }
-    
-    private void generarPago(Tramite tramite){
-    pagoDAO.generarPago(tramite);
+
+    /**
+     * Genera el Pago del Tramite
+     *
+     * @param tramite Tramite al que se le generara el Pago
+     */
+    private void generarPago(Tramite tramite) {
+        pagoDAO.generarPago(tramite);
     }
 
+    /**
+     * Muestra un Mensaje de Placa generada exitosamentes
+     *
+     * @param placa ...
+     */
     private void mensajePlacaGeneradaExitosamente(Placa placa) {
         JOptionPane.showMessageDialog(this, "Se genero el numero de placa: " + placa.getNumero() + " para el vehiculo con la serie: " + this.txtSerie.getText(), "Placa generada Exitosamente", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void setPersona(Persona persona) {
-        this.persona = persona;
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
+    /**
+     * Valida el Formato de los datos ingresados
+     *
+     * @return true en caso de ser validos, false en caso contrario
+     */
     private Boolean formatoValido() {
         String errores = "Formato invalido en:\n";
         int i = 0;
@@ -365,12 +396,22 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Regresa a la ventana anterior
+     *
+     * @param evt ...
+     */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         irModuloPlaca();
         cerrarVentana();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    /**
+     * Genera la Placa y te regresa al Menu
+     *
+     * @param evt ...
+     */
     private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
         // TODO add your handling code here:
         Placa placa = generarPlacaVehiculoUsado();

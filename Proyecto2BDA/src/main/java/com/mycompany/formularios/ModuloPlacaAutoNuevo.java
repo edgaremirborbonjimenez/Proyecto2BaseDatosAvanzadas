@@ -21,7 +21,7 @@ import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Clase que contiene el Modulo de Placa a Auto Nuevo
  * @author edemb
  */
 public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
@@ -47,6 +47,9 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
         pagoDAO = new PagoDAO(entityManager);
     }
 
+    /**
+     * Asigna los valores de los labels de los datos de la Persona
+     */
     private void setLabelPersona() {
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
@@ -61,6 +64,10 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Valida el formato de los datos ingresados
+     * @return true si es valido, false en caso contrario
+     */
     private Boolean formatoValido() {
         String errores = "Formato invalido en: \n";
         int i = 0;
@@ -92,6 +99,10 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Consulta el vehiculo nuevo
+     * @return el Vehiculo nuevo, null en caso de algun error
+     */
     private Vehiculo consultarVehiculoNuevo() {
         if (!this.formatoValido()) {
             return null;
@@ -105,10 +116,18 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
         return vehiculo;
     }
 
+    /**
+     * Muestra un mensaje de Placa generada con exito
+     * @param placa Placa que se genero
+     */
     private void placaGeneradaExitosamente(Placa placa) {
         JOptionPane.showMessageDialog(this, "Se genero exitosamente la Placa: " + placa.getNumero() + " al vehiculo con el numero de serie: " + this.txtSerie.getText(), "Placa Generada Exitosamente", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Valida si la Persona tiene licencia vigente
+     * @return true si la tiene, false en caso contrario
+     */
     private Boolean tieneLicenciaVigente() {
         Licencia licencia = licenciaDAO.consultarLicenciaActiva(this.persona);
         if (licencia == null || licencia.getEstado() == Estado.DESACTIVA) {
@@ -118,6 +137,10 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
         return true;
     }
 
+    /**
+     * Genera la Placa
+     * @return La Placa generada
+     */
     private Placa generarPlaca() {
         if (!tieneLicenciaVigente()) {
             return null;
@@ -142,10 +165,17 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
         return placa;
     }
 
+    /**
+     * Genera el Pago al Tramite
+     * @param tramite Tramite al que se le generara el Pago
+     */
     private void generarPago(Tramite tramite) {
         pagoDAO.generarPago(tramite);
     }
 
+    /**
+     * Abre Modulo de Seleccion de Placa
+     */
     private void regresarModuloPlaca() {
         ModuloPlaca placa = new ModuloPlaca(this.entityManager);
         placa.setPersona(this.persona);
@@ -153,25 +183,19 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Abre modulo Menu
+     */
     private void irMenu() {
         Menu menu = new Menu();
         menu.setVisible(true);
     }
 
+    /**
+     * Cierra el Modulo Placa Auto Nuevo
+     */
     private void cerrarVentanaActual() {
         this.dispose();
-    }
-
-    public void setPersona(Persona persona) {
-        this.persona = persona;
-    }
-
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
     }
 
     /**
@@ -418,12 +442,20 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Regresa al modulo anterior
+     * @param evt ...
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         regresarModuloPlaca();
         this.cerrarVentanaActual();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * Genera la Placa
+     * @param evt ...
+     */
     private void generarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generarPlacaActionPerformed
         // TODO add your handling code here:
         Placa placa = this.generarPlaca();

@@ -28,6 +28,7 @@ import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JasperPrint;
 
 /**
+ * Clase que contiene el Modulo del Reporte
  *
  * @author Usuario
  */
@@ -43,12 +44,17 @@ public class ModuloReporte extends javax.swing.JFrame {
      */
     public ModuloReporte(EntityManager entityManager) {
         initComponents();
-        this.entityManager=entityManager;
+        this.entityManager = entityManager;
         placaDAO = new PlacaDAO(this.entityManager);
         licenciaDAO = new LicenciaDAO(this.entityManager);
         reporteDAO = new ReporteDAO(entityManager);
     }
 
+    /**
+     * Valida que haya Fechas ingresadas
+     *
+     * @return true en caso de que haya, false en caso contrario
+     */
     private Boolean hayFechasEnPeriodo() {
         if (this.datePickerDesde.getDate() == null) {
             return false;
@@ -59,6 +65,11 @@ public class ModuloReporte extends javax.swing.JFrame {
         return true;
     }
 
+    /**
+     * Valida si el nombre ingresado es valido
+     *
+     * @return true en caso de que sea valido, false en caso contrario
+     */
     private Boolean nombreEsValido() {
 
         String nombre = this.txtNombre.getText();
@@ -71,6 +82,9 @@ public class ModuloReporte extends javax.swing.JFrame {
         return true;
     }
 
+    /**
+     * Habilita y deshabilita los campos de las fechas dependiento de los checks
+     */
     private void habilitar_DesHabilitarPeriodo() {
         if (this.chPeriodo.isSelected()) {
             this.datePickerDesde.setEnabled(true);
@@ -84,6 +98,9 @@ public class ModuloReporte extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Habilita y deshabilita el campo del nombre dependiendo del check
+     */
     private void habilitarNombre() {
         if (this.chNombre.isSelected()) {
             this.txtNombre.setEnabled(true);
@@ -93,6 +110,11 @@ public class ModuloReporte extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Consulta los periodos ingresados
+     *
+     * @return un HashMap con los periodos, null en caso de algun error
+     */
     private HashMap<String, Date> consultarPeriodos() {
         if (!this.hayFechasEnPeriodo()) {
             return null;
@@ -105,6 +127,11 @@ public class ModuloReporte extends javax.swing.JFrame {
         return periodos;
     }
 
+    /**
+     * Consulta el nombre ingresado
+     *
+     * @return El nombre ingresado, null en caso de algun error
+     */
     private String consultarNombre() {
         if (txtNombre.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "El campo nombre esta vacio", "Error", JOptionPane.ERROR_MESSAGE);
@@ -121,6 +148,11 @@ public class ModuloReporte extends javax.swing.JFrame {
         return txtNombre.getText();
     }
 
+    /**
+     * Consulta las Licencias de la Persona
+     *
+     * @return Una lista de Reportes
+     */
     private List<Reporte> consultarLicencias() {
         FiltroReporteTramites filtro = this.creaFiltroReporte();
         if (filtro == null) {
@@ -136,8 +168,13 @@ public class ModuloReporte extends javax.swing.JFrame {
         }
         return reportes;
     }
-    
-        private List<Reporte> consultarPlacas() {
+
+    /**
+     * Consulta las Placas
+     *
+     * @return Una lista de Reportes
+     */
+    private List<Reporte> consultarPlacas() {
         FiltroReporteTramites filtro = this.creaFiltroReporte();
         if (filtro == null) {
             return null;
@@ -151,6 +188,11 @@ public class ModuloReporte extends javax.swing.JFrame {
         return reportes;
     }
 
+    /**
+     * Crea el Filtro para consultar los datos del Reporte
+     *
+     * @return El Filtro del Reporte
+     */
     private FiltroReporteTramites creaFiltroReporte() {
         FiltroReporteTramites filtro = new FiltroReporteTramites();
         HashMap<String, Date> periodo = consultarPeriodos();
@@ -174,6 +216,11 @@ public class ModuloReporte extends javax.swing.JFrame {
         return filtro;
     }
 
+    /**
+     * Consulta la Ruta URL a la que lo exportaras al reporte
+     *
+     * @return La Ruta URL
+     */
     private String consultarRutaExportacion() {
         JFileChooser fc = new JFileChooser();
         int seleccion = fc.showSaveDialog(this);
@@ -184,6 +231,9 @@ public class ModuloReporte extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Crea una vista previa del Reporte de Licencias
+     */
     private void vistaPreviaReporteLicencia() {
         List<Reporte> lista = consultarLicencias();
         if (lista == null) {
@@ -197,8 +247,11 @@ public class ModuloReporte extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-        private void vistaPreviaReportePlaca() {
+
+    /**
+     * Crea una vista previa del reporte de Placas
+     */
+    private void vistaPreviaReportePlaca() {
         List<Reporte> lista = consultarPlacas();
         if (lista == null) {
             JOptionPane.showMessageDialog(this, "Datos invalidos, revisa que todo este correcto, nombre sin caracteres especiales y sin espacios al final o las dos fechas puestas", "Error", JOptionPane.ERROR_MESSAGE);
@@ -212,6 +265,9 @@ public class ModuloReporte extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Exporta el Reporte de Licencias
+     */
     private void exportarReporteLicencia() {
         List<Reporte> lista = consultarLicencias();
         if (lista == null) {
@@ -222,19 +278,22 @@ public class ModuloReporte extends javax.swing.JFrame {
 
             JasperPrint jasperPrint = this.reporteDAO.generarReporteLicencia(lista);
             String path = this.consultarRutaExportacion();
-            if (path==null || path.isBlank()) {
+            if (path == null || path.isBlank()) {
                 return;
             }
-            path+=".pdf";
+            path += ".pdf";
             reporteDAO.exportarReporte(jasperPrint, path);
-            JOptionPane.showMessageDialog(this, "Tu reporte se exporto con exito en la siguiente ruta: "+path, "Exportacion Exitosa", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Tu reporte se exporto con exito en la siguiente ruta: " + path, "Exportacion Exitosa", JOptionPane.INFORMATION_MESSAGE);
         } catch (PersistenciaException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
         }
     }
-    
-       private void exportarReportePlaca() {
+
+    /**
+     * Exporta el Reporte de Placas
+     */
+    private void exportarReportePlaca() {
         List<Reporte> lista = consultarPlacas();
         if (lista == null) {
             JOptionPane.showMessageDialog(this, "Datos invalidos, revisa que todo este correcto, nombre sin caracteres especiales y sin espacios al final o las dos fechas puestas", "Error", JOptionPane.ERROR_MESSAGE);
@@ -244,26 +303,32 @@ public class ModuloReporte extends javax.swing.JFrame {
 
             JasperPrint jasperPrint = this.reporteDAO.generarReportePlaca(lista);
             String path = this.consultarRutaExportacion();
-            if (path==null||path.isBlank()) {
+            if (path == null || path.isBlank()) {
                 return;
             }
-            path+=".pdf";
+            path += ".pdf";
             reporteDAO.exportarReporte(jasperPrint, path);
-            JOptionPane.showMessageDialog(this, "Tu reporte se exporto con exito en la siguiente ruta: "+path, "Exportacion Exitosa", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Tu reporte se exporto con exito en la siguiente ruta: " + path, "Exportacion Exitosa", JOptionPane.INFORMATION_MESSAGE);
         } catch (PersistenciaException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 
         }
     }
-       
-       private void cerrarVentana(){
-       this.dispose();
-       }
-       
-       private void irMenu(){
-       Menu menu = new Menu();
-       menu.setVisible(true);
-       }
+
+    /**
+     * Cierra el modulo de Reporte
+     */
+    private void cerrarVentana() {
+        this.dispose();
+    }
+
+    /**
+     * Abre la ventana del Modulo Menu
+     */
+    private void irMenu() {
+        Menu menu = new Menu();
+        menu.setVisible(true);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -426,41 +491,76 @@ public class ModuloReporte extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Habilita y deshabilita los periodos
+     *
+     * @param evt ...
+     */
     private void chPeriodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chPeriodoActionPerformed
         // TODO add your handling code here:
         habilitar_DesHabilitarPeriodo();
     }//GEN-LAST:event_chPeriodoActionPerformed
 
+    /**
+     * Ahbilita y deshabilita el campo nombre
+     *
+     * @param evt ...
+     */
     private void chNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chNombreActionPerformed
         // TODO add your handling code here:
         habilitarNombre();
     }//GEN-LAST:event_chNombreActionPerformed
 
+    /**
+     * Crea una vista previa del reporte de Licencias
+     *
+     * @param evt ...
+     */
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         vistaPreviaReporteLicencia();
     }//GEN-LAST:event_jButton5ActionPerformed
 
+    /**
+     * Exporta el reporte de Licencias
+     *
+     * @param evt ...
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         this.exportarReporteLicencia();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    /**
+     * Crea una vista previa del reporte de Placas
+     *
+     * @param evt ...
+     */
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         vistaPreviaReportePlaca();
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    /**
+     * Exporta el reporte de Placas
+     *
+     * @param evt ...
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         this.exportarReportePlaca();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    /**
+     * Regresa al Menu
+     *
+     * @param evt ...
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         irMenu();
         cerrarVentana();
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 //    /**
 //     * @param args the command line arguments

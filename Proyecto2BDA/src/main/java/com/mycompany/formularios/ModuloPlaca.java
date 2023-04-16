@@ -8,6 +8,7 @@ import com.mycompany.dominio.Persona;
 import javax.persistence.EntityManager;
 
 /**
+ * Clase que contiene al Modulo de Seleccion de Placas
  *
  * @author edemb
  */
@@ -21,46 +22,57 @@ public class ModuloPlaca extends javax.swing.JFrame {
      */
     public ModuloPlaca(EntityManager entityManager) {
         initComponents();
-        this.entityManager=entityManager;
+        this.entityManager = entityManager;
     }
 
+    /**
+     * Cierra la ventana Modulo Placa
+     */
     private void cerrarVentanaActual() {
         this.dispose();
     }
 
+    /**
+     * Abre la ventana Modulo Tramite
+     */
     public void irModuloTramite() {
         ModuloGenerarTramite tra = new ModuloGenerarTramite(this.entityManager);
         tra.setVisible(true);
     }
 
+    /**
+     * Abre la ventana Modulo de Placa a Auto Nuevo
+     */
     public void irAutoNuevo() {
-        ModuloPlacaAutoNuevo autoNuevo = new ModuloPlacaAutoNuevo(persona,entityManager);
-//        autoNuevo.setEntityManager(entityManager);
+        ModuloPlacaAutoNuevo autoNuevo = new ModuloPlacaAutoNuevo(persona, entityManager);
         autoNuevo.setVisible(true);
     }
 
+    /**
+     * Abre la ventana Modulo de Placa a Auto Usado
+     */
     public void irAutoUsado() {
-        ModuloPlacaAutoUsado autoUsado = new ModuloPlacaAutoUsado(this.persona,this.entityManager);
-//        autoUsado.setEntityManager(entityManager);
+        ModuloPlacaAutoUsado autoUsado = new ModuloPlacaAutoUsado(this.persona, this.entityManager);
         autoUsado.setVisible(true);
     }
 
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
-
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
+    /**
+     * Regresa a la Persona
+     *
+     * @return
+     */
     public Persona getPersona() {
         return persona;
     }
 
+    /**
+     * Asigna valor a la Persona
+     *
+     * @param persona Persona a asignar
+     */
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -168,18 +180,32 @@ public class ModuloPlaca extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Regresa a la ventana anterior
+     *
+     * @param evt ...
+     */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         irModuloTramite();
         cerrarVentanaActual();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    /**
+     * Te lleva al modulo placa a auto nuevo
+     *
+     * @param evt...
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         irAutoNuevo();
         cerrarVentanaActual();
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    /**
+     * Te lleva al modulo placa a auto usado
+     *
+     * @param evt...
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         irAutoUsado();

@@ -19,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.swing.JOptionPane;
 
 /**
+ * Clase que contiene el Modulo de generar Licencia
  *
  * @author edemb
  */
@@ -42,34 +43,48 @@ public class ModuloLicencia extends javax.swing.JFrame {
         pagoDAO = new PagoDAO(entityManager);
     }
 
+    /**
+     * Muestra mensaje de Licencia generada con exito
+     */
     private void mensajeLicenciaGeneradaExitosamente() {
         JOptionPane.showMessageDialog(this, "Licencia Generada Exitosamente para la persona :" + this.persona.getNombreCompleto(), "Licencia Generada Exitosamente", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Muestra un Mensaje de error por Personas
+     */
     private void mensajeErrorPersona() {
         JOptionPane.showMessageDialog(this, "Error Persona no encontrada", "Formateo de fecha error", JOptionPane.ERROR_MESSAGE);
     }
-    
+
+    /**
+     * Asigna valores a los labels de precios
+     */
     public void setLabelPrecioLicencia() {
         if (this.persona.getDiscapasitado().equals(SI)) {
             if (cmbVigencia.getSelectedItem().toString() == "1 Año") {
                 lblPrecioTotal.setText("$200.00 pesos");
             } else if (cmbVigencia.getSelectedItem().toString() == "2 Años") {
                 lblPrecioTotal.setText("$500.00 pesos");
-            }else{
+            } else {
                 lblPrecioTotal.setText("$700.00 Pesos");
             }
-        }else{
+        } else {
             if (cmbVigencia.getSelectedItem().toString() == "1 Año") {
                 lblPrecioTotal.setText("$600.00 pesos");
             } else if (cmbVigencia.getSelectedItem().toString() == "2 Años") {
                 lblPrecioTotal.setText("$900.00 pesos");
-            }else{
+            } else {
                 lblPrecioTotal.setText("$1,100.00 Pesos");
             }
         }
     }
 
+    /**
+     * Genere la licencia
+     *
+     * @return Regresa true si se genero, false en caso contrario
+     */
     private Boolean generarLicencia() {
 
         if (this.persona == null) {
@@ -86,11 +101,22 @@ public class ModuloLicencia extends javax.swing.JFrame {
         return true;
     }
 
+    /**
+     * Genera el pago
+     *
+     * @param tramite Tramite al que se le generara al Pago
+     * @return el Pago generado
+     */
     private Pago generarPago(Tramite tramite) {
         Pago pago = this.pagoDAO.generarPago(tramite);
         return pago;
     }
 
+    /**
+     * Consulta la Vigencia de la licencia
+     *
+     * @return La vigencia que tendra la licencia
+     */
     private Vigencia consutlarVigencia() {
         int opcion = this.cmbVigencia.getSelectedIndex();
         if (opcion == 1) {
@@ -102,32 +128,50 @@ public class ModuloLicencia extends javax.swing.JFrame {
         }
     }
 
-    public void setEntityManager(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
+    /**
+     * Regresa la Persona
+     *
+     * @return Persona
+     */
     public Persona getPersona() {
         return persona;
     }
 
+    /**
+     * Le asigna un valor a la Persona
+     *
+     * @param persona Persona a asignar
+     */
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
 
+    /**
+     * Cierra el Modulo Licencia
+     */
     private void cerrarVentana() {
         this.dispose();
     }
 
+    /**
+     * Abre el Modulo Generar Tramite
+     */
     private void irModuloGenerarTramite() {
         ModuloGenerarTramite tra = new ModuloGenerarTramite(this.entityManager);
         tra.setVisible(true);
     }
 
+    /**
+     * Abre el Modulo Menu
+     */
     private void irMenu() {
         Menu menu = new Menu();
         menu.setVisible(true);
     }
 
+    /**
+     * Asigna los valores a los labels de los datos de la Persona
+     */
     private void setLabelPersona() {
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
@@ -340,12 +384,22 @@ public class ModuloLicencia extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Te regresa al Modulo anterior
+     *
+     * @param evt ...
+     */
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         irModuloGenerarTramite();
         cerrarVentana();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    /**
+     * Genera la Licencia
+     *
+     * @param evt ...
+     */
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
         if (!this.generarLicencia()) {
@@ -356,6 +410,11 @@ public class ModuloLicencia extends javax.swing.JFrame {
         this.cerrarVentana();
     }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
 
+    /**
+     * Asigna la Vigencia de la Licencia
+     *
+     * @param evt...
+     */
     private void cmbVigenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbVigenciaActionPerformed
         // TODO add your handling code here:
         this.setLabelPrecioLicencia();
