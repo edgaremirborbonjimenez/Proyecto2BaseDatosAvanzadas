@@ -5,7 +5,7 @@
 package com.mycompany.dominio;
 
 /**
- *
+ * Clase que contiene los valores de Estado de los Tramites
  * @author edemb
  */
 public enum Estado {

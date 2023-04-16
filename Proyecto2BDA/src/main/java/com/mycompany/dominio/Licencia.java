@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
+ * Clase que contiene todas las propiedades de la Licencia
  *
  * @author edemb
  */
@@ -30,59 +31,86 @@ public class Licencia extends Tramite implements Serializable {
     @Temporal(TemporalType.DATE)
     Date fechaVigencia;
 
+    /**
+     * Constructor por defecto
+     */
     public Licencia() {
     }
 
-//    public Licencia(Long id, Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona, List<Pago> pagos) {
-//        super(id, fechaEmision, costo, persona, pagos);
-//        this.fechaVigencia = fechaVigencia;
-//    }
-//
-//        public Licencia(Long id, Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona) {
-//        super(id, fechaEmision, costo, persona);
-//        this.fechaVigencia = fechaVigencia;
-//    }
-//    
-//    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona, List<Pago> pagos) {
-//        super(fechaEmision, costo, persona, pagos);
-//        this.fechaVigencia = fechaVigencia;
-//    }
-//
-//    public Licencia(Calendar fechaEmision, Calendar fechaVigencia, Float costo, Persona persona) {
-//        super(fechaEmision, costo, persona);
-//        this.fechaVigencia = fechaVigencia;
-//    }
-        public Licencia(Long id, Date fechaEmision, Date fechaVigencia, Float costo,Estado estado, Persona persona, List<Pago> pagos) {
-        super(id, fechaEmision, costo,estado, persona, pagos);
+    /**
+     * Constructor que asignar todas las propiedades
+     *
+     * @param id ID a asignar
+     * @param fechaEmision Fecha asignar a fecha emision
+     * @param fechaVigencia Fecha a asignar fecha vigencia
+     * @param costo Costo a asignar
+     * @param estado Estado a asignar
+     * @param persona Persona a asignar
+     * @param pagos Lista de Pagos que le pertenecen
+     */
+    public Licencia(Long id, Date fechaEmision, Date fechaVigencia, Float costo, Estado estado, Persona persona, List<Pago> pagos) {
+        super(id, fechaEmision, costo, estado, persona, pagos);
         this.fechaVigencia = fechaVigencia;
     }
 
-        public Licencia(Long id, Date fechaEmision, Date fechaVigencia, Float costo,Estado estado, Persona persona) {
-        super(id, fechaEmision, costo,estado, persona);
-        this.fechaVigencia = fechaVigencia;
-    }
-    
-    public Licencia(Date fechaEmision, Date fechaVigencia, Float costo,Estado estado, Persona persona, List<Pago> pagos) {
-        super(fechaEmision, costo,estado, persona, pagos);
+    /**
+     * Constructor que asignar todas las propiedades
+     *
+     * @param id ID a asignar
+     * @param fechaEmision Fecha asignar a fecha emision
+     * @param fechaVigencia Fecha a asignar fecha vigencia
+     * @param costo Costo a asignar
+     * @param estado Estado a asignar
+     * @param persona Persona a asignar
+     */
+    public Licencia(Long id, Date fechaEmision, Date fechaVigencia, Float costo, Estado estado, Persona persona) {
+        super(id, fechaEmision, costo, estado, persona);
         this.fechaVigencia = fechaVigencia;
     }
 
-    public Licencia(Date fechaEmision, Date fechaVigencia, Float costo,Estado estado, Persona persona) {
-        super(fechaEmision, costo,estado, persona);
+    /**
+     * Constructor que asignar todas las propiedades
+     *
+     * @param fechaEmision Fecha asignar a fecha emision
+     * @param fechaVigencia Fecha a asignar fecha vigencia
+     * @param costo Costo a asignar
+     * @param estado Estado a asignar
+     * @param persona Persona a asignar
+     * @param pagos Lista de Pagos que le pertenecen
+     */
+    public Licencia(Date fechaEmision, Date fechaVigencia, Float costo, Estado estado, Persona persona, List<Pago> pagos) {
+        super(fechaEmision, costo, estado, persona, pagos);
         this.fechaVigencia = fechaVigencia;
     }
-//   public Calendar getFechaVigencia() {
-//        return fechaVigencia;
-//    }
-//
-//    public void setFechaVigencia(Calendar fechaVigencia) {
-//        this.fechaVigencia = fechaVigencia;
-//    }
 
+    /**
+     * Constructor que asignar todas las propiedades
+     *
+     * @param fechaEmision Fecha asignar a fecha emision
+     * @param fechaVigencia Fecha a asignar fecha vigencia
+     * @param costo Costo a asignar
+     * @param estado Estado a asignar
+     * @param persona Persona a asignar
+     */
+    public Licencia(Date fechaEmision, Date fechaVigencia, Float costo, Estado estado, Persona persona) {
+        super(fechaEmision, costo, estado, persona);
+        this.fechaVigencia = fechaVigencia;
+    }
+
+    /**
+     * Regresa la fecha de vigencia
+     *
+     * @return Fecha de vigencia
+     */
     public Date getFechaVigencia() {
         return fechaVigencia;
     }
 
+    /**
+     * Le asigna una Fecha a la fecha de vigencia
+     *
+     * @param fechaVigencia Fecha a asignar
+     */
     public void setFechaVigencia(Date fechaVigencia) {
         this.fechaVigencia = fechaVigencia;
     }

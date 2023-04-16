@@ -5,7 +5,7 @@
 package com.mycompany.dominio;
 
 /**
- *
+ * Clase que contiene los valores de Discapacitado
  * @author edemb
  */
 public enum Discapacitado {
