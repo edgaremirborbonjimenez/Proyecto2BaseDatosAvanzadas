@@ -82,6 +82,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
     private void irModuloHistorial() {
         ModuloHistoriales historiales = new ModuloHistoriales (entityManager);
         historiales.setVisible(true);
+        this.dispose();
     }
 
     /**
@@ -160,6 +161,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Historial de Placas");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         jLabel1.setText("Historial de Placas");

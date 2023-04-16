@@ -12,6 +12,7 @@ import com.mycompany.dominio.Sexo;
 import com.mycompany.excepciones.PersistenciaException;
 import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
+import com.mycompany.utils.Encriptador;
 import com.mycompany.utils.ValidacionDatos;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
@@ -36,6 +37,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     private FiltroHistorial parametros;
     private IPersonaDAO personaDAO;
     private EntityManager entityManager;
+    private Encriptador encriptador;
     private final IPersonaDAO personasDAO = null;
 
     /**
@@ -56,6 +58,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     private void irMenu() {
         Menu menu = new Menu();
         menu.setVisible(true);
+        this.dispose();
     }
 
     /**
@@ -64,6 +67,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     private void irHistorialLicencia() {
         HistorialLicencias hisLic = new HistorialLicencias(regresaPersona(), this.entityManager);
         hisLic.setVisible(true);
+        this.dispose();
     }
 
     /**
@@ -72,6 +76,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     private void irHistorialPlaca() {
         HistorialPlacas hisPla = new HistorialPlacas(regresaPersona(), this.entityManager);
         hisPla.setVisible(true);
+        this.dispose();
     }
 
     /**
@@ -98,6 +103,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
      * @return Regresar el nombre verificando si esta vacio o con formato incorrecto
      */
     public String extraerDatosFormularioNombre() {
+        encriptador = new Encriptador();
         if (!chkNombre.isSelected()) {
             return null;
         }
@@ -109,7 +115,9 @@ public class ModuloHistoriales extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "El nombre no puede contener caracteres especiales ni espacios al final","Error Campo Invalido",JOptionPane.ERROR_MESSAGE);
             return null;
         }
-        return txtNombre.getText();
+        String encriptado = encriptador.encriptar(txtNombre.getText());
+
+        return encriptado;
     }
 
     /**
@@ -370,6 +378,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Seleccion de Cliente");
+        setResizable(false);
 
         btnHistorialLicencia.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnHistorialLicencia.setText("Historial de Licencias");

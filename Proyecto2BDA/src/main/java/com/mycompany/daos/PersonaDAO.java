@@ -15,6 +15,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import com.mycompany.interfaces.IPersonaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
+import com.mycompany.utils.Encriptador;
 import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.TypedQuery;
@@ -30,6 +31,7 @@ import javax.persistence.criteria.Root;
 public class PersonaDAO implements IPersonaDAO {
 
     private EntityManager entityManager;
+    private Encriptador encriptador;
 
     /**
      * Constructor que recibe el EntityManager
@@ -44,30 +46,31 @@ public class PersonaDAO implements IPersonaDAO {
      * Metodo que implementa de IPersonaDAO para registrar las personas con una insercion masiva
      */
     public void registrarPersonas() {
+        encriptador = new Encriptador();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
         entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
-
-        Persona p1 = new Persona("Ana Fernanda Beltran Gastelum", "GAPJ920702", new GregorianCalendar(2004, Calendar.JUNE, 24), "6421073923", Sexo.FEMENINO, Discapacitado.NO);
-        Persona p2 = new Persona("María López Hernández", "LOHM900529", new GregorianCalendar(1990, Calendar.MAY, 29), "5534567890", Sexo.FEMENINO, Discapacitado.NO);
-        Persona p3 = new Persona("Pedro Sánchez Ramírez", "SARP970825", new GregorianCalendar(1997, Calendar.AUGUST, 25), "5252611989", Sexo.MASCULINO, Discapacitado.NO);
-        Persona p4 = new Persona("Laura Martínez Gómez", "MAGL840704", new GregorianCalendar(1984, Calendar.JULY, 4), "5512345678", Sexo.FEMENINO, Discapacitado.SI);
-        Persona p5 = new Persona("Miguel Rodríguez Torres", "ROTM910627", new GregorianCalendar(1991, Calendar.JUNE, 27), "5534567890", Sexo.FEMENINO, Discapacitado.NO);
-        Persona p6 = new Persona("Ana González Vázquez", "GOVA810118", new GregorianCalendar(1981, Calendar.JANUARY, 18), "5523456789", Sexo.FEMENINO, Discapacitado.SI);
-        Persona p7 = new Persona("José Díaz Castro", "DICJ750712", new GregorianCalendar(1975, Calendar.JULY, 12), "5512345678", Sexo.MASCULINO, Discapacitado.NO);
-        Persona p8 = new Persona("Paula Reyes Flores", "REFP800522", new GregorianCalendar(1980, Calendar.MAY, 22), "5534567890", Sexo.MASCULINO, Discapacitado.SI);
-        Persona p9 = new Persona("Ricardo Hernández López", "HELJ860423", new GregorianCalendar(1986, Calendar.APRIL, 23), "5523456789", Sexo.FEMENINO, Discapacitado.NO);
-        Persona p10 = new Persona("Carmen Perez García", "PEGJ950303", new GregorianCalendar(1995, Calendar.MARCH, 3), "5512345678", Sexo.FEMENINO, Discapacitado.SI);
-        Persona p11 = new Persona("Fernando Romero Sánchez", "ROSF920611", new GregorianCalendar(1992, Calendar.JUNE, 11), "5534567890", Sexo.MASCULINO, Discapacitado.NO);
-        Persona p12 = new Persona("Juan Perez García", "PEGJ940201", new GregorianCalendar(1994, Calendar.FEBRUARY, 4), "5551234567", Sexo.MASCULINO, Discapacitado.NO);
-        Persona p13 = new Persona("Ana Torres Hernández ", "TOHA960612", new GregorianCalendar(1996, Calendar.JUNE, 12), "5552345678", Sexo.FEMENINO, Discapacitado.SI);
-        Persona p14 = new Persona("Luis García González", "GAGL891223", new GregorianCalendar(1989, Calendar.DECEMBER, 23), "5553456789", Sexo.MASCULINO, Discapacitado.SI);
-        Persona p15 = new Persona("Carmen Sánchez Martínez", "SAMC950709", new GregorianCalendar(1995, Calendar.JULY, 9), "5554567890", Sexo.FEMENINO, Discapacitado.NO);
-        Persona p16 = new Persona("Ricardo Martínez Torres", "MATR930523", new GregorianCalendar(1993, Calendar.MAY, 23), "5555678901", Sexo.MASCULINO, Discapacitado.NO);
-        Persona p17 = new Persona("Patricia Flores Cruz", "FOCR901209", new GregorianCalendar(1990, Calendar.DECEMBER, 9), " 5556789012", Sexo.FEMENINO, Discapacitado.SI);
-        Persona p18 = new Persona("Fernando Ruiz Hernández", "RUIF860422", new GregorianCalendar(1986, Calendar.APRIL, 22), "5557890123", Sexo.MASCULINO, Discapacitado.SI);
-        Persona p19 = new Persona("María Martínez López", "MALL980108", new GregorianCalendar(1998, Calendar.JANUARY, 8), "5558901234", Sexo.FEMENINO, Discapacitado.NO);
-        Persona p20 = new Persona("Jorge Hernández Sánchez", "HESJ920706", new GregorianCalendar(1992, Calendar.JULY, 6), "5559012345", Sexo.MASCULINO, Discapacitado.SI);
+        
+        Persona p1 = new Persona(encriptador.encriptar("Ana Fernanda Beltran Gastelum"), "GAPJ920702", new GregorianCalendar(2004, Calendar.JUNE, 24), "6421073923", Sexo.FEMENINO, Discapacitado.NO);
+        Persona p2 = new Persona(encriptador.encriptar("Maria López Hernández"), "LOHM900529", new GregorianCalendar(1990, Calendar.MAY, 29), "5534567890", Sexo.FEMENINO, Discapacitado.NO);
+        Persona p3 = new Persona(encriptador.encriptar("Pedro Sanchez Ramirez"), "SARP970825", new GregorianCalendar(1997, Calendar.AUGUST, 25), "5252611989", Sexo.MASCULINO, Discapacitado.NO);
+        Persona p4 = new Persona(encriptador.encriptar("Laura Martinez Gomez"), "MAGL840704", new GregorianCalendar(1984, Calendar.JULY, 4), "5512345678", Sexo.FEMENINO, Discapacitado.SI);
+        Persona p5 = new Persona(encriptador.encriptar("Miguel Rodríguez Torres"), "ROTM910627", new GregorianCalendar(1991, Calendar.JUNE, 27), "5534567890", Sexo.FEMENINO, Discapacitado.NO);
+        Persona p6 = new Persona(encriptador.encriptar("Ana Gonzalez Vazquez"), "GOVA810118", new GregorianCalendar(1981, Calendar.JANUARY, 18), "5523456789", Sexo.FEMENINO, Discapacitado.SI);
+        Persona p7 = new Persona(encriptador.encriptar("Jose Diaz Castro"), "DICJ750712", new GregorianCalendar(1975, Calendar.JULY, 12), "5512345678", Sexo.MASCULINO, Discapacitado.NO);
+        Persona p8 = new Persona(encriptador.encriptar("Paula Reyes Flores"), "REFP800522", new GregorianCalendar(1980, Calendar.MAY, 22), "5534567890", Sexo.MASCULINO, Discapacitado.SI);
+        Persona p9 = new Persona(encriptador.encriptar("Ricardo Hernandez Lopez"), "HELJ860423", new GregorianCalendar(1986, Calendar.APRIL, 23), "5523456789", Sexo.FEMENINO, Discapacitado.NO);
+        Persona p10 = new Persona(encriptador.encriptar("Carmen Perez Garcia"), "PEGJ950303", new GregorianCalendar(1995, Calendar.MARCH, 3), "5512345678", Sexo.FEMENINO, Discapacitado.SI);
+        Persona p11 = new Persona(encriptador.encriptar("Fernando Romero Sanchez"), "ROSF920611", new GregorianCalendar(1992, Calendar.JUNE, 11), "5534567890", Sexo.MASCULINO, Discapacitado.NO);
+        Persona p12 = new Persona(encriptador.encriptar("Juan Perez Garcia"), "PEGJ940201", new GregorianCalendar(1994, Calendar.FEBRUARY, 4), "5551234567", Sexo.MASCULINO, Discapacitado.NO);
+        Persona p13 = new Persona(encriptador.encriptar("Ana Torres Hernandez"), "TOHA960612", new GregorianCalendar(1996, Calendar.JUNE, 12), "5552345678", Sexo.FEMENINO, Discapacitado.SI);
+        Persona p14 = new Persona(encriptador.encriptar("Luis Garcia Gonzalez"), "GAGL891223", new GregorianCalendar(1989, Calendar.DECEMBER, 23), "5553456789", Sexo.MASCULINO, Discapacitado.SI);
+        Persona p15 = new Persona(encriptador.encriptar("Carmen Sanchez Martinez"), "SAMC950709", new GregorianCalendar(1995, Calendar.JULY, 9), "5554567890", Sexo.FEMENINO, Discapacitado.NO);
+        Persona p16 = new Persona(encriptador.encriptar("Ricardo Martinez Torres"), "MATR930523", new GregorianCalendar(1993, Calendar.MAY, 23), "5555678901", Sexo.MASCULINO, Discapacitado.NO);
+        Persona p17 = new Persona(encriptador.encriptar("Patricia Flores Cruz"), "FOCR901209", new GregorianCalendar(1990, Calendar.DECEMBER, 9), " 5556789012", Sexo.FEMENINO, Discapacitado.SI);
+        Persona p18 = new Persona(encriptador.encriptar("Fernando Ruiz Hernandez"), "RUIF860422", new GregorianCalendar(1986, Calendar.APRIL, 22), "5557890123", Sexo.MASCULINO, Discapacitado.SI);
+        Persona p19 = new Persona(encriptador.encriptar("Maria Martinez Lopez"), "MALL980108", new GregorianCalendar(1998, Calendar.JANUARY, 8), "5558901234", Sexo.FEMENINO, Discapacitado.NO);
+        Persona p20 = new Persona(encriptador.encriptar("Jorge Hernandez Sanchez"), "HESJ920706", new GregorianCalendar(1992, Calendar.JULY, 6), "5559012345", Sexo.MASCULINO, Discapacitado.SI);
 
         entityManager.persist(p1);
         entityManager.persist(p2);
@@ -103,6 +106,7 @@ public class PersonaDAO implements IPersonaDAO {
      */
     public List<Persona> consultaTotal(ConfiguracionDePaginado configPaginado){
         try{
+            encriptador = new Encriptador();
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
             entityManager = emf.createEntityManager();
             
@@ -123,6 +127,12 @@ public class PersonaDAO implements IPersonaDAO {
             query.setMaxResults(limit);
             
             List <Persona> listaPersonas = (List <Persona>) query.getResultList();
+
+            for (Persona p : listaPersonas) {             
+                String desencriptado = encriptador.desencriptado(p.getNombreCompleto());
+                p.setNombreCompleto(desencriptado);          
+            }
+            
             return listaPersonas;
         }catch(Exception e){
             System.out.println(e.getMessage());
@@ -138,6 +148,7 @@ public class PersonaDAO implements IPersonaDAO {
      */
     public List<Persona> buscarPersonas(FiltroHistorial parametros, ConfiguracionDePaginado configPaginado) {
         try {
+            encriptador = new Encriptador();
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
             entityManager = emf.createEntityManager();
 
@@ -151,7 +162,7 @@ public class PersonaDAO implements IPersonaDAO {
 
             int offset = configPaginado.getElementoASaltar();
             int limit = configPaginado.getElementosPorPagina();
-
+            
             if (parametros.getRFC() != null) {
                 filtros.add(builder.like(persona.get("rfc"), "%" + parametros.getRFC() + "%"));
             }
@@ -172,6 +183,10 @@ public class PersonaDAO implements IPersonaDAO {
             query.setMaxResults(limit);
 
             List<Persona> personas = query.getResultList();
+            for (Persona p : personas) {             
+                String desencriptado = encriptador.desencriptado(p.getNombreCompleto());
+                p.setNombreCompleto(desencriptado);          
+            }
             return personas;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -188,6 +203,7 @@ public class PersonaDAO implements IPersonaDAO {
      */
     public Persona buscarPersonaRFC(String rfc) {
         try {
+            encriptador = new Encriptador();
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
             entityManager = emf.createEntityManager();
             
@@ -205,6 +221,10 @@ public class PersonaDAO implements IPersonaDAO {
             TypedQuery<Persona> query = entityManager.createQuery(criteria);
 
             Persona personas = query.getSingleResult();
+            String desencriptado = encriptador.desencriptado(personas.getNombreCompleto());
+            
+            personas.setNombreCompleto(desencriptado);
+            
             return personas;
         } catch (Exception e) {
             System.out.println(e.getMessage());

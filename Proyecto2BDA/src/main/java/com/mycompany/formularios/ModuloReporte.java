@@ -290,6 +290,7 @@ public class ModuloReporte extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Reporte de Tramites");
+        setResizable(false);
 
         datePickerHasta.setEnabled(false);
 

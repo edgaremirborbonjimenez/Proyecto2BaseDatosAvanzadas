@@ -17,7 +17,7 @@ public class Encriptador {
      * @param texto Texto a encriptar
      * @return texto Encriptado
      */
-    public static String encriptar(String texto) {
+    public String encriptar(String texto) {
         char[] arr = texto.toCharArray();
         String encriptado = "";
         for (char i : arr) {
@@ -34,7 +34,7 @@ public class Encriptador {
      * @param mesnajeEncriptado Texto a desencriptar
      * @return Texto desencriptado
      */
-    public static String desencriptado(String mesnajeEncriptado) {
+    public String desencriptado(String mesnajeEncriptado) {
         char[] arr = mesnajeEncriptado.toCharArray();
         String encriptado = "";
         for (char i : arr) {
