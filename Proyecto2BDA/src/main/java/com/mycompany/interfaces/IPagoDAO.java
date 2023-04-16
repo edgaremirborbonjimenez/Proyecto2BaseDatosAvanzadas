@@ -8,9 +8,16 @@ import com.mycompany.dominio.Pago;
 import com.mycompany.dominio.Tramite;
 
 /**
- *
+ *  Clase de Implementacion con las Persistencias de Pago
  * @author Usuario
  */
 public interface IPagoDAO {
+
+    /**
+     * Implementacion de generacion de Pago
+     *
+     * @param tramite Tramite al que se le generara el Pago
+     * @return Pago generado
+     */
     Pago generarPago(Tramite tramite);
 }

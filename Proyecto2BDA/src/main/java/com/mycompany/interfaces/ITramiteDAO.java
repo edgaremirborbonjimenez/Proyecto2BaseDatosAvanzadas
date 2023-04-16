@@ -9,9 +9,16 @@ import com.mycompany.dominio.Tramite;
 import java.util.List;
 
 /**
- *
+ * Clase de Implementacion con las Persistencias de Tramites
  * @author edemb
  */
 public interface ITramiteDAO {
+
+    /**
+     * Consulta tramites por Persona
+     *
+     * @param persona Persona a consultar los Tramites
+     * @return Una lista de Tramites
+     */
     List<Tramite> consultarTramitesPersona(Persona persona);
 }

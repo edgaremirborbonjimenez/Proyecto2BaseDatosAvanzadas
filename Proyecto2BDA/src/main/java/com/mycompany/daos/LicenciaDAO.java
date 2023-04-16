@@ -28,6 +28,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
+ * Clase que contiene todos los metodos de la persistencia de las Licencias
  *
  * @author edemb
  */
@@ -35,10 +36,23 @@ public class LicenciaDAO implements ILicenciaDAO {
 
     private EntityManager entityManager;
 
+    /**
+     * Constructor
+     *
+     * @param entityManager EntityManager a utilizar
+     */
     public LicenciaDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
+    /**
+     * Consulta las Licencias de una Persona y contiene la configuracion de
+     * Paginado
+     *
+     * @param persona Persona con la que buscara las Licencias
+     * @param configuracionDePaginado Configuracion del Paginado para la tabla
+     * @return Una lista de Licencias
+     */
     public List<Licencia> consultarLicenciasPersona(Persona persona, ConfiguracionDePaginado configuracionDePaginado) {
         int offset = configuracionDePaginado.getElementoASaltar();
         int limit = configuracionDePaginado.getElementosPorPagina();
@@ -51,6 +65,13 @@ public class LicenciaDAO implements ILicenciaDAO {
         return list;
     }
 
+    /**
+     * Genera licencias
+     *
+     * @param vigencia Vigencia que tendra la Licencia
+     * @param persona Persona a la que se le generara
+     * @return Regresa la Licencia generada
+     */
     public Licencia generarLicencia(Vigencia vigencia, Persona persona) {
         Float costo = 0F;
         Date fechaV = new Date();
@@ -84,9 +105,14 @@ public class LicenciaDAO implements ILicenciaDAO {
         return licencia;
     }
 
-
+    /**
+     * Consulta la Licencia que este activa de la persona
+     *
+     * @param persona Persona a la que le buscaran la Licencia Activa
+     * @return La Licencia Activa, null en caso de no encontrarse
+     */
     public Licencia consultarLicenciaActiva(Persona persona) {
-        if (persona==null) {
+        if (persona == null) {
             return null;
         }
         System.out.println(this.entityManager);
@@ -102,6 +128,12 @@ public class LicenciaDAO implements ILicenciaDAO {
         }
     }
 
+    /**
+     * Consulta las Licencias dependiendo del filtro del reporte
+     *
+     * @param filtro Filtro que utilizara para buscar las Licencias
+     * @return Una lista de Licencias, null si no se pudo consultar
+     */
     public List<Licencia> consultaReporteLicencia(FiltroReporteTramites filtro) {
         String spql = "Select l from Licencia l";
         Query query;

@@ -24,17 +24,30 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
+ * Clase que maneja la Persistencia de las Placas
  *
  * @author edemb
  */
-public class PlacaDAO implements IPlacaDAO{
+public class PlacaDAO implements IPlacaDAO {
 
     EntityManager entityManager;
 
+    /**
+     * Constructor
+     *
+     * @param entityManager EntityManager a utilizar
+     */
     public PlacaDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
+    /**
+     * Consutla las Placas de las Personas y con la configuracion de paginado
+     *
+     * @param persona Persona a la que se le buscaran sus Placas
+     * @param configuracionDePaginado Configuracion de paginado
+     * @return Una lista de Placas
+     */
     public List<Placa> consultarPlacasPersona(Persona persona, ConfiguracionDePaginado configuracionDePaginado) {
 
         try {
@@ -54,6 +67,14 @@ public class PlacaDAO implements IPlacaDAO{
         }
     }
 
+    /**
+     * Genera la placa a un vehiculo nuevo, osea que no esta registrado en la
+     * base de datos
+     *
+     * @param persona Persona a la que se le pertenecera la Placa
+     * @param vehiculo Vehiculo al que se le generara la Placa
+     * @return Placa generada
+     */
     public Placa generarPlacaVehiculoNuevo(Persona persona, Vehiculo vehiculo) {
         try {
             String numeroPlaca = generaNumeroDePlaca();
@@ -68,8 +89,16 @@ public class PlacaDAO implements IPlacaDAO{
         }
     }
 
-    public Placa generarPlacaVehiculoUsado(Persona persona,Vehiculo vehiculo) {
-        try {           
+    /**
+     * Genera la placa a un vehiculo usado, osea que esta registrado en la base
+     * de datos y desactiva la Placa anterios
+     *
+     * @param persona Persona a la que se le pertenecera la Placa
+     * @param vehiculo Vehiculo al que se le generara la Placa
+     * @return Placa generada
+     */
+    public Placa generarPlacaVehiculoUsado(Persona persona, Vehiculo vehiculo) {
+        try {
             Placa placaAnterior = consultarPlacaActiva(vehiculo.getSerie());
             String numeroPlaca = generaNumeroDePlaca();
             Placa placa = new Placa(new Date(), 1000F, persona, numeroPlaca, Estado.ACTIVA, vehiculo);
@@ -86,7 +115,12 @@ public class PlacaDAO implements IPlacaDAO{
         }
     }
 
-
+    /**
+     * Consulta la Placa que este activa buscandola con la serie del auto
+     *
+     * @param serie Serie con la que se buscara la Placa
+     * @return Placa activa, null en caso de no encontrarla
+     */
     public Placa consultarPlacaActiva(String serie) {
         VehiculoDAO vehiculoDAO = new VehiculoDAO(entityManager);
         Vehiculo vehiculo = vehiculoDAO.consultaVehiculoPorSerie(serie);
@@ -95,10 +129,10 @@ public class PlacaDAO implements IPlacaDAO{
         query.setParameter("veh", vehiculo);
         query.setParameter("est", Estado.ACTIVA);
         Placa placaActiva = (Placa) query.getSingleResult();
-        try{
+        try {
             placaActiva.getNumero();
             return placaActiva;
-        }catch(Exception e){
+        } catch (Exception e) {
             //No se encontro placa activa
             System.out.println(e.getMessage());
             return null;
@@ -106,7 +140,12 @@ public class PlacaDAO implements IPlacaDAO{
 
     }
 
-    public String generaNumeroDePlaca(){
+    /**
+     * Genera Numero de Placas de Vehiculo
+     *
+     * @return un texto con el numero de placa
+     */
+    public String generaNumeroDePlaca() {
         char[] arr = {'A', 'B',
             'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
             'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
@@ -141,8 +180,14 @@ public class PlacaDAO implements IPlacaDAO{
         }
         return placa;
     }
-    
-        public List<Placa> consultaReporteLicencia(FiltroReporteTramites filtro) {
+
+    /**
+     * Consulta las Placas con Filtro para el Reporte
+     *
+     * @param filtro Filtro a utilizar para consutar las Placas
+     * @return lista de Placas, null si no se pudo consultar
+     */
+    public List<Placa> consultaReportePlaca(FiltroReporteTramites filtro) {
         String spql = "Select l from Placa l";
         Query query;
         List<Placa> lista;

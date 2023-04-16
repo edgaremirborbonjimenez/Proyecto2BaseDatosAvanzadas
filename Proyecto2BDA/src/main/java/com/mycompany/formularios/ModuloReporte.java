@@ -139,7 +139,7 @@ public class ModuloReporte extends javax.swing.JFrame {
         if (filtro == null) {
             return null;
         }
-        List<Placa> lista = placaDAO.consultaReporteLicencia(filtro);
+        List<Placa> lista = placaDAO.consultaReportePlaca(filtro);
         List<Reporte> reportes = new ArrayList<>();
         for (Placa i : lista) {
             Reporte reporte = new Reporte(i.getId(), i.getFechaEmision(), i.getCosto(), i.getPersona().getNombreCompleto());
