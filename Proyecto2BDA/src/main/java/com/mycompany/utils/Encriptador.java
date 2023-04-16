@@ -5,11 +5,18 @@
 package com.mycompany.utils;
 
 /**
+ * Clase que contiene los metodos para encriptar y desencriptar
  *
  * @author edemb
  */
 public class Encriptador {
 
+    /**
+     * Encripta el texto
+     *
+     * @param texto Texto a encriptar
+     * @return texto Encriptado
+     */
     public static String encriptar(String texto) {
         char[] arr = texto.toCharArray();
         String encriptado = "";
@@ -21,6 +28,12 @@ public class Encriptador {
         return encriptado;
     }
 
+    /**
+     * Desencripta el texto
+     *
+     * @param mesnajeEncriptado Texto a desencriptar
+     * @return Texto desencriptado
+     */
     public static String desencriptado(String mesnajeEncriptado) {
         char[] arr = mesnajeEncriptado.toCharArray();
         String encriptado = "";

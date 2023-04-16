@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Clase que contiene los Validadores
  *
  * @author Usuario
  */
@@ -63,20 +64,32 @@ public class ValidacionDatos {
         return false;
     }
 
+    /**
+     * Valida si la serie de Auto es valida
+     *
+     * @param serie Serie a validar
+     * @return true si es valida, false en caso contrario
+     */
     public static boolean serieEsValida(String serie) {
-        
+
         String regex = "^[A-Z\\d]{7}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(serie);
-        
+
         return matcher.matches();
     }
-    
-    public static boolean contieneCaracteresEspeciales(String texto){
-            String regex = "^[a-zA-Z\\d\\s]*[^\\W]$";
+
+    /**
+     * Valida si el texto contiene caracteres especiales
+     *
+     * @param texto Texto a validar
+     * @return true si contiene caracteres especiales, false en caso contrario
+     */
+    public static boolean contieneCaracteresEspeciales(String texto) {
+        String regex = "^[a-zA-Z\\d\\s]*[^\\W]$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(texto);
-        
+
         return !matcher.matches();
     }
 
