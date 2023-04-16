@@ -29,13 +29,22 @@ import javax.persistence.TemporalType;
 @Table(name = "placas")
 public class Placa extends Tramite implements Serializable {
 
+    /**
+     * Numero
+     */
     @Column(name = "numero", length = 7, nullable = false)
     private String numero;
 
+    /**
+     * Fecha de recepcion
+     */
     @Column(name = "fechaRecepcion", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date fechaRecepcion;
 
+    /**
+     * Vehiculo
+     */
     @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "idVehiculo", nullable = false)
     private Vehiculo vehiculo;

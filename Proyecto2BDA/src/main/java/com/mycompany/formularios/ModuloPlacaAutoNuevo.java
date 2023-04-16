@@ -33,9 +33,11 @@ public class ModuloPlacaAutoNuevo extends javax.swing.JFrame {
     private LicenciaDAO licenciaDAO;
     PagoDAO pagoDAO;
 
-    /**
-     * Creates new form ModuloPlacaAutoNuevo
-     */
+/**
+ * Contructor del Modulo Placa A Auto Nuevo
+ * @param persona Persona a utilizar
+ * @param entityManager EntityManager a utilizar
+ */
     public ModuloPlacaAutoNuevo(Persona persona, EntityManager entityManager) {
         initComponents();
         this.persona = persona;

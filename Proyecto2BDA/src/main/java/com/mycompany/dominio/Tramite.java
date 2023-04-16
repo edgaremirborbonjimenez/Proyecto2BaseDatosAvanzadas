@@ -33,25 +33,43 @@ import javax.persistence.TemporalType;
 @Table(name = "tramites")
 public abstract class Tramite implements Serializable {
 
+    /**
+     * ID
+     */
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Fecha emision
+     */
     @Column(name = "fechaEmision", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date fechaEmision;
 
+    /**
+     * Costo
+     */
     @Column(name = "costo")
     private Float costo;
 
+    /**
+     * Estado
+     */
     @Column(name = "estado", nullable = false)
     private Estado estado;
 
+    /**
+     * Persona
+     */
     @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "personaID", nullable = false)
     private Persona persona;
 
+    /**
+     * Pagos
+     */
     @OneToMany(mappedBy = "tramite", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Pago> pagos;
 

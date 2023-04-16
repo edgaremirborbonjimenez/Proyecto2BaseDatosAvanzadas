@@ -25,20 +25,38 @@ import javax.swing.table.DefaultTableModel;
  */
 public class HistorialLicencias extends javax.swing.JFrame {
 
-    private static final Logger LOG = Logger.getLogger(HistorialLicencias.class.getName());
-    private ILicenciaDAO licenciaDAO;
-    private EntityManager entityManager;
-    private Persona persona;
-    private ConfiguracionDePaginado configPaginado;
-    
     /**
-     * Creates new form HistorialLicencias
+     * Log
      */
-    public HistorialLicencias(Persona persona,EntityManager entityManager) {
+    private static final Logger LOG = Logger.getLogger(HistorialLicencias.class.getName());
+    /**
+     * Licencia Dao
+     */
+    private ILicenciaDAO licenciaDAO;
+    /**
+     * EntityManager
+     */
+    private EntityManager entityManager;
+    /**
+     * Persona
+     */
+    private Persona persona;
+    /**
+     * Configuracion de paginado
+     */
+    private ConfiguracionDePaginado configPaginado;
+
+    /**
+     * Constructor que Modulo de Historial Licencias
+     *
+     * @param persona Persona a la que le pertenece el historial
+     * @param entityManager EntityManager a utilizar
+     */
+    public HistorialLicencias(Persona persona, EntityManager entityManager) {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         this.persona = persona;
         initComponents();
-        this.entityManager=entityManager;
+        this.entityManager = entityManager;
         this.setLabelPersona();
         licenciaDAO = new LicenciaDAO(entityManager);
         this.cargarTablaHistorialLicencia();
@@ -46,6 +64,7 @@ public class HistorialLicencias extends javax.swing.JFrame {
 
     /**
      * Metodo para regresar la Persona
+     *
      * @return Regresa la persona
      */
     public Persona getPersona() {
@@ -54,6 +73,7 @@ public class HistorialLicencias extends javax.swing.JFrame {
 
     /**
      * Metodo para setear un Objeto Persona
+     *
      * @param persona Persona a setear
      */
     public void setPersona(Persona persona) {
@@ -72,7 +92,7 @@ public class HistorialLicencias extends javax.swing.JFrame {
     /**
      * Metodo para cargar el historial de licencias de la persona
      */
-    private void cargarTablaHistorialLicencia(){
+    private void cargarTablaHistorialLicencia() {
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
@@ -97,6 +117,7 @@ public class HistorialLicencias extends javax.swing.JFrame {
 
     /**
      * Metodo para regresar el Objeto EntityManager
+     *
      * @return Regresar el objeto EntityManager
      */
     public EntityManager getEntityManager() {
@@ -105,6 +126,7 @@ public class HistorialLicencias extends javax.swing.JFrame {
 
     /**
      * Metodo para setear el Objeto EntityManager
+     *
      * @param entityManager Objeto EntityManager
      */
     public void setEntityManager(EntityManager entityManager) {
@@ -121,20 +143,20 @@ public class HistorialLicencias extends javax.swing.JFrame {
 
     /**
      * Metodo para retroceder de pagina en la tabla de la consulta de personas
-     */ 
+     */
     public void retrocederPagina() {
         this.configPaginado.retrocederPagina();
         this.cargarTablaHistorialLicencia();
     }
-    
+
     /**
      * Metodo para setear los labels de Nombre y RFC de la persona
      */
-    public void setLabelPersona(){
+    public void setLabelPersona() {
         lblNombre.setText(this.persona.getNombreCompleto());
         lblRFC.setText(this.persona.getRfc());
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -289,42 +311,6 @@ public class HistorialLicencias extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.irModuloHistorial();
     }//GEN-LAST:event_btnRegresarActionPerformed
-    
-    /**
-     * // * @param args the command line arguments //
-     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(HistorialLicencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(HistorialLicencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(HistorialLicencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(HistorialLicencias.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new HistorialLicencias().setVisible(true);
-//            }
-//        });
-//    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAvanzar;
     private javax.swing.JButton btnRegresar;

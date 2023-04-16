@@ -12,9 +12,21 @@ import java.util.Date;
  */
 public class Reporte {
 
+    /**
+     * ID
+     */
     private Long id;
+    /**
+     * Fecha emision
+     */
     private Date fechaEmision;
+    /**
+     * Costo
+     */
     private Float costo;
+    /**
+     * Nombre completo
+     */
     private String nombreCompleto;
 
     /**
@@ -67,7 +79,7 @@ public class Reporte {
 
     /**
      * Metodo para regresar la fecha de emision del tramite
-     * @return 
+     * @return Fecha de emision
      */
     public Date getFechaEmision() {
         return fechaEmision;

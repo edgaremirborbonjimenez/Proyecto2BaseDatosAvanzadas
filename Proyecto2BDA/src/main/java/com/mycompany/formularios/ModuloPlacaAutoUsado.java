@@ -36,9 +36,11 @@ public class ModuloPlacaAutoUsado extends javax.swing.JFrame {
     LicenciaDAO licenciaDAO;
     PagoDAO pagoDAO;
 
-    /**
-     * Creates new form ModuloPlacaAutoUsado
-     */
+/**
+ * Constructor del Modulo Placa a Auto Usado 
+ * @param persona Persona a utilizar
+ * @param entityManager EntityManager a utilizar
+ */
     public ModuloPlacaAutoUsado(Persona persona, EntityManager entityManager) {
         initComponents();
         this.entityManager = entityManager;

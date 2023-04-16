@@ -26,27 +26,47 @@ import javax.persistence.Table;
 @Inheritance (strategy = InheritanceType.JOINED)
 @Table (name = "vehiculos")
 public abstract class Vehiculo implements Serializable {
-
+/**
+ * ID
+ */
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Serie
+     */
     @Column(name = "serie", nullable = false, length = 17)
     private String serie;
     
+    /**
+     * Marca
+     */
     @Column(name = "marca", nullable = false, length = 30)
     private String marca;
     
+    /**
+     * Color
+     */
     @Column(name = "color", nullable = false, length = 30)
     private String color;
     
+    /**
+     * Linea
+     */
     @Column(name = "linea", nullable = false, length = 30)
     private String linea;
-    
+   
+    /**
+     * Modelo
+     */
     @Column(name = "modelo", nullable = false, length = 30)
     private String modelo;    
     
+    /**
+     * Placas
+     */
     @OneToMany(mappedBy = "vehiculo",cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List <Placa> placa;
 

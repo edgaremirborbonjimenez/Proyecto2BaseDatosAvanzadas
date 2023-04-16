@@ -24,29 +24,52 @@ import javax.persistence.Table;
 @Table(name = "personas")
 public class Persona implements Serializable {
 
+    /**
+     * ID
+     */
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    /**
+     * Nombre Completo
+     */
     @Column(name = "nombreCompleto", length = 100, nullable = false)
     private String nombreCompleto;
 
+    /**
+     * RFC
+     */
     @Column(name = "RFC", length = 12, nullable = false)
     private String rfc;
 
+    /**
+     * fecha de Nacimiento
+     */
     @Column(name = "fechaNacimiento", nullable = false)
     private Calendar fechaNacimiento;
 
+    /**
+     * Telefono
+     */
     @Column(name = "telefono", length = 15, nullable = false)
     private String telefono;
 
+    /**
+     * Sexo
+     */
     @Column(name = "sexo", nullable = false)
     private Sexo sexo;
     
+    /**
+     * Dsicapacitado
+     */
     @Column(name = "es_discapacitado")
     private Discapacitado discapasitado;    
     
+    /**
+     * Tramites
+     */
     @OneToMany(mappedBy = "persona", cascade = {CascadeType.REMOVE})
     private List <Tramite> tramites;
             

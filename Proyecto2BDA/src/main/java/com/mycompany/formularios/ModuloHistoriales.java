@@ -40,9 +40,10 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     private Encriptador encriptador;
     private final IPersonaDAO personasDAO = null;
 
-    /**
-     * Creates new form ModuloHistoriales
-     */
+/**
+ * Constructor del Modulo Historiales
+ * @param entityManager EntityManager a utilizar
+ */
     public ModuloHistoriales(EntityManager entityManager) {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         initComponents();
@@ -330,7 +331,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
 
     /**
      * Metodo para regresar una persona segun sea el rfc seleccionado
-     * @return 
+     * @return Persona
      */
     public Persona regresaPersona() {
         return personaDAO.buscarPersonaRFC(lblRFC.getText());

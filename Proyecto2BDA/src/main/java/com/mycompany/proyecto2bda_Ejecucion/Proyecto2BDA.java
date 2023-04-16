@@ -12,6 +12,10 @@ import com.mycompany.formularios.Menu;
  */
 public class Proyecto2BDA {
 
+    /**
+     * Metodo main
+     * @param args ... 
+     */
     public static void main(String[] args) {
         Menu menu = new Menu();
         menu.setVisible(true);

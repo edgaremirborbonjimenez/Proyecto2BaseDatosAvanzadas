@@ -9,8 +9,17 @@ package com.mycompany.dominio;
  * @author edemb
  */
 public enum Vigencia {
+
     /**
-     * 
+     * 1 Ano
      */
-    Ano_1,Ano_2,Ano_3
+    Ano_1,
+    /**
+     * 2 Anos
+     */
+    Ano_2,
+    /**
+     * 3 Anos
+     */
+    Ano_3
 }

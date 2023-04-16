@@ -11,8 +11,17 @@ package com.mycompany.dominio;
  */
 public class FiltroHistorial {
 
+    /**
+     * Nombre completo
+     */
     private String nombreCompleto;
+    /**
+     * RFC
+     */
     private String RFC;
+    /**
+     * Ano de Nacimiento
+     */
     private String anioNacimiento;
 
     /**

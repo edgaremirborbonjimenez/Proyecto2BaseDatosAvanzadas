@@ -24,21 +24,24 @@ import javax.swing.table.DefaultTableModel;
  * @author edemb
  */
 public class HistorialPlacas extends javax.swing.JFrame {
-    
+
     private static final Logger LOG = Logger.getLogger(HistorialLicencias.class.getName());
     private IPlacaDAO placaDAO;
     private EntityManager entityManager;
     private Persona persona;
-    private ConfiguracionDePaginado configPaginado;    
+    private ConfiguracionDePaginado configPaginado;
 
     /**
-     * Creates new form HistorialPlacas
+     * Csontrcutor del Modulo Historial Placa
+     *
+     * @param persona Persona a utilizar
+     * @param entityManager EntityManager a utilizar
      */
-    public HistorialPlacas(Persona persona,EntityManager entityManager) {
+    public HistorialPlacas(Persona persona, EntityManager entityManager) {
         this.configPaginado = new ConfiguracionDePaginado(0, 10);
         this.persona = persona;
         initComponents();
-        this.entityManager= entityManager;
+        this.entityManager = entityManager;
         this.setLabelPersona();
         placaDAO = new PlacaDAO(entityManager);
         this.cargarTablaHistorialPlacas();
@@ -46,6 +49,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
 
     /**
      * Metodo para regresar el objeto EntityManager
+     *
      * @return Regresa el objeto EntityManager
      */
     public EntityManager getEntityManager() {
@@ -54,6 +58,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
 
     /**
      * Metodo para setear el Objeto EntityManager
+     *
      * @param entityManager Objeto EntityManager
      */
     public void setEntityManager(EntityManager entityManager) {
@@ -62,6 +67,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
 
     /**
      * Metodo para regresar la persona
+     *
      * @return Regresa la persona
      */
     public Persona getPersona() {
@@ -69,7 +75,8 @@ public class HistorialPlacas extends javax.swing.JFrame {
     }
 
     /**
-     * Metodo para setear a la persona 
+     * Metodo para setear a la persona
+     *
      * @param persona Persona a setear
      */
     public void setPersona(Persona persona) {
@@ -80,15 +87,15 @@ public class HistorialPlacas extends javax.swing.JFrame {
      * Metodo para ir al modulo de historiales
      */
     private void irModuloHistorial() {
-        ModuloHistoriales historiales = new ModuloHistoriales (entityManager);
+        ModuloHistoriales historiales = new ModuloHistoriales(entityManager);
         historiales.setVisible(true);
         this.dispose();
     }
 
     /**
-     * Metodo para cargar el historial de placas de la persona 
+     * Metodo para cargar el historial de placas de la persona
      */
-    public void cargarTablaHistorialPlacas(){
+    public void cargarTablaHistorialPlacas() {
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
@@ -110,7 +117,7 @@ public class HistorialPlacas extends javax.swing.JFrame {
             LOG.log(Level.SEVERE, ex.getMessage());
         }
     }
-    
+
     /**
      * Metodo para avanzar de pagina en la tabla de la consulta de personas
      */
@@ -126,15 +133,15 @@ public class HistorialPlacas extends javax.swing.JFrame {
         this.configPaginado.retrocederPagina();
         this.cargarTablaHistorialPlacas();
     }
-    
+
     /**
      * Metodo para setear los labels de Nombre y RFC de la persona
      */
-    public void setLabelPersona(){
+    public void setLabelPersona() {
         lblNombre.setText(this.persona.getNombreCompleto());
         lblRFC.setText(this.persona.getRfc());
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

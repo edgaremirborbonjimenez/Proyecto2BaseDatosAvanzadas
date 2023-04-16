@@ -39,9 +39,10 @@ public class ModuloReporte extends javax.swing.JFrame {
     EntityManager entityManager;
     ReporteDAO reporteDAO;
 
-    /**
-     * Creates new form ModuloReporte
-     */
+/**
+ * Constructor del Modulo Reporte
+ * @param entityManager EntityManager a utilizar
+ */
     public ModuloReporte(EntityManager entityManager) {
         initComponents();
         this.entityManager = entityManager;

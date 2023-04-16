@@ -15,8 +15,17 @@ import java.util.HashMap;
  */
 public class FiltroReporteTramites {
 
+    /**
+     * Fecha desde
+     */
     private Date desde;
+    /**
+     * Fecha hasta
+     */
     private Date hasta;
+    /**
+     * Nombre
+     */
     private String Nombre;
 
     /**

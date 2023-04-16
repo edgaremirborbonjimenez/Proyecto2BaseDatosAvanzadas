@@ -9,5 +9,12 @@ package com.mycompany.dominio;
  * @author edemb
  */
 public enum Estado {
-    ACTIVA,DESACTIVA
+    /**
+     * Activo
+     */
+    ACTIVA,
+    /**
+     * Desactivo
+     */
+    DESACTIVA
 }

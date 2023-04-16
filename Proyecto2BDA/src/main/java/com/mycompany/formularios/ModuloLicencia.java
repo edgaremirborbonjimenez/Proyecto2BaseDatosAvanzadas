@@ -29,10 +29,11 @@ public class ModuloLicencia extends javax.swing.JFrame {
     private LicenciaDAO licenciaDAO;
     private PagoDAO pagoDAO;
     private EntityManager entityManager;
-
-    /**
-     * Creates new form ModuloLicencia
-     */
+/**
+ * Constructor del Modulo Licencia
+ * @param persona Persona a utilizar
+ * @param entityManager EntityManager a utilizar
+ */
     public ModuloLicencia(Persona persona, EntityManager entityManager) {
         initComponents();
         this.persona = persona;

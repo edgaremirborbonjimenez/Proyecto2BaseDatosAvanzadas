@@ -17,9 +17,10 @@ public class ModuloPlaca extends javax.swing.JFrame {
     private Persona persona;
     private EntityManager entityManager;
 
-    /**
-     * Creates new form ModuloPlaca
-     */
+/**
+ * Constructor del modulo Placa
+ * @param entityManager Entity Manager a utilizar
+ */
     public ModuloPlaca(EntityManager entityManager) {
         initComponents();
         this.entityManager = entityManager;
@@ -59,7 +60,7 @@ public class ModuloPlaca extends javax.swing.JFrame {
     /**
      * Regresa a la Persona
      *
-     * @return
+     * @return Persona
      */
     public Persona getPersona() {
         return persona;

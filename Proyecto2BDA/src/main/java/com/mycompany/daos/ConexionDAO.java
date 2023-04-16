@@ -14,12 +14,17 @@ import javax.persistence.Persistence;
  */
 public class ConexionDAO {
 
+    /**
+     * Constructor por defecto
+     */
     public ConexionDAO() {
     }
 
     /**
      * Metodo para crear la conexion con la base de datos
-     * @param persistenceUnitName String del nombre de la base de datos 
+     *
+     * @param persistenceUnitName String del nombre de la base de datos
+     * @return El entityManager generado
      */
     public EntityManager crearConexion(String persistenceUnitName) {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(persistenceUnitName);
@@ -27,5 +32,4 @@ public class ConexionDAO {
         return entityManager;
     }
 
-    
 }

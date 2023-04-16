@@ -27,14 +27,23 @@ import javax.persistence.Table;
 @Table(name = "pagos")
 public class Pago implements Serializable {
 
+    /**
+     * ID
+     */
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Cantidad a Pagar
+     */
     @Column(name = "cantidadPagar", nullable = false)
     private Float cantidadPagar;
 
+    /**
+     * Tramite
+     */
     @ManyToOne(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "idTramite", nullable = false)
     private Tramite tramite;
