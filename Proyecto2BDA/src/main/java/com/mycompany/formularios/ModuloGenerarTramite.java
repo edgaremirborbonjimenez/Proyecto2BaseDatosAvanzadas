@@ -45,16 +45,18 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         this.actualizarTabla();
     }
 
-    public void cerrarVentanaActual() {
-        this.dispose();
-    }
-
+    /**
+     * Metodo para regresar al menu
+     */
     public void regresarMenu() {
         Menu menu = new Menu();
         menu.setVisible(true);
         this.dispose();
     }
 
+    /**
+     * Metodo para ir al modulo de placas
+     */
     public void irGenerarPlaca() {
         ModuloPlaca placa = new ModuloPlaca(this.entityManager);
         placa.setPersona(regresaPersona());
@@ -62,6 +64,9 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         this.dispose();
     }
 
+    /**
+     * Metodo para ir al modulo de licencias
+     */
     public void irGenerarLicencia() {
         Persona persona = regresaPersona();
         System.out.println(this.entityManager);
@@ -70,17 +75,29 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         this.dispose();
     }
 
+    /**
+     * Metodo para extraer el rfc ingresado en el campo de texto del rfc
+     * @return Regresa un string con el rfc ingresado
+     */
     public String extraerRFC() {
         String rfc = this.txtRFC.getText();
         return rfc;
     }
 
+    /**
+     * Metodo para crear el filtro para la consulta con el rfc
+     * @return Regresa un objeto FiltroHistorial con el rfc seteado
+     */
     public FiltroHistorial filtroRFC() {
         FiltroHistorial filtro = new FiltroHistorial();
         filtro.setRFC(this.extraerRFC());
         return filtro;
     }
 
+    /**
+     * Metodo que muestra la tabla con los registros de personas
+     * cada que se ingresa un caracter al campo del rfc
+     */
     public void actualizarTabla() {
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
@@ -106,38 +123,60 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo para avanzar de pagina en la tabla de la consulta de personas
+     */
     public void avanzarPagina() {
         this.configPaginado.avanzarPagina();
         this.actualizarTabla();
         this.deshabilitarBotonesTramites();
     }
 
+    /**
+     * Metodo para retroceder de pagina en la tabla de la consulta de personas
+     */
     public void retrocederPagina() {
         this.configPaginado.retrocederPagina();
         this.actualizarTabla();
         this.deshabilitarBotonesTramites();
     }
 
+    /**
+     * Metodo para obtener el Objeto EntityManager
+     * @return Regresa el objeto EntityManager
+     */
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
+    /**
+     * Metodo para setear el Objeto EntityManager 
+     * @param entityManager Objeto EntityManager
+     */
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
+    /**
+     * Metodo para deshabilitar los botones de generar placas y licencias
+     */
     public void deshabilitarBotonesTramites() {
         this.btnGenerarPlaca.setEnabled(false);
         this.btnGenerarLicencia.setEnabled(false);
     }
 
+    /**
+     * Metodo para habilitar los botones de generar placas y licencias
+     */
     public void habilitarBotonesTramites() {
         this.btnGenerarPlaca.setEnabled(true);
         this.btnGenerarLicencia.setEnabled(true);
     }
 
+    /**
+     * Metodo para seleccionar una persona de la tabla de la consulta
+     */
     public void seleccionDePersona() {
-        validacionCampoRFC();
         int filaseleccionada;
         try {
             //Guardamos en un entero la fila seleccionada.
@@ -167,23 +206,12 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo para regresar una persona segun sea el rfc seleccionado
+     * @return 
+     */
     public Persona regresaPersona() {
         return personaDAO.buscarPersonaRFC(lblrfc.getText());
-    }
-
-    public void validacionCampoRFC() {
-        String rfc = txtRFC.getText();
-        if (ValidacionDatos.exceedsLimit(rfc, 10)) {
-            mostrarErrorValidacionRFCExcedeLimite();
-        }
-    }
-
-    public void mostrarErrorValidacionRFCVacio() {
-        JOptionPane.showMessageDialog(null, "El RFC esta vacio", "Campo RFC Invalido", JOptionPane.ERROR_MESSAGE);
-    }
-
-    public void mostrarErrorValidacionRFCExcedeLimite() {
-        JOptionPane.showMessageDialog(null, "El RFC supera el numero de caracteres permitidos", "Campo RFC Invalido", JOptionPane.ERROR_MESSAGE);
     }
 
     /**
@@ -238,11 +266,6 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setText("RFC :");
 
-        txtRFC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRFCActionPerformed(evt);
-            }
-        });
         txtRFC.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtRFCKeyTyped(evt);
@@ -434,12 +457,13 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
                     .addComponent(btnRetroceder)
                     .addComponent(btnAvanzar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSeleccionarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnGenerarLicencia, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnGenerarPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSeleccionarPersona, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(81, 81, 81)
@@ -476,19 +500,12 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         this.regresarMenu();
-        cerrarVentanaActual();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnGenerarPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPlacaActionPerformed
         // TODO add your handling code here:
-        irGenerarPlaca();
-        cerrarVentanaActual();
-
+        this.irGenerarPlaca();
     }//GEN-LAST:event_btnGenerarPlacaActionPerformed
-
-    private void txtRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRFCActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRFCActionPerformed
 
     private void txtRFCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRFCKeyTyped
         // TODO add your handling code here:
@@ -497,12 +514,12 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
     private void btnRetrocederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederActionPerformed
         // TODO add your handling code here:
-        retrocederPagina();
+        this.retrocederPagina();
     }//GEN-LAST:event_btnRetrocederActionPerformed
 
     private void btnAvanzarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanzarActionPerformed
         // TODO add your handling code here:
-        avanzarPagina();
+        this.avanzarPagina();
     }//GEN-LAST:event_btnAvanzarActionPerformed
 
     private void btnSeleccionarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPersonaActionPerformed
@@ -511,9 +528,7 @@ public class ModuloGenerarTramite extends javax.swing.JFrame {
 
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
-        irGenerarLicencia();
-        cerrarVentanaActual();
-
+        this.irGenerarLicencia();
     }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
 
     /**

@@ -21,6 +21,12 @@ public class VehiculoDAO implements IVehiculoDAO {
         this.entityManager = entityManager;
     }
 
+    @Override
+    /**
+     * Metodo que implementa de IVehiculoDAO para registrar un Vehiculo
+     * @param vehiculo Vehiculo a registrar
+     * @return Regresa un Vehiculo
+     */
     public Vehiculo registraVehiculo(Vehiculo vehiculo) {
         if (existeLaSerie(vehiculo.getSerie())) {
             System.out.println("Vehiculo ya existente");
@@ -33,6 +39,12 @@ public class VehiculoDAO implements IVehiculoDAO {
         return consultaVehiculoPorSerie(vehiculo.getSerie());
     }
 
+    @Override
+    /**
+     * Metodo que implementa de IVehiculoDAO para consutlar un vehiculo por su serie
+     * @param serie Serie a buscar
+     * @return Regresa un vehiculo 
+     */
     public Vehiculo consultaVehiculoPorSerie(String serie) {
         try{
         Query query = entityManager.createQuery("Select v from Vehiculo v where v.serie= :ser").setParameter("ser", serie);
@@ -46,6 +58,13 @@ public class VehiculoDAO implements IVehiculoDAO {
         }
     }
 
+    @Override
+    /**
+     * Metodo que implementa de IVehiculoDAO para verificar si una serie existe 
+     * en la base de datos
+     * @param serie Serie a verificar si existe
+     * @return Regresa true si la serie ya existe, false si no existe
+     */
     public Boolean existeLaSerie(String serie) {
         Vehiculo vehiculo = this.consultaVehiculoPorSerie(serie);
         if (vehiculo == null) {

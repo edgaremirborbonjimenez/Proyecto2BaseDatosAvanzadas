@@ -50,26 +50,34 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         this.deshabilitarBotonesTramites();
     }
 
-    private void cerrarVentanaActual() {
-        this.dispose();
-    }
-
+    /**
+     * Metodo para ir al menu
+     */
     private void irMenu() {
         Menu menu = new Menu();
         menu.setVisible(true);
     }
 
+    /**
+     * Metodo para ir al Historial de licencias
+     */
     private void irHistorialLicencia() {
         HistorialLicencias hisLic = new HistorialLicencias(regresaPersona(), this.entityManager);
         hisLic.setVisible(true);
     }
 
+    /**
+     * Metodo para ir al Historial de placas
+     */
     private void irHistorialPlaca() {
-
         HistorialPlacas hisPla = new HistorialPlacas(regresaPersona(), this.entityManager);
         hisPla.setVisible(true);
     }
 
+    /**
+     * Metodo para regresar el RFC verificando si esta vacio o con formato incorrecto
+     * @return Regresar el RFC verificando si esta vacio o con formato incorrecto
+     */
     public String extraerDatosFormularioRFC() {
         if (!chkRFC.isSelected()) {
             return null;
@@ -85,6 +93,10 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         return txtRFC.getText();
     }
 
+    /**
+     * Metodo para regresar el nombre verificando si esta vacio o con formato incorrecto
+     * @return Regresar el nombre verificando si esta vacio o con formato incorrecto
+     */
     public String extraerDatosFormularioNombre() {
         if (!chkNombre.isSelected()) {
             return null;
@@ -100,6 +112,10 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         return txtNombre.getText();
     }
 
+    /**
+     * Metodo para regresar el anio seleccionado del combo box
+     * @return Regresa el anio seleccionado del combo box
+     */
     public String extraerDatosFormularioAnioNacimiento() {
         if (!chkFechaNacimiento.isSelected()) {
             return null;
@@ -107,6 +123,10 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         return cmbAnioNacimiento.getSelectedItem().toString();
     }
 
+    /**
+     * Metodo para crear el filtro de Historial
+     * @return Regresa un objeto FiltroHistorial
+     */
     public FiltroHistorial filtroConsulta() {
         FiltroHistorial filtro = new FiltroHistorial();
         if (chkRFC.isSelected()) {
@@ -131,6 +151,10 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         return filtro;
     }
 
+    /**
+     * Metodo para cargar de primeras los registros que hay en la base de datos
+     * de las personas existentes
+     */
     public void cargarTablaPersonas() {
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
@@ -156,6 +180,10 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo que muestra la tabla con los registros de personas al buscar por 
+     * los distintos filtros existentes
+     */
     public void cargarTablaPersonasFiltro() {
         try {
             FiltroHistorial filtro = this.filtroConsulta();
@@ -185,28 +213,44 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo para avanzar de pagina en la tabla de la consulta de personas
+     */
     public void avanzarPagina() {
         this.configPaginado.avanzarPagina();
         this.cargarTablaPersonas();
         this.deshabilitarBotonesTramites();
     }
 
+    /**
+     * Metodo para retroceder de pagina en la tabla de la consulta de personas
+     */
     public void retrocederPagina() {
         this.configPaginado.retrocederPagina();
         this.cargarTablaPersonas();
         this.deshabilitarBotonesTramites();
     }
 
+    /**
+     * Metodo para deshabilitar los botones de generar placas y licencias
+     */
     public void deshabilitarBotonesTramites() {
         this.btnHistorialPlaca.setEnabled(false);
         this.btnHistorialLicencia.setEnabled(false);
     }
 
+    /**
+     * Metodo para habilitar los botones de generar placas y licencias
+     */
     public void habilitarBotonesTramites() {
         this.btnHistorialPlaca.setEnabled(true);
         this.btnHistorialLicencia.setEnabled(true);
     }
 
+    /**
+     * Metodo para verificar que el checkBox de RFC este seleccionado 
+     * y se habiliten sus campos
+     */
     public void checkRFC() {
         if (chkRFC.isSelected()) {
             txtRFC.setEditable(true);
@@ -216,6 +260,10 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo para verificar que el checkBox de Nombre este seleccionado 
+     * y se habiliten sus campos
+     */
     public void checkNombre() {
         if (chkNombre.isSelected()) {
             txtNombre.setEditable(true);
@@ -226,6 +274,10 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo para verificar que el checkBox de Anio Nacimiento este seleccionado 
+     * y se habiliten sus campos
+     */
     public void checkAnioNacimiento() {
         if (chkFechaNacimiento.isSelected()) {
             cmbAnioNacimiento.setEditable(true);
@@ -234,78 +286,9 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         }
     }
 
-    public boolean validacionCampoNombreVacio() {
-        String nombre = txtNombre.getText();
-        if (chkNombre.isSelected()) {
-            if (ValidacionDatos.isEmpty(nombre)) {
-                mostrarErroresValidacionNombreVacio();
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    public boolean validacionCampoNombreExcedeLimite() {
-        String nombre = txtNombre.getText();
-        if (chkNombre.isSelected()) {
-            if (ValidacionDatos.exceedsLimit(nombre, 60)) {
-                mostrarErroresValidacionNombreExcedeLimite();
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    public boolean validacionCampoRFCVacio() {
-        String rfc = txtRFC.getText();
-        if (chkRFC.isSelected()) {
-            if (ValidacionDatos.isEmpty(rfc) == true) {
-                mostrarErroresValidacionRFCVacio();
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    public boolean validacionCampoRFCExcedeLimite() {
-        String rfc = txtRFC.getText();
-        if (chkRFC.isSelected()) {
-            if (ValidacionDatos.exceedsLimit(rfc, 10) == true) {
-                mostrarErroresValidacionRFCExcedeLimite();
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    private void mostrarErroresValidacionNombreVacio() {
-        JOptionPane.showMessageDialog(null, "El Nombre esta vacio", "Campo Nombre Invalido", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void mostrarErroresValidacionNombreExcedeLimite() {
-        JOptionPane.showMessageDialog(null, "El Nombre supera el limite de caracteres permitidos", "Campo Nombre Invalido", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void mostrarErroresValidacionRFCVacio() {
-        JOptionPane.showMessageDialog(null, "El RFC esta vacio", "Campo RFC Invalido", JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void mostrarErroresValidacionRFCExcedeLimite() {
-        JOptionPane.showMessageDialog(null, "El RFC supera el limite de caracteres permitidos", "Campo RFC Invalido", JOptionPane.ERROR_MESSAGE);
-    }
-
+    /**
+     * Metodo para seleccionar una persona de la tabla de la consulta
+     */
     public void seleccionDePersona() {
         int filaseleccionada;
         try {
@@ -337,6 +320,10 @@ public class ModuloHistoriales extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo para regresar una persona segun sea el rfc seleccionado
+     * @return 
+     */
     public Persona regresaPersona() {
         return personaDAO.buscarPersonaRFC(lblRFC.getText());
     }
@@ -681,8 +668,7 @@ public class ModuloHistoriales extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        irMenu();
-        cerrarVentanaActual();
+        this.irMenu();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void chkRFCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkRFCActionPerformed
@@ -698,18 +684,16 @@ public class ModuloHistoriales extends javax.swing.JFrame {
     private void btnHistorialLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialLicenciaActionPerformed
         // TODO add your handling code here:
         this.irHistorialLicencia();
-        cerrarVentanaActual();
     }//GEN-LAST:event_btnHistorialLicenciaActionPerformed
 
     private void btnHistorialPlacaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialPlacaActionPerformed
         // TODO add your handling code here:
-        irHistorialPlaca();
-        cerrarVentanaActual();
+        this.irHistorialPlaca();
     }//GEN-LAST:event_btnHistorialPlacaActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        cargarTablaPersonasFiltro();
+        this.cargarTablaPersonasFiltro();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSeleccionarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarPersonaActionPerformed

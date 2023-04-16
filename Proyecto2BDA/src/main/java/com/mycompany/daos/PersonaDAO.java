@@ -35,6 +35,10 @@ public class PersonaDAO implements IPersonaDAO {
         this.entityManager = entityManager;
     }
 
+    @Override
+    /**
+     * Metodo que implementa de IPersonaDAO para registrar las personas con una insercion masiva
+     */
     public void registrarPersonas() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
         entityManager = emf.createEntityManager();
@@ -85,6 +89,14 @@ public class PersonaDAO implements IPersonaDAO {
         entityManager.getTransaction().commit();
     }
 
+    @Override
+    /**
+     * Metodo que implementa de IPersonaDAO para buscar personas segun un filtro y un paginado
+     * @param parametros Filtro de busqueda de personas
+     * @param configPaginado Configuracion del paginado a utilizar
+     * @return Regresaa una lista de personas que cumplan con los parametros 
+     * del filtro de historial
+     */
     public List<Persona> consultaTotal(ConfiguracionDePaginado configPaginado){
         try{
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
@@ -115,6 +127,11 @@ public class PersonaDAO implements IPersonaDAO {
     }
     
     @Override
+    /**
+     * Metodo que implementa de IPersonaDAO para buscar personas segun su RFC completo
+     * @param rfc RFC para buscar a la persona
+     * @return Regresa una persona segun su RFC
+     */
     public List<Persona> buscarPersonas(FiltroHistorial parametros, ConfiguracionDePaginado configPaginado) {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");
@@ -159,6 +176,12 @@ public class PersonaDAO implements IPersonaDAO {
     }
 
     @Override
+    /**
+     * Metodo que implementa de IPersonaDAO para realizar una consulta del total 
+     * de personas registradas con una configuracion de paginado
+     * @param configPaginado Configuracion del paginado de la consulta 
+     * @return Regresa una lista de personas 
+     */
     public Persona buscarPersonaRFC(String rfc) {
         try {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("Proyecto2BDA");

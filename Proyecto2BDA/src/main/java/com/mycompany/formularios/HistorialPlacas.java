@@ -44,31 +44,49 @@ public class HistorialPlacas extends javax.swing.JFrame {
         this.cargarTablaHistorialPlacas();
     }
 
+    /**
+     * Metodo para regresar el objeto EntityManager
+     * @return Regresa el objeto EntityManager
+     */
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
+    /**
+     * Metodo para setear el Objeto EntityManager
+     * @param entityManager Objeto EntityManager
+     */
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-    
-    private void cerrarVentana() {
-        this.dispose();
-    }
 
+    /**
+     * Metodo para regresar la persona
+     * @return Regresa la persona
+     */
     public Persona getPersona() {
         return persona;
     }
 
+    /**
+     * Metodo para setear a la persona 
+     * @param persona Persona a setear
+     */
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
 
+    /**
+     * Metodo para ir al modulo de historiales
+     */
     private void irModuloHistorial() {
         ModuloHistoriales historiales = new ModuloHistoriales (entityManager);
         historiales.setVisible(true);
     }
 
+    /**
+     * Metodo para cargar el historial de placas de la persona 
+     */
     public void cargarTablaHistorialPlacas(){
         try {
             SimpleDateFormat formateado = new SimpleDateFormat("dd/MM/yyyy");
@@ -92,16 +110,25 @@ public class HistorialPlacas extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Metodo para avanzar de pagina en la tabla de la consulta de personas
+     */
     public void avanzarPagina() {
         this.configPaginado.avanzarPagina();
         this.cargarTablaHistorialPlacas();
     }
 
+    /**
+     * Metodo para retroceder de pagina en la tabla de la consulta de personas
+     */
     public void retrocederPagina() {
         this.configPaginado.retrocederPagina();
         this.cargarTablaHistorialPlacas();
     }
     
+    /**
+     * Metodo para setear los labels de Nombre y RFC de la persona
+     */
     public void setLabelPersona(){
         lblNombre.setText(this.persona.getNombreCompleto());
         lblRFC.setText(this.persona.getRfc());
@@ -181,11 +208,6 @@ public class HistorialPlacas extends javax.swing.JFrame {
 
         btnRegresar.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         btnRegresar.setText("Regresar");
-        btnRegresar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnRegresarMouseClicked(evt);
-            }
-        });
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -279,13 +301,8 @@ public class HistorialPlacas extends javax.swing.JFrame {
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-        irModuloHistorial();
+        this.irModuloHistorial();
     }//GEN-LAST:event_btnRegresarActionPerformed
-
-    private void btnRegresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegresarMouseClicked
-        // TODO add your handling code here:
-        cerrarVentana();
-    }//GEN-LAST:event_btnRegresarMouseClicked
 
     private void btnRetrocederActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetrocederActionPerformed
         // TODO add your handling code here:

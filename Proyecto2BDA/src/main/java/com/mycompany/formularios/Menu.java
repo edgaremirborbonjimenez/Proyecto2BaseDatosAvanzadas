@@ -30,29 +30,36 @@ public class Menu extends javax.swing.JFrame {
         System.out.println(entity);
     }
 
-    private void cerrarVentanaActual() {
-        this.dispose();
-    }
-
+    /**
+     * Metodo para ir al modulo generar tramite
+     */
     private void irModuloTramite() {
         ModuloGenerarTramite licencias = new ModuloGenerarTramite(this.entity);
         licencias.setVisible(true);
         this.dispose();
     }
 
-
+    /**
+     * Metodo para ir al modulo historiales
+     */
     private void irHistorialPlacasLicencia() {
         ModuloHistoriales historiales = new ModuloHistoriales(entity);
         historiales.setVisible(true);
         this.dispose();
     }
 
+    /**
+     * Metodo para ir al modulo del reporte
+     */
     private void irGenerarReporte() {
         ModuloReporte moduloReporte = new ModuloReporte(entity);
         moduloReporte.setVisible(true);
         this.dispose();
     }
 
+    /**
+     * Metodo para hacer una insercion masiva
+     */
     private void personasAInsetar() {
         try {
             PersonaDAO insertar = new PersonaDAO(entity);
@@ -158,19 +165,16 @@ public class Menu extends javax.swing.JFrame {
     private void btnGenerarLicenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarLicenciaActionPerformed
         // TODO add your handling code here:
         this.irModuloTramite();
-        cerrarVentanaActual();
     }//GEN-LAST:event_btnGenerarLicenciaActionPerformed
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
         // TODO add your handling code here:
-        irHistorialPlacasLicencia();
-        cerrarVentanaActual();
+        this.irHistorialPlacasLicencia();
     }//GEN-LAST:event_btnHistorialActionPerformed
 
     private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
         // TODO add your handling code here:
         this.irGenerarReporte();
-        cerrarVentanaActual();
     }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
     private void btnInsertarPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertarPersonasActionPerformed
