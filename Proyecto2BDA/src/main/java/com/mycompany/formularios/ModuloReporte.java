@@ -13,6 +13,7 @@ import com.mycompany.dominio.Licencia;
 import com.mycompany.dominio.Placa;
 import com.mycompany.dominio.Reporte;
 import com.mycompany.excepciones.PersistenciaException;
+import com.mycompany.utils.Encriptador;
 import com.mycompany.utils.ValidacionDatos;
 import java.io.File;
 import java.time.ZoneId;
@@ -125,10 +126,12 @@ public class ModuloReporte extends javax.swing.JFrame {
         if (filtro == null) {
             return null;
         }
+        Encriptador encriptador = new Encriptador();
         List<Licencia> lista = licenciaDAO.consultaReporteLicencia(filtro);
         List<Reporte> reportes = new ArrayList<>();
         for (Licencia i : lista) {
-            Reporte reporte = new Reporte(i.getId(), i.getFechaEmision(), i.getCosto(), i.getPersona().getNombreCompleto());
+            String nombre = encriptador.desencriptado(i.getPersona().getNombreCompleto());
+            Reporte reporte = new Reporte(i.getId(), i.getFechaEmision(), i.getCosto(), nombre);
             reportes.add(reporte);
         }
         return reportes;

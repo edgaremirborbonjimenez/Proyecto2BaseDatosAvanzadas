@@ -14,6 +14,7 @@ import com.mycompany.dominio.Placa;
 import com.mycompany.dominio.Vigencia;
 import com.mycompany.interfaces.ILicenciaDAO;
 import com.mycompany.utils.ConfiguracionDePaginado;
+import com.mycompany.utils.Encriptador;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -139,12 +140,14 @@ public class LicenciaDAO implements ILicenciaDAO {
         Query query;
         List<Licencia> lista;
         if (filtro.getNombre() != null) {
+            Encriptador encriptador = new Encriptador();
+            String nombre = encriptador.encriptar(filtro.getNombre());
             spql += " INNER JOIN l.persona per where per.nombreCompleto LIKE :nombre";
             if (filtro.getDesde() != null) {
                 spql += " AND l.fechaEmision BETWEEN :desde AND :hasta";
 
                 query = this.entityManager.createQuery(spql, Licencia.class);
-                query.setParameter("nombre", "%" + filtro.getNombre() + "%");
+                query.setParameter("nombre", "%" + nombre + "%");
                 query.setParameter("desde", filtro.getDesde());
                 query.setParameter("hasta", filtro.getHasta());
 
@@ -152,7 +155,7 @@ public class LicenciaDAO implements ILicenciaDAO {
                 return lista;
             } else {
                 query = this.entityManager.createQuery(spql, Licencia.class);
-                query.setParameter("nombre", "%" + filtro.getNombre() + "%");
+                query.setParameter("nombre", "%" + nombre + "%");
 
                 lista = query.getResultList();
                 return lista;
