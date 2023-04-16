@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -45,18 +45,27 @@ public class Persona implements Serializable {
     private Sexo sexo;
     
     @Column(name = "es_discapacitado")
-    private Discapacitado discapasitado;
-    
-//    @OneToMany
-//    @Column(name = "vehiuclos")
-//    private List <Vehiculo> vehiculo;
+    private Discapacitado discapasitado;    
     
     @OneToMany(mappedBy = "persona", cascade = {CascadeType.REMOVE})
     private List <Tramite> tramites;
             
+    /**
+     * Constructor por defecto
+     */
     public Persona() {
     }
 
+    /**
+     * Constructor que recibe nombre completo, rfc, fecha de nacimiento, telefono,
+     * sexo y si es discapacitado
+     * @param nombreCompleto Nombre completo de la persona
+     * @param rfc RFC de la persona
+     * @param fechaNacimiento fecha de nacimiento de la persona
+     * @param telefono telefono de la persona
+     * @param sexo sexo de la persona
+     * @param discapasitado si es discapacitado
+     */
     public Persona(String nombreCompleto, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo, Discapacitado discapasitado) {
         this.nombreCompleto = nombreCompleto;
         this.rfc = rfc;
@@ -66,6 +75,17 @@ public class Persona implements Serializable {
         this.discapasitado = discapasitado;
     }
 
+    /**
+     * Constructor que recibe el id, nombre completo, rfc, fecha de nacimiento,
+     * telefono, sexo y los tramites de la persona
+     * @param id id de la persona
+     * @param nombreCompleto nombre completo de la persona
+     * @param rfc rfc de la persona
+     * @param fechaNacimiento fecha de nacimiento de la persona
+     * @param telefono telefono de la persona
+     * @param sexo sexo de la persona
+     * @param tramites lista de tramites de la persona
+     */
     public Persona(Long id, String nombreCompleto, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo,List<Tramite> tramites) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
@@ -77,6 +97,16 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
 
+    /**
+     * Constructor que recibe el nombre completo, rfc, fecha de nacimiento, 
+     * telefono, sexo y lista de tramites de la persona
+     * @param nombreCompleto nombre completo de la persona
+     * @param rfc rfc de la persona
+     * @param fechaNacimiento fecha de nacimiento de la persona
+     * @param telefono telefono de la persona
+     * @param sexo sexo de la persona
+     * @param tramites lista de tramites de la persona
+     */
     public Persona(String nombreCompleto, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo, List<Tramite> tramites) {
         this.nombreCompleto = nombreCompleto;
         this.rfc = rfc;
@@ -87,6 +117,16 @@ public class Persona implements Serializable {
         this.tramites = tramites;
     }
     
+    /**
+     * Constructor que recibe el id, nombre completo, rfc, fecha de nacimiento,
+     * telefono y sexo de la persona
+     * @param id id de la persona
+     * @param nombreCompleto nombre completo de la persona
+     * @param rfc rfc de la persona
+     * @param fechaNacimiento fecha de nacimiento de la persona
+     * @param telefono telefono de la persona
+     * @param sexo sexo de la persona
+     */
     public Persona(Long id, String nombreCompleto, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
@@ -96,6 +136,15 @@ public class Persona implements Serializable {
         this.sexo = sexo;
     }
 
+    /**
+     * Constructor que recibe el nombre completo, rfc, fecha de nacimiento,
+     * telefono y sexo de la persona
+     * @param nombreCompleto nombre completo de la persona
+     * @param rfc rfc de la persona
+     * @param fechaNacimiento fecha de nacimiento de la persona
+     * @param telefono telefono de la persona
+     * @param sexo sexo de la persona
+     */
     public Persona(String nombreCompleto, String rfc, Calendar fechaNacimiento, String telefono, Sexo sexo) {
         this.nombreCompleto = nombreCompleto;
         this.rfc = rfc;
@@ -104,99 +153,133 @@ public class Persona implements Serializable {
         this.sexo = sexo;
     }
 
+    /**
+     * Metodo que regresa el id de la persona
+     * @return regresa el id de la persona
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Metodo para setear el id de la persona
+     * @param id id de la persona
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Metodo para regresar el nombre completo de la persona
+     * @return regresa el nombre completo de la persona
+     */
     public String getNombreCompleto() {
         return nombreCompleto;
     }
 
+    /**
+     * Metodo para setear el nombre completo de la persona
+     * @param nombreCompleto nombre completo de la persona
+     */
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
 
+    /**
+     * Metodo para regresar el rfc de la persona
+     * @return regresa el rfc de la persona
+     */
     public String getRfc() {
         return rfc;
     }
 
+    /**
+     * Metodo para setear el rfc de la persona
+     * @param rfc rfc de la persona
+     */
     public void setRfc(String rfc) {
         this.rfc = rfc;
     }
 
+    /**
+     * Metodo que regresa la fecha de nacimiento de la persona
+     * @return regresa la fecha de nacimiento de la persona
+     */
     public Calendar getFechaNacimiento() {
         return fechaNacimiento;
     }
 
+    /**
+     * Metodo para seteare la fecha de nacimiento de la persona
+     * @param fechaNacimiento fecha de nacimiento de la persona
+     */
     public void setFechaNacimiento(Calendar fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+    /**
+     * MEtodo que regresa el telefono de la persona
+     * @return regresa el telefono de la persona
+     */
     public String getTelefono() {
         return telefono;
     }
 
+    /**
+     * Metodo para setear el telefono de la persona
+     * @param telefono telefono de la persona
+     */
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
+    /**
+     * Metodo para regresar el sexo de la persona
+     * @return regresa el sexo de la persona
+     */
     public Sexo getSexo() {
         return sexo;
     }
 
+    /**
+     * Metodo para setear el sexo de la persona
+     * @param sexo sexo de la persona
+     */
     public void setSexo(Sexo sexo) {
         this.sexo = sexo;
     }
 
+    /**
+     * Metodo para regresar la lista de tramites de la persona
+     * @return regresa la lista de tramites de la persona
+     */
     public List<Tramite> getTramites() {
         return tramites;
     }
 
+    /**
+     * Metodo para setear la lista de tramites de la persona
+     * @param tramites lista de tramites de la persona
+     */
     public void setTramites(List<Tramite> tramites) {
         this.tramites = tramites;
     }
 
-//    public List<Vehiculo> getVehiculo() {
-//        return vehiculo;
-//    }
-//
-//    public void setVehiculo(List<Vehiculo> vehiculo) {
-//        this.vehiculo = vehiculo;
-//    }
-
+    /**
+     * Metodo para regresar si la persona es discapacitada o no
+     * @return regresa si la persona es discapacitada o no
+     */
     public Discapacitado getDiscapasitado() {
         return discapasitado;
     }
 
+    /**
+     * Metodo pare setear si la persona es discapacitada o no
+     * @param discapasitado si la persona es discapacitada o no
+     */
     public void setDiscapasitado(Discapacitado discapasitado) {
         this.discapasitado = discapasitado;
-    }
-
-    
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Persona)) {
-            return false;
-        }
-        Persona other = (Persona) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
+    }  
 
     @Override
     public String toString() {

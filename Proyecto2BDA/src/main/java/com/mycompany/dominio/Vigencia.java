@@ -5,9 +5,12 @@
 package com.mycompany.dominio;
 
 /**
- *
+ * Clase que contiene los tipos de vigencia para los tramites
  * @author edemb
  */
 public enum Vigencia {
-      Ano_1,Ano_2,Ano_3
+    /**
+     * 
+     */
+    Ano_1,Ano_2,Ano_3
 }

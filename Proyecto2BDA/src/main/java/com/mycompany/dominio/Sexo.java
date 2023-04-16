@@ -5,7 +5,7 @@
 package com.mycompany.dominio;
 
 /**
- *
+ * Clase que contiene los valores de sexo para las personas
  * @author edemb
  */
 public enum Sexo {

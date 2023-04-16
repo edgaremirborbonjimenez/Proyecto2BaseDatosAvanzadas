@@ -55,35 +55,22 @@ public abstract class Tramite implements Serializable {
     @OneToMany(mappedBy = "tramite", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Pago> pagos;
 
+    /**
+     * Constructor por defecto
+     */
     public Tramite() {
     }
 
-//    public Tramite(Long id, Calendar fechaEmision, Float costo, Persona persona, List<Pago> pagos) {
-//        this.id = id;
-//        this.fechaEmision = fechaEmision;
-//        this.costo = costo;
-//        this.persona = persona;
-//        this.pagos = pagos;
-//    }
-//        public Tramite(Long id, Calendar fechaEmision, Float costo, Persona persona) {
-//        this.id = id;
-//        this.fechaEmision = fechaEmision;
-//        this.costo = costo;
-//        this.persona = persona;
-//    }
-//
-//    public Tramite(Calendar fechaEmision, Float costo, Persona persona, List<Pago> pagos) {
-//        this.fechaEmision = fechaEmision;
-//        this.costo = costo;
-//        this.persona = persona;
-//        this.pagos = pagos;
-//    }
-//
-//    public Tramite(Calendar fechaEmision, Float costo, Persona persona) {
-//        this.fechaEmision = fechaEmision;
-//        this.costo = costo;
-//        this.persona = persona;
-//    }
+    /**
+     * Constructor que recibe el id, fecha de emision, costo, estado, persona
+     * y pagos de un tramite
+     * @param id id del tramite
+     * @param fechaEmision fecha de emision del tramite
+     * @param costo costo del tramite
+     * @param estado estado del tramite
+     * @param persona persona a la que le pertenece el tramite
+     * @param pagos pagos del tramite
+     */
     public Tramite(Long id, Date fechaEmision, Float costo, Estado estado, Persona persona, List<Pago> pagos) {
         this.id = id;
         this.fechaEmision = fechaEmision;
@@ -93,6 +80,14 @@ public abstract class Tramite implements Serializable {
         this.pagos = pagos;
     }
 
+    /**
+     * Constructor que recibe id, fecha de emision, costo, estado y persona
+     * @param id id del tramite
+     * @param fechaEmision fecha de emision del tramite
+     * @param costo costo del tramite
+     * @param estado estado del tramite
+     * @param persona persona a la que le pertenece el tramite
+     */
     public Tramite(Long id, Date fechaEmision, Float costo, Estado estado, Persona persona) {
         this.id = id;
         this.fechaEmision = fechaEmision;
@@ -101,6 +96,15 @@ public abstract class Tramite implements Serializable {
         this.persona = persona;
     }
 
+    /**
+     * Constructor que recibe la fecha de emision, costo, estado, persona y
+     * pagos del tramite
+     * @param fechaEmision fecha de emision del tramite
+     * @param costo costo del tramite
+     * @param estado estado del tramite
+     * @param persona persona a la que le pertenece el tramite
+     * @param pagos pagos del tramite
+     */
     public Tramite(Date fechaEmision, Float costo, Estado estado, Persona persona, List<Pago> pagos) {
         this.fechaEmision = fechaEmision;
         this.costo = costo;
@@ -109,6 +113,13 @@ public abstract class Tramite implements Serializable {
         this.pagos = pagos;
     }
 
+    /**
+     * Constructor que recibe la fecha de emision, costo, estado y persona
+     * @param fechaEmision fecha emision del tramite
+     * @param costo costo del tramite
+     * @param estado estado del tramite
+     * @param persona persona a la que le pertenece el trammite
+     */
     public Tramite(Date fechaEmision, Float costo, Estado estado, Persona persona) {
         this.fechaEmision = fechaEmision;
         this.costo = costo;
@@ -116,74 +127,100 @@ public abstract class Tramite implements Serializable {
         this.persona = persona;
     }
 
+    /**
+     * Metodo que regresa el id del tramite
+     * @return regresa el id del tramite
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Metodo para setear el id del tramite
+     * @param id id del tramite
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Metodo que regresa la persona a la que le pertenece el tramite
+     * @return regresa la persona a la que le pertenece el tramite
+     */
     public Persona getPersona() {
         return persona;
     }
 
+    /**
+     * Metodo para setear la persona a la que le pertenece el tramite
+     * @param persona persona a la que le pertenece el tramite
+     */
     public void setPersona(Persona persona) {
         this.persona = persona;
     }
 
+    /**
+     * Metodo que regresa la lista de pagos del tramite
+     * @return regresa la lista de pagos del tramite
+     */
     public List<Pago> getPagos() {
         return pagos;
     }
 
+    /**
+     * Metodo para setear la lista de pagos del tramite
+     * @param pagos lista de pagos del tramite
+     */
     public void setPagos(List<Pago> pagos) {
         this.pagos = pagos;
     }
 
+    /**
+     * Metodo para regresar el costo del tramite
+     * @return regresa el costo del tramite
+     */
     public Float getCosto() {
         return costo;
     }
 
+    /**
+     * Metodo para setear el costo del tramite
+     * @param costo costo del tramite
+     */
     public void setCosto(Float costo) {
         this.costo = costo;
     }
 
+    /**
+     * Metodo para regresar el estado del tramite
+     * @return regresa el estado del tramite
+     */
     public Estado getEstado() {
         return estado;
     }
 
+    /**
+     * Metodo para setear el estado del tramite
+     * @param estado estado del tramite
+     */
     public void setEstado(Estado estado) {
         this.estado = estado;
     }
-    
-    
 
+    /**
+     * Metodo que regresa la fecha de emision del tramite
+     * @return regresa la fecha de emision del tramite
+     */
     public Date getFechaEmision() {
         return fechaEmision;
     }
 
+    /**
+     * Metodo para setear la fecha de emision del tramite
+     * @param fechaEmision fecha de emision del tramite
+     */
     public void setFechaEmision(Date fechaEmision) {
         this.fechaEmision = fechaEmision;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Tramite)) {
-            return false;
-        }
-        Tramite other = (Tramite) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
     }
 
     @Override
