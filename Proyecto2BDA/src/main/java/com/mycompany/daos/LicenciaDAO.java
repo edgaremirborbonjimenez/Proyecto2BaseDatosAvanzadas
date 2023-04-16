@@ -83,29 +83,7 @@ public class LicenciaDAO implements ILicenciaDAO {
         entityManager.getTransaction().commit();
         return licencia;
     }
-//
-//    public List<Licencia> historialLicenciaFiltroReporte(FiltroReporteTramites filtro) {
-//        CriteriaBuilder cb = this.entityManager.getCriteriaBuilder();
-//        CriteriaQuery<Licencia> cq = cb.createQuery(Licencia.class);
-//        Root<Licencia> from = cq.from(Licencia.class);
-//
-//        List<Predicate> filtros = new LinkedList<>();
-//
-//        if (filtro.getDesde() != null && filtro.getHasta() != null) {
-//            filtros.add(cb.greaterThanOrEqualTo(from.get("fechaEmision"), filtro.getDesde()));
-//            filtros.add(cb.lessThanOrEqualTo(from.get("fechaEmision"), filtro.getHasta()));
-//        }
-//        if (filtro.getPersona() != null) {
-//            filtros.add(cb.equal(from.get("persona"), filtro.getPersona()));
-//        }
-//
-//        cq = cq.select(from).where(cb.and(filtros.toArray(new Predicate[0])));
-//
-//        TypedQuery<Licencia> typed = this.entityManager.createQuery(cq);
-//
-//        List<Licencia> lista = typed.getResultList();
-//        return lista;
-//    }
+
 
     public Licencia consultarLicenciaActiva(Persona persona) {
         if (persona==null) {

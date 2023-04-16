@@ -4,13 +4,14 @@
  */
 package com.mycompany.interfaces;
 
-import com.mycompany.dominio.Pago;
+import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Tramite;
+import java.util.List;
 
 /**
  *
- * @author Usuario
+ * @author edemb
  */
-public interface IPagoDAO {
-    Pago generarPago(Tramite tramite);
+public interface ITramiteDAO {
+    List<Tramite> consultarTramitesPersona(Persona persona);
 }

@@ -4,8 +4,10 @@
  */
 package com.mycompany.interfaces;
 
+import com.mycompany.dominio.FiltroReporteTramites;
 import com.mycompany.dominio.Licencia;
 import com.mycompany.dominio.Persona;
+import com.mycompany.dominio.Vigencia;
 import com.mycompany.utils.ConfiguracionDePaginado;
 import java.util.List;
 
@@ -16,5 +18,7 @@ import java.util.List;
 public interface ILicenciaDAO {
     
     List<Licencia> consultarLicenciasPersona(Persona persona, ConfiguracionDePaginado configuracionDePaginado);
-    
+    Licencia generarLicencia(Vigencia vigencia, Persona persona);
+    Licencia consultarLicenciaActiva(Persona persona);
+    List<Licencia> consultaReporteLicencia(FiltroReporteTramites filtro);
 }

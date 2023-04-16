@@ -4,8 +4,10 @@
  */
 package com.mycompany.interfaces;
 
+import com.mycompany.dominio.FiltroReporteTramites;
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Placa;
+import com.mycompany.dominio.Vehiculo;
 import com.mycompany.utils.ConfiguracionDePaginado;
 import java.util.List;
 
@@ -16,5 +18,10 @@ import java.util.List;
 public interface IPlacaDAO {
     
     List<Placa> consultarPlacasPersona(Persona persona, ConfiguracionDePaginado configuracionDePaginado);
+    Placa generarPlacaVehiculoNuevo(Persona persona, Vehiculo vehiculo);
+    Placa generarPlacaVehiculoUsado(Persona persona,Vehiculo vehiculo);
+    Placa consultarPlacaActiva(String serie);
+    String generaNumeroDePlaca();
+    List<Placa> consultaReporteLicencia(FiltroReporteTramites filtro);
     
 }

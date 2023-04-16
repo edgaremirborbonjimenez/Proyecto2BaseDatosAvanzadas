@@ -6,6 +6,7 @@ package com.mycompany.daos;
 
 import com.mycompany.dominio.Persona;
 import com.mycompany.dominio.Tramite;
+import com.mycompany.interfaces.ITramiteDAO;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -17,7 +18,7 @@ import javax.persistence.criteria.Root;
  *
  * @author edemb
  */
-public class TramiteDAO {
+public class TramiteDAO implements ITramiteDAO{
    private EntityManager entityManager;
 
     public TramiteDAO() {

@@ -7,6 +7,7 @@ package com.mycompany.daos;
 import com.mycompany.dominio.Licencia;
 import com.mycompany.dominio.Reporte;
 import com.mycompany.excepciones.PersistenciaException;
+import com.mycompany.interfaces.IReporteDAO;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -31,7 +32,7 @@ import net.sf.jasperreports.view.JasperViewer;
  *
  * @author edemb
  */
-public class ReporteDAO {
+public class ReporteDAO implements IReporteDAO{
 
     EntityManager entityManager;
 
