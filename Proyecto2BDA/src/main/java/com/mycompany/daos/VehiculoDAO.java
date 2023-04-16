@@ -17,6 +17,10 @@ public class VehiculoDAO implements IVehiculoDAO {
 
     EntityManager entityManager;
 
+    /**
+     * Constructor que recibe el EntityManager
+     * @param entityManager EntityManager
+     */
     public VehiculoDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }

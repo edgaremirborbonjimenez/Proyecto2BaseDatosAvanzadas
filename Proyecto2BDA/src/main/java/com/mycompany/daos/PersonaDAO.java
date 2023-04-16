@@ -31,6 +31,10 @@ public class PersonaDAO implements IPersonaDAO {
 
     private EntityManager entityManager;
 
+    /**
+     * Constructor que recibe el EntityManager
+     * @param entityManager EntityManager
+     */
     public PersonaDAO(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
